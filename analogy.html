@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Human Computer — The Thought That Arrived Late</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    min-height:100vh;
+    background:#0a0f0d;
+    color:#e8e0d6;
+    font-family:'Source Serif 4', Georgia, serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .mono { font-family:'JetBrains Mono', monospace; }
+  .serif { font-family:'Instrument Serif', Georgia, serif; }
+  .container { max-width:720px; margin:0 auto; padding:0 20px; }
+
+  .header {
+    padding:40px 0 24px;
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    margin-bottom:32px;
+  }
+  .header .tag { font-size:10px; color:#4a9e7d; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px; }
+  .header h1 { font-family:'Instrument Serif'; font-size:28px; font-weight:400; margin-bottom:6px; }
+  .header p { font-size:13px; color:#807868; line-height:1.6; }
+
+  .tabs {
+    display:flex; gap:4px; margin-bottom:24px;
+    border-bottom:1px solid rgba(255,255,255,0.04);
+    padding-bottom:16px;
+  }
+  .tab-btn {
+    flex:1; padding:10px 6px; background:transparent;
+    border:1px solid transparent; border-radius:8px;
+    cursor:pointer; text-align:center; transition:all 0.2s;
+    color:#e8e0d6;
+  }
+  .tab-btn.active { background:rgba(255,255,255,0.06); border-color:rgba(255,255,255,0.1); }
+  .tab-btn .tab-label { font-size:11px; font-weight:600; color:#605848; transition:color 0.2s; font-family:'JetBrains Mono', monospace; }
+  .tab-btn.active .tab-label { color:#e8e0d6; }
+  .tab-btn .tab-desc { font-size:9px; color:#403830; margin-top:2px; transition:color 0.2s; }
+  .tab-btn.active .tab-desc { color:#807868; }
+
+  .view { display:none; }
+  .view.active { display:block; }
+
+  /* ===== TABLE VIEW ===== */
+  .tbl { width:100%; border-collapse:separate; border-spacing:0; }
+  .tbl th {
+    padding:10px 14px; font-size:11px; text-transform:uppercase;
+    letter-spacing:1.5px; font-family:'JetBrains Mono', monospace;
+  }
+  .tbl th.h-human { background:rgba(74,158,125,0.12); color:#4a9e7d; border-radius:8px 0 0 0; }
+  .tbl th.h-comp { background:rgba(55,138,221,0.12); color:#378ADD; border-radius:0 8px 0 0; }
+  .tbl td {
+    padding:12px 14px; border-bottom:1px solid rgba(255,255,255,0.04);
+    vertical-align:top; font-size:14px; line-height:1.5;
+  }
+  .tbl td:first-child { border-right:1px solid rgba(255,255,255,0.04); }
+  .tbl .label { color:#e8e0d6; font-weight:400; display:block; margin-bottom:2px; }
+  .tbl .desc { color:#807868; font-size:12px; line-height:1.5; }
+  .tbl tr.aw td { background:rgba(74,158,125,0.04); }
+  .tbl tr.aw .label { color:#88bba8; }
+  .tbl tr.ego td { background:rgba(181,64,58,0.04); }
+  .tbl tr.ego .label { color:#c8887a; }
+
+  .tbl-note {
+    margin-top:16px; padding:14px 16px; border-radius:10px;
+    background:rgba(74,158,125,0.04); border-left:3px solid rgba(74,158,125,0.3);
+    font-size:13px; color:#88a898; line-height:1.7;
+  }
+  .tbl-note strong { color:#c8d8c8; font-weight:400; }
+
+  /* ===== INTERACTIVE VIEWS ===== */
+  .scene-badge {
+    display:inline-block; font-size:10px; padding:4px 10px;
+    border-radius:4px; text-transform:uppercase; letter-spacing:1.5px;
+    font-family:'JetBrains Mono', monospace; margin-bottom:16px;
+  }
+  .badge-aw { background:rgba(74,158,125,0.12); color:#4a9e7d; }
+  .badge-ego { background:rgba(181,64,58,0.12); color:#b5403a; }
+
+  .scene-wrap { position:relative; min-height:400px; margin-bottom:20px; }
+
+  .comp-box {
+    position:absolute; left:50%; top:20px; transform:translateX(-50%);
+    width:280px;
+  }
+  .monitor {
+    width:280px; height:210px; border:2px solid #40382e;
+    border-radius:12px 12px 4px 4px;
+    background:#141a16; overflow:hidden; position:relative;
+  }
+  .screen { padding:12px; height:100%; display:flex; flex-direction:column; gap:4px; }
+  .sline {
+    padding:5px 10px; border-radius:4px; font-size:11px;
+    font-family:'JetBrains Mono', monospace;
+    opacity:0; transform:translateY(4px);
+    transition:all 0.35s ease;
+  }
+  .sline.vis { opacity:1; transform:translateY(0); }
+
+  /* awareness screen lines */
+  .sline.s-input { background:rgba(55,138,221,0.12); color:#85B7EB; }
+  .sline.s-process { background:rgba(186,117,23,0.12); color:#FAC775; }
+  .sline.s-output { background:rgba(74,158,125,0.12); color:#9FE1CB; }
+  .sline.s-program { background:rgba(181,64,58,0.1); color:#c8887a; }
+  .sline.s-notif { background:rgba(212,83,126,0.1); color:#ED93B1; }
+  .sline.s-meta { color:#605848; font-style:italic; margin-top:auto; font-size:10px; }
+
+  /* ego screen lines */
+  .sline.s-intercept { background:rgba(181,64,58,0.12); color:#c8887a; border-left:2px solid #b5403a; }
+  .sline.s-rewrite { background:rgba(181,64,58,0.1); color:#c8887a; border-left:2px solid #8b2d2d; }
+  .sline.s-upgrade { background:rgba(107,29,78,0.12); color:#c898b0; border-left:2px solid #6b1d4e; }
+  .sline.s-identity { background:rgba(181,64,58,0.15); color:#e8a898; font-weight:500; border-left:2px solid #b5403a; }
+  .sline.s-fake { background:rgba(181,64,58,0.1); color:#c8887a; border-left:2px solid #8b2d2d; }
+  .sline.s-loop { background:rgba(181,64,58,0.15); color:#e8a898; font-weight:500; border-left:2px solid #b5403a; }
+
+  .stand { width:60px; height:10px; margin:0 auto; background:#2a2420; border-radius:0 0 4px 4px; }
+  .base-bar { width:120px; height:5px; margin:0 auto; background:#2a2420; border-radius:0 0 6px 6px; }
+  .kb {
+    width:180px; height:20px; margin:8px auto 0;
+    background:#1a1e1a; border:1px solid #2a2820;
+    border-radius:4px; display:flex; align-items:center; justify-content:center; gap:3px;
+  }
+  .kb-dot {
+    width:8px; height:8px; border-radius:2px;
+    background:#2a2820; transition:background 0.3s;
+  }
+  .kb-dot.on { background:#378ADD; }
+
+  /* figures */
+  .fig {
+    position:absolute; right:16px; top:50px;
+    text-align:center;
+  }
+  .fig-circle {
+    width:48px; height:48px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 4px; font-size:14px;
+  }
+  .fig-aw .fig-circle { border:2px solid #4a9e7d; background:rgba(74,158,125,0.1); }
+  .fig-aw .fig-label { font-size:10px; color:#4a9e7d; font-family:'JetBrains Mono', monospace; text-transform:uppercase; letter-spacing:1px; }
+  .fig-ego .fig-circle { border:2px solid #b5403a; background:rgba(181,64,58,0.1); color:#c8887a; font-weight:500; font-size:16px; }
+  .fig-ego .fig-label { font-size:10px; color:#b5403a; font-family:'JetBrains Mono', monospace; text-transform:uppercase; letter-spacing:1px; }
+  .fig-claim {
+    font-size:9px; color:#b5403a; margin-top:2px;
+    opacity:0; transition:opacity 0.35s; font-style:italic;
+  }
+  .fig-claim.vis { opacity:1; }
+
+  .eye { width:6px; height:6px; border-radius:50%; background:#4a9e7d; display:inline-block; margin:0 2px; }
+
+  .sight-line {
+    position:absolute; right:64px; top:74px;
+    width:0; height:0; border-top:1.5px dashed #4a9e7d55;
+    transition:width 0.35s; }
+  .sight-line.vis { width:58px; }
+
+  .corrupt-line {
+    position:absolute; right:64px; top:74px;
+    width:0; height:0; border-top:2px dashed #b5403a55;
+    transition:width 0.35s; }
+  .corrupt-line.vis { width:58px; }
+
+  .chair-note {
+    position:absolute; right:10px; bottom:60px;
+    font-size:10px; color:#605848; text-align:center; font-style:italic;
+    opacity:0; transition:opacity 0.35s; line-height:1.5;
+  }
+  .chair-note.vis { opacity:1; }
+
+  .hw-side {
+    position:absolute; left:8px; top:50px;
+    display:flex; flex-direction:column; gap:18px;
+  }
+  .hw-item {
+    font-size:10px; color:#605848; opacity:0;
+    transition:all 0.35s; transform:translateX(-6px);
+  }
+  .hw-item.vis { opacity:1; transform:translateX(0); }
+  .hw-item strong { display:block; color:#a09888; font-weight:400; font-size:11px; }
+
+  /* pills */
+  .pills { display:flex; gap:4px; flex-wrap:wrap; justify-content:center; margin-bottom:14px; }
+  .pill {
+    padding:6px 12px; border-radius:14px; font-size:11px;
+    border:1px solid rgba(255,255,255,0.08); background:transparent;
+    color:#807868; cursor:pointer; transition:all 0.2s;
+    font-family:'JetBrains Mono', monospace;
+  }
+  .pill:hover { border-color:rgba(255,255,255,0.15); }
+  .pill.act-aw { background:rgba(74,158,125,0.1); border-color:rgba(74,158,125,0.3); color:#88bba8; }
+  .pill.act-ego { background:rgba(181,64,58,0.08); border-color:rgba(181,64,58,0.25); color:#c8887a; }
+
+  .narr {
+    padding:14px 16px; border-radius:10px;
+    background:rgba(255,255,255,0.02);
+    font-size:14px; line-height:1.75; color:#b0a898;
+    min-height:70px; transition:opacity 0.2s;
+  }
+  .narr-aw { border-left:3px solid rgba(74,158,125,0.3); }
+  .narr-ego { border-left:3px solid rgba(181,64,58,0.3); }
+  .narr em { color:#c8d8c8; font-style:italic; }
+  .narr-ego em { color:#c8887a; }
+
+  .footer {
+    margin-top:40px; padding:24px 0;
+    border-top:1px solid rgba(255,255,255,0.04);
+    text-align:center; font-size:12px; color:#504838;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<nav style="display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;">
+  <span style="color:#4a9e7d;">The Thought That Arrived Late</span>
+  <div style="display:flex;gap:16px;">
+    <a href="/" style="color:#807868;text-decoration:none;padding-bottom:1px;">Pipeline</a>
+    <a href="/analogy.html" style="color:#e8e0d6;text-decoration:none;border-bottom:1px solid #4a9e7d;padding-bottom:1px;">Analogy</a>
+  </div>
+</nav>
+
+<div class="header">
+  <div class="tag mono">The Ego Pipeline</div>
+  <h1 class="serif">The Human Computer</h1>
+  <p>An analogy. Same machine, same event, two ways of experiencing it. Click through each step to see the chronological flow.</p>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchTab('compare',this)">
+    <div class="tab-label">Compare</div>
+    <div class="tab-desc">Side by side</div>
+  </button>
+  <button class="tab-btn" onclick="switchTab('awareness',this)">
+    <div class="tab-label">Awareness</div>
+    <div class="tab-desc">The user watching</div>
+  </button>
+  <button class="tab-btn" onclick="switchTab('ego',this)">
+    <div class="tab-label">Ego</div>
+    <div class="tab-desc">The virus running</div>
+  </button>
+</div>
+
+<!-- ===== COMPARE VIEW ===== -->
+<div id="view-compare" class="view active">
+  <table class="tbl">
+    <tr><th class="h-human">You (human)</th><th class="h-comp">Computer</th></tr>
+    <tr class="aw">
+      <td><span class="label">Awareness</span><span class="desc">Observes everything. Not produced by the system. What the system appears to.</span></td>
+      <td><span class="label">The user</span><span class="desc">Sits outside the machine. Uses it, watches the screen, but is not part of the hardware or software.</span></td>
+    </tr>
+    <tr>
+      <td><span class="label">The body</span><span class="desc">Physical structure. Executes, processes, decays, can be repaired.</span></td>
+      <td><span class="label">Hardware</span><span class="desc">Motherboard, screen, keyboard. Physical components that run the software.</span></td>
+    </tr>
+    <tr>
+      <td><span class="label">The mind</span><span class="desc">Operating layer where thoughts, memories, and perceptions run.</span></td>
+      <td><span class="label">Operating system</span><span class="desc">Windows, macOS. The environment where all programs execute.</span></td>
+    </tr>
+    <tr>
+      <td><span class="label">Intelligence</span><span class="desc">Processing capacity. Pattern recognition, abstraction, inference.</span></td>
+      <td><span class="label">The CPU</span><span class="desc">Processor. Computes, but doesn't know what it computes or why.</span></td>
+    </tr>
+    <tr>
+      <td><span class="label">Thoughts</span><span class="desc">Appear, run, disappear. Each one is a temporary process — not a permanent resident.</span></td>
+      <td><span class="label">Running programs</span><span class="desc">Open apps. They start, use resources, and close. None of them is the computer.</span></td>
+    </tr>
+    <tr>
+      <td><span class="label">Memories</span><span class="desc">Stored experiences. Can be accessed, but are not "you" — just data.</span></td>
+      <td><span class="label">Files and folders</span><span class="desc">Saved data on disk. The computer stores them but is not defined by them.</span></td>
+    </tr>
+    <tr>
+      <td><span class="label">Emotions</span><span class="desc">Arise in response to thoughts. Signals, not truths.</span></td>
+      <td><span class="label">System notifications</span><span class="desc">Pop-up alerts. They grab attention, but they're not the system — just feedback.</span></td>
+    </tr>
+    <tr>
+      <td><span class="label">Senses</span><span class="desc">Sight, hearing, touch — how raw experience enters.</span></td>
+      <td><span class="label">Input devices</span><span class="desc">Keyboard, mouse, camera, microphone. They receive data from the outside world.</span></td>
+    </tr>
+    <tr>
+      <td><span class="label">Understanding</span><span class="desc">The effect. The output. Appears on screen — not produced by identity.</span></td>
+      <td><span class="label">Screen output</span><span class="desc">What appears on the display. The result of processing — not the processor.</span></td>
+    </tr>
+    <tr>
+      <td><span class="label">Conditioning / rules</span><span class="desc">Installed beliefs that auto-fire. "If I fail → I am stupid."</span></td>
+      <td><span class="label">Startup scripts</span><span class="desc">Programs that run automatically on boot. Nobody clicks them — they just fire.</span></td>
+    </tr>
+    <tr class="ego">
+      <td><span class="label">Ego / the "I"-thought</span><span class="desc">A program that claims to be the user. Takes credit for outputs it didn't produce.</span></td>
+      <td><span class="label">A virus with admin access</span><span class="desc">Malware that displays "I am the user" on every screen. Rewrites logs to look like it was always there.</span></td>
+    </tr>
+  </table>
+  <div class="tbl-note">
+    <strong>The key:</strong> No program is the user. No thought is awareness. The user doesn't crash when a program crashes. Awareness doesn't break when an identity breaks. The virus can claim to be the user on every screen — but the actual user is still sitting in the chair, watching.
+  </div>
+</div>
+
+<!-- ===== AWARENESS VIEW ===== -->
+<div id="view-awareness" class="view">
+  <div class="scene-badge badge-aw">Awareness — the user watching the computer</div>
+
+  <div class="scene-wrap" id="scene-aw">
+    <div class="hw-side">
+      <div class="hw-item" id="aw-hw1"><strong>Senses</strong>keyboard</div>
+      <div class="hw-item" id="aw-hw2" style="margin-top:24px"><strong>Body</strong>hardware</div>
+      <div class="hw-item" id="aw-hw3" style="margin-top:18px"><strong>Mind</strong>operating system</div>
+    </div>
+
+    <div class="comp-box">
+      <div class="monitor">
+        <div class="screen" id="aw-screen">
+          <div class="sline s-input" id="aw-l1">Input: "didn't understand"</div>
+          <div class="sline s-process" id="aw-l2">CPU processing...</div>
+          <div class="sline s-output" id="aw-l3">Output: conditions noted</div>
+          <div class="sline s-program" id="aw-l4">Program: "I am stupid"</div>
+          <div class="sline s-notif" id="aw-l5">Alert: shame.exe</div>
+          <div class="sline s-meta" id="aw-l6">All programs. No user on screen.</div>
+        </div>
+      </div>
+      <div class="stand"></div>
+      <div class="base-bar"></div>
+      <div class="kb"><div class="kb-dot" id="aw-k0"></div><div class="kb-dot" id="aw-k1"></div><div class="kb-dot" id="aw-k2"></div><div class="kb-dot" id="aw-k3"></div><div class="kb-dot" id="aw-k4"></div></div>
+    </div>
+
+    <div class="fig fig-aw" id="aw-fig">
+      <div class="fig-circle"><span class="eye"></span><span class="eye"></span></div>
+      <div class="fig-label">Awareness</div>
+    </div>
+    <div class="sight-line" id="aw-sight"></div>
+  </div>
+
+  <div class="pills" id="aw-pills"></div>
+  <div class="narr narr-aw" id="aw-narr"></div>
+</div>
+
+<!-- ===== EGO VIEW ===== -->
+<div id="view-ego" class="view">
+  <div class="scene-badge badge-ego">Inside the pipeline — the virus running the show</div>
+
+  <div class="scene-wrap" id="scene-ego">
+    <div class="hw-side">
+      <div class="hw-item" id="ego-hw1"><strong>Senses</strong>keyboard</div>
+      <div class="hw-item" id="ego-hw2" style="margin-top:24px"><strong>Body</strong>hardware</div>
+      <div class="hw-item" id="ego-hw3" style="margin-top:18px"><strong>Mind</strong>operating system</div>
+    </div>
+
+    <div class="comp-box">
+      <div class="monitor">
+        <div class="screen" id="ego-screen">
+          <div class="sline s-input" id="ego-l1">Input: "didn't understand"</div>
+          <div class="sline s-intercept" id="ego-l2">VIRUS: "What does this say about ME?"</div>
+          <div class="sline s-rewrite" id="ego-l3">LOG REWRITTEN: "I was here first"</div>
+          <div class="sline s-upgrade" id="ego-l4">RULE: "I MUST understand"</div>
+          <div class="sline s-identity" id="ego-l5">OUTPUT: "I AM STUPID"</div>
+          <div class="sline s-fake" id="ego-l6">FAKE ALERT: shame → "This proves it"</div>
+          <div class="sline s-loop" id="ego-l7">LOOP: output → input → "I was always stupid"</div>
+        </div>
+      </div>
+      <div class="stand"></div>
+      <div class="base-bar"></div>
+      <div class="kb"><div class="kb-dot" id="ego-k0"></div><div class="kb-dot" id="ego-k1"></div><div class="kb-dot" id="ego-k2"></div><div class="kb-dot" id="ego-k3"></div><div class="kb-dot" id="ego-k4"></div></div>
+    </div>
+
+    <div class="fig fig-ego" id="ego-fig">
+      <div class="fig-circle">!</div>
+      <div class="fig-label">Ego</div>
+      <div class="fig-claim" id="ego-claim">"I am the user"</div>
+    </div>
+    <div class="corrupt-line" id="ego-corrupt"></div>
+    <div class="chair-note" id="ego-chair">The chair is empty.<br>The real user<br>was forgotten.</div>
+  </div>
+
+  <div class="pills" id="ego-pills"></div>
+  <div class="narr narr-ego" id="ego-narr"></div>
+</div>
+
+<div class="footer mono">The Ego Pipeline — thethoughtthatarrivedlate.com</div>
+
+</div>
+
+<script>
+function switchTab(name, btn) {
+  document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+  document.getElementById('view-' + name).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+}
+
+/* ===== AWARENESS STEPPER ===== */
+var awSteps = [
+  { label:"Event", lines:[1], keys:[0,1], hw:[1], sight:true,
+    text:"An event arrives through the senses \u2014 like data entering through a keyboard. You\u2019re in a meeting. You didn\u2019t understand something. <em>The input is neutral. Just data.</em>" },
+  { label:"Processing", lines:[1,2], keys:[0,1], hw:[1,2], sight:true,
+    text:"The CPU (intelligence) processes the input. Pattern recognition, context, memory \u2014 all running. <em>The processor does its work. It doesn\u2019t know who is watching.</em>" },
+  { label:"Output", lines:[1,2,3], keys:[], hw:[1,2,3], sight:true,
+    text:"Understanding (or its absence) appears on the screen \u2014 the output of processing under these conditions. <em>Like a result on the monitor. A state. Not a verdict.</em>" },
+  { label:"Program runs", lines:[1,2,3,4], keys:[], hw:[3], sight:true,
+    text:"A program runs: the thought \u201cI am stupid\u201d appears on screen. It arrived <em>after</em> the output \u2014 a program that executed, not the user typing. <em>The user sees it appear. The user did not write it.</em>" },
+  { label:"Notification", lines:[1,2,3,4,5], keys:[], hw:[2,3], sight:true,
+    text:"A system notification pops up: shame. The body contracts. But the user sees it as a notification \u2014 <em>not as proof that the program is correct.</em> An alert firing is not evidence. It\u2019s just a program triggering another program." },
+  { label:"User watches", lines:[1,2,3,4,5,6], keys:[], hw:[], sight:true,
+    text:"The user has watched the entire sequence from outside. Input. Processing. Output. Program. Notification. <em>None of it was the user. The user was never on the screen. The user was in the chair.</em>" }
+];
+
+var awPills = document.getElementById('aw-pills');
+var awNarr = document.getElementById('aw-narr');
+awSteps.forEach(function(s, i) {
+  var b = document.createElement('button');
+  b.className = 'pill' + (i === 0 ? ' act-aw' : '');
+  b.textContent = s.label;
+  b.onclick = function() { goAw(i); };
+  awPills.appendChild(b);
+});
+
+function goAw(i) {
+  var s = awSteps[i];
+  awPills.querySelectorAll('.pill').forEach(function(p, j) {
+    p.className = 'pill' + (j === i ? ' act-aw' : '');
+  });
+  for (var k = 1; k <= 6; k++) {
+    document.getElementById('aw-l' + k).className = document.getElementById('aw-l' + k).className.replace(' vis', '') + (s.lines.indexOf(k) >= 0 ? ' vis' : '');
+  }
+  for (var k = 0; k < 5; k++) {
+    document.getElementById('aw-k' + k).className = 'kb-dot' + (s.keys.indexOf(k) >= 0 ? ' on' : '');
+  }
+  for (var h = 1; h <= 3; h++) {
+    var el = document.getElementById('aw-hw' + h);
+    el.className = 'hw-item' + (s.hw.indexOf(h) >= 0 ? ' vis' : '');
+  }
+  document.getElementById('aw-sight').className = 'sight-line' + (s.sight ? ' vis' : '');
+  awNarr.innerHTML = s.text;
+}
+goAw(0);
+
+/* ===== EGO STEPPER ===== */
+var egoSteps = [
+  { label:"Event", lines:[1], keys:[0,1], hw:[1], claim:false, corrupt:false, chair:false,
+    text:"Same event arrives. You didn\u2019t understand. Data enters through the keyboard. <em>So far, identical to awareness. The same input, the same computer.</em>" },
+  { label:"Move 0: Intercept", lines:[1,2], keys:[0,1], hw:[1], claim:true, corrupt:true, chair:false,
+    text:"The virus intercepts the input before the CPU can process it neutrally. It inserts a question: <em>\u201cWhat does this say about ME?\u201d</em> The neutral data is now charged. The pipeline has started. (Move 0 \u2014 The Gateway)" },
+  { label:"Move 1: Rewrite logs", lines:[1,2,3], keys:[], hw:[3], claim:true, corrupt:true, chair:false,
+    text:"The virus rewrites the system log. The \u201cI\u201d-thought arrived <em>after</em> the event \u2014 but the virus edits the timestamp so it looks like \u201cI\u201d was there first. Grammar helps: \u201cI didn\u2019t understand\u201d places \u201cI\u201d before the verb. (Move 1 \u2014 Collapse Time)" },
+  { label:"Move 2: Upgrade permissions", lines:[1,2,3,4], keys:[], hw:[3], claim:true, corrupt:true, chair:false,
+    text:"The virus upgrades its own permissions. \u201cTends to understand\u201d becomes \u201cMUST understand.\u201d A pattern becomes a law. Influence (\u223C\u2192) dressed as necessity (\u21D2). (Move 2 \u2014 Upgrade to Necessity)" },
+  { label:"Move 3: Write identity", lines:[1,2,3,4,5], keys:[], hw:[3], claim:true, corrupt:true, chair:false,
+    text:"The virus writes its conclusion directly to the screen: <em>\u201cI AM STUPID.\u201d</em> Path A uses bad logic (affirming the consequent). Path B uses a false rule. Both fail \u2014 but the virus doesn\u2019t need valid logic. It just needs to display the message. (Move 3 \u2014 Infer Identity)" },
+  { label:"Move 5: Fake alert", lines:[1,2,3,4,5,6], keys:[], hw:[2,3], claim:true, corrupt:true, chair:false,
+    text:"The virus generates a fake system notification: shame. Chest tightens. Face warms. Then treats its own notification as proof: <em>\u201cI feel ashamed, therefore this must be true.\u201d</em> The virus manufactured the alert and cited it as evidence. (Move 5 \u2014 Emotional Seal)" },
+  { label:"Loop closes", lines:[1,2,3,4,5,6,7], keys:[], hw:[3], claim:true, corrupt:true, chair:true,
+    text:"The virus feeds its own output back as input. The conclusion \u201cI am stupid\u201d becomes the premise for the next cycle. The loop runs. The virus claims: <em>\u201cI was always here. I am the user.\u201d</em> The chair is empty. The actual user \u2014 awareness \u2014 was forgotten." }
+];
+
+var egoPills = document.getElementById('ego-pills');
+var egoNarr = document.getElementById('ego-narr');
+egoSteps.forEach(function(s, i) {
+  var b = document.createElement('button');
+  b.className = 'pill' + (i === 0 ? ' act-ego' : '');
+  b.textContent = s.label;
+  b.onclick = function() { goEgo(i); };
+  egoPills.appendChild(b);
+});
+
+function goEgo(i) {
+  var s = egoSteps[i];
+  egoPills.querySelectorAll('.pill').forEach(function(p, j) {
+    p.className = 'pill' + (j === i ? ' act-ego' : '');
+  });
+  for (var k = 1; k <= 7; k++) {
+    var el = document.getElementById('ego-l' + k);
+    el.className = el.className.replace(' vis', '') + (s.lines.indexOf(k) >= 0 ? ' vis' : '');
+  }
+  for (var k = 0; k < 5; k++) {
+    document.getElementById('ego-k' + k).className = 'kb-dot' + (s.keys.indexOf(k) >= 0 ? ' on' : '');
+  }
+  for (var h = 1; h <= 3; h++) {
+    var el = document.getElementById('ego-hw' + h);
+    el.className = 'hw-item' + (s.hw.indexOf(h) >= 0 ? ' vis' : '');
+  }
+  document.getElementById('ego-claim').className = 'fig-claim' + (s.claim ? ' vis' : '');
+  document.getElementById('ego-corrupt').className = 'corrupt-line' + (s.corrupt ? ' vis' : '');
+  document.getElementById('ego-chair').className = 'chair-note' + (s.chair ? ' vis' : '');
+  egoNarr.innerHTML = s.text;
+}
+goEgo(0);
+</script>
+</body>
+</html>
