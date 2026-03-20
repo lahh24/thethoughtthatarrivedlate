@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ego Logic vs. Awareness — Framework Diagram</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    background: #0a0f0d;
+    color: #e8e0d6;
+    font-family: 'Source Serif 4', Georgia, serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .serif { font-family: 'Instrument Serif', Georgia, serif; }
+
+  .container { max-width: 720px; margin: 0 auto; }
+
+  .header {
+    padding: 32px 24px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+  .header .tag {
+    font-size: 10px; color: #4a9e7d; text-transform: uppercase;
+    letter-spacing: 2px; margin-bottom: 8px;
+  }
+  .header h1 {
+    font-size: 26px; font-weight: 400; line-height: 1.2; margin-bottom: 6px;
+  }
+  .header p { font-size: 13px; color: #807868; line-height: 1.5; }
+
+  .tabs {
+    padding: 16px 24px; display: flex; gap: 4px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .tab-btn {
+    flex: 1; padding: 10px 6px; background: transparent;
+    border: 1px solid transparent; border-radius: 8px;
+    cursor: pointer; text-align: center; transition: all 0.2s;
+    color: inherit;
+  }
+  .tab-btn.active {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.1);
+  }
+  .tab-btn .tab-label {
+    font-size: 11px; font-weight: 600;
+    color: #605848; transition: color 0.2s;
+  }
+  .tab-btn.active .tab-label { color: #e8e0d6; }
+  .tab-btn .tab-desc {
+    font-size: 9px; color: #403830; margin-top: 2px; transition: color 0.2s;
+  }
+  .tab-btn.active .tab-desc { color: #807868; }
+
+  .content { padding: 16px 20px 48px; }
+  .view { display: none; }
+  .view.active { display: block; }
+
+  .layer-header {
+    padding: 14px 16px; border-radius: 10px;
+    margin-bottom: 8px; cursor: pointer;
+    transition: all 0.2s; border: 1.5px solid;
+  }
+  .layer-header:hover { filter: brightness(1.1); }
+  .layer-tag {
+    font-size: 9px; text-transform: uppercase;
+    letter-spacing: 1.5px; margin-bottom: 4px;
+  }
+  .layer-title { font-size: 18px; font-weight: 400; margin-bottom: 2px; }
+  .layer-sub { font-size: 12px; line-height: 1.5; }
+  .layer-toggle { font-size: 11px; margin-top: 6px; opacity: 0.5; }
+
+  .move-card {
+    padding: 16px; border-radius: 10px;
+    margin: 0 0 6px 0; cursor: pointer;
+    border: 1.5px solid rgba(255,255,255,0.06);
+    background: rgba(255,255,255,0.015);
+    transition: all 0.25s;
+  }
+  .move-card.selected {
+    border-color: var(--card-border);
+    background: var(--card-bg);
+  }
+  .move-row { display: flex; align-items: center; gap: 10px; }
+  .move-num {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+  .move-info { flex: 1; min-width: 0; }
+  .move-label { font-size: 14px; font-weight: 400; color: #a09888; transition: color 0.2s; }
+  .move-card.selected .move-label { color: #e8e0d6; }
+  .move-sym { font-size: 11px; opacity: 0.7; margin-top: 1px; }
+  .move-arrow { font-size: 14px; color: rgba(255,255,255,0.1); transition: all 0.2s; }
+  .move-card.selected .move-arrow { color: #e8e0d6; }
+
+  .bp-badge {
+    display: inline-block;
+    background: #4a9e7d; color: #0a0f0d;
+    font-size: 8px; font-weight: 700; padding: 2px 6px;
+    border-radius: 3px; letter-spacing: 0.8px;
+    text-transform: uppercase; margin-left: 6px; vertical-align: middle;
+  }
+
+  .detail {
+    padding: 20px; border-radius: 10px;
+    background: rgba(255,255,255,0.02);
+    margin: 8px 0 20px 0;
+    border: 1.5px solid rgba(255,255,255,0.08);
+    display: none;
+  }
+  .detail.visible { display: block; }
+  .detail-sym {
+    font-size: 13px; padding: 8px 12px;
+    border-radius: 6px; margin-bottom: 14px;
+    letter-spacing: 0.5px;
+  }
+  .detail-desc { font-size: 14px; line-height: 1.7; color: #b0a898; margin-bottom: 14px; }
+  .error-box {
+    padding: 10px 14px; background: rgba(181,64,58,0.08);
+    border-radius: 8px; border-left: 3px solid #b5403a55;
+    margin-bottom: 12px;
+  }
+  .error-label {
+    font-size: 9px; color: #b5403a; text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 3px;
+  }
+  .error-text { font-size: 12px; color: #c8887a; line-height: 1.5; }
+  .bp-box {
+    padding: 10px 14px; background: rgba(74,158,125,0.08);
+    border-radius: 8px; border-left: 3px solid #4a9e7d55;
+  }
+  .bp-label {
+    font-size: 9px; color: #4a9e7d; text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 3px;
+  }
+  .bp-text { font-size: 12px; color: #88bba8; line-height: 1.5; }
+
+  .connector {
+    text-align: center; padding: 6px 0; font-size: 14px;
+    color: rgba(255,255,255,0.12);
+  }
+
+  .aw-hero {
+    padding: 22px 18px; border-radius: 12px;
+    background: rgba(74,158,125,0.04);
+    border: 1px solid rgba(74,158,125,0.15);
+    margin-bottom: 20px;
+  }
+  .aw-tag {
+    font-size: 10px; color: #4a9e7d; text-transform: uppercase;
+    letter-spacing: 1.5px; margin-bottom: 10px;
+  }
+  .aw-hero p { font-size: 15px; color: #b0c8b8; line-height: 1.7; }
+  .aw-section {
+    margin-bottom: 16px; padding: 16px;
+    background: rgba(255,255,255,0.02); border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .aw-section-title { font-size: 14px; color: #c8d8c8; margin-bottom: 10px; }
+  .aw-item { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+  .aw-item:last-child { border-bottom: none; }
+  .aw-ego { font-size: 12px; color: #c8887a; text-decoration: line-through; text-decoration-color: #b5403a44; }
+  .aw-instead { font-size: 12px; color: #88bba8; margin-top: 2px; }
+
+  .key-hero {
+    padding: 28px 22px; text-align: center;
+    background: linear-gradient(135deg, rgba(74,158,125,0.06), rgba(74,158,125,0.02));
+    border-radius: 14px; border: 1px solid rgba(74,158,125,0.18);
+    margin-bottom: 20px;
+  }
+  .key-tag {
+    font-size: 10px; color: #4a9e7d; text-transform: uppercase;
+    letter-spacing: 2px; margin-bottom: 14px;
+  }
+  .key-quote {
+    font-size: 18px; color: #d0c8b8; line-height: 1.6;
+    font-style: italic; margin-bottom: 8px;
+  }
+  .key-sub { font-size: 13px; color: #807868; line-height: 1.6; }
+
+  .collapse-title {
+    font-size: 10px; color: #605848; text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 12px; padding-left: 4px;
+  }
+  .collapse-item {
+    padding: 14px 16px; background: rgba(181,64,58,0.04);
+    border-radius: 10px; border: 1px solid rgba(181,64,58,0.1);
+    margin-bottom: 8px;
+  }
+  .collapse-chain {
+    font-size: 14px; color: #c8887a; margin-bottom: 4px;
+    text-decoration: line-through; text-decoration-color: #b5403a55;
+  }
+  .collapse-why { font-size: 12px; color: #807868; line-height: 1.6; }
+
+  .synthesis {
+    margin-top: 20px; padding: 20px;
+    background: rgba(255,255,255,0.02); border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .synthesis-title {
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 1px; color: #605848; margin-bottom: 12px;
+  }
+  .synthesis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .synth-col { padding: 14px; border-radius: 8px; }
+  .synth-ego { background: rgba(181,64,58,0.05); border-top: 2px solid #b5403a44; }
+  .synth-aw { background: rgba(74,158,125,0.05); border-top: 2px solid #4a9e7d44; }
+  .synth-label { font-size: 13px; margin-bottom: 8px; }
+  .synth-ego .synth-label { color: #c8887a; }
+  .synth-aw .synth-label { color: #88bba8; }
+  .synth-list { font-size: 11px; color: #706858; line-height: 1.8; }
+  .synth-quote {
+    margin-top: 16px; padding: 12px 14px;
+    background: rgba(255,255,255,0.03); border-radius: 8px;
+    border-left: 3px solid rgba(255,255,255,0.1);
+    font-size: 13px; color: #a09888; line-height: 1.7;
+    font-style: italic;
+  }
+
+  .legend {
+    margin-top: 20px; padding: 14px 16px;
+    background: rgba(255,255,255,0.02); border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+  .legend-title {
+    font-size: 10px; text-transform: uppercase;
+    letter-spacing: 1px; color: #605848; margin-bottom: 10px;
+  }
+  .legend-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6px; font-size: 12px;
+  }
+  .legend-item { display: flex; gap: 6px; align-items: baseline; }
+  .legend-sym { color: #c4713b; flex-shrink: 0; }
+  .legend-meaning { color: #706858; font-size: 11px; }
+
+  .story { max-width: 640px; margin: 0 auto; }
+  .story-chapter {
+    margin-bottom: 40px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  .story-chapter:last-child { border-bottom: none; }
+  .story-chapter-tag {
+    font-size: 9px; text-transform: uppercase;
+    letter-spacing: 2px; margin-bottom: 10px;
+    opacity: 0.6;
+  }
+  .story-chapter-title {
+    font-size: 22px; font-weight: 400; line-height: 1.3;
+    margin-bottom: 18px;
+  }
+  .story p {
+    font-size: 15px; line-height: 1.85; color: #b0a898;
+    margin-bottom: 16px;
+  }
+  .story p:last-child { margin-bottom: 0; }
+  .story em { color: #c8b8a0; font-style: italic; }
+  .story strong { color: #e8e0d6; font-weight: 400; }
+  .story .scene {
+    padding: 16px 20px; margin: 20px 0;
+    background: rgba(255,255,255,0.02);
+    border-left: 2px solid rgba(255,255,255,0.08);
+    border-radius: 0 8px 8px 0;
+  }
+  .story .scene p {
+    font-size: 14px; color: #a09080; line-height: 1.8;
+    margin-bottom: 10px;
+  }
+  .story .formal {
+    padding: 14px 18px; margin: 18px 0;
+    border-radius: 8px; font-size: 13px;
+    line-height: 1.7;
+  }
+  .story .formal-proof {
+    background: rgba(196,113,59,0.06);
+    border: 1px solid rgba(196,113,59,0.15);
+    color: #c4a080;
+  }
+  .story .formal-lock {
+    background: rgba(107,29,78,0.06);
+    border: 1px solid rgba(107,29,78,0.2);
+    color: #c0a0b0;
+  }
+  .story .formal-green {
+    background: rgba(74,158,125,0.06);
+    border: 1px solid rgba(74,158,125,0.15);
+    color: #a0c8b0;
+  }
+  .story .error-inline {
+    color: #c8887a; font-size: 13px;
+    padding: 2px 0;
+  }
+  .story .quiet { color: #706858; font-size: 13px; }
+  .story .drop-cap::first-letter {
+    font-size: 52px; float: left; line-height: 0.8;
+    margin-right: 8px; margin-top: 6px;
+    color: #e8e0d6;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <div class="tag mono">Framework Diagram v3</div>
+  <h1 class="serif">The Ego Pipeline</h1>
+  <p>How ego constructs identity from experience through logical errors — and what remains when the pipeline doesn't run.</p>
+</div>
+
+<div class="tabs">
+  <button class="tab-btn active" onclick="switchView('story', this)">
+    <div class="tab-label mono">Story</div>
+    <div class="tab-desc">Read it through</div>
+  </button>
+  <button class="tab-btn" onclick="switchView('pipeline', this)">
+    <div class="tab-label mono">Pipeline</div>
+    <div class="tab-desc">3 layers</div>
+  </button>
+  <button class="tab-btn" onclick="switchView('awareness', this)">
+    <div class="tab-label mono">Awareness</div>
+    <div class="tab-desc">Absence of pipeline</div>
+  </button>
+  <button class="tab-btn" onclick="switchView('key', this)">
+    <div class="tab-label mono">Key Insight</div>
+    <div class="tab-desc">The single intervention</div>
+  </button>
+  <button class="tab-btn" onclick="switchView('compare', this)">
+    <div class="tab-label mono">Compare</div>
+    <div class="tab-desc">Side by side</div>
+  </button>
+</div>
+
+<div class="content">
+
+  <!-- ========== STORY VIEW ========== -->
+  <div id="view-story" class="view active">
+    <div class="story">
+
+      <!-- CHAPTER 1 -->
+      <div class="story-chapter">
+        <div class="story-chapter-tag mono" style="color:#4a9e7d;">Chapter One</div>
+        <div class="story-chapter-title serif" style="color:#c8d8c8;">Before</div>
+        <p class="drop-cap">Something happens. You're sitting in a meeting. Someone explains a concept. Everyone else nods. You don't understand. That's it. That's the event. Conditions were present — noise, fatigue, unfamiliar terminology, the speed of speech — and under those conditions, understanding didn't arise. The way the tea is hot. The way rain falls. A state, time-indexed, carrying no verdict about anyone.</p>
+        <p>This is raw experience. States influence other states. Attention tends to help comprehension. Fatigue tends to hinder it. <em>Tends to.</em> Nothing is guaranteed. Nothing is permanent. Nothing is about <strong>"you."</strong></p>
+        <p>But you don't experience it that way. And the reason you don't is not because the event itself is charged. It's because you're standing on an assumption so old and so deep it feels like the floor — not like a belief.</p>
+        <p>The assumption is: <em>outcomes determine worth.</em></p>
+        <p>Good outcomes mean I am good. Bad outcomes mean I am bad. Understanding means I'm smart. Not understanding means I'm not. This isn't something you decided. It was installed — probably early, in an environment where love or safety depended on performance. It sits so deep it doesn't feel like a belief. It feels like how reality works.</p>
+        <p>And here's the part no one mentions: <strong>the assumption is content-agnostic.</strong> It charges success just as much as failure. "I am smart" runs through the same pipeline as "I am stupid." The pre-condition fuels pride exactly as it fuels shame. Positive identities are more dangerous precisely because nobody questions them — "I am stupid" hurts enough that you might eventually examine it, but "I am smart" feels good, so you protect it. The pipeline runs unchecked for decades.</p>
+        <p>But for now, we'll follow the painful version. You're in the meeting. You didn't understand. And without you noticing, the ground beneath the event is already charged.</p>
+      </div>
+
+      <!-- CHAPTER 2 -->
+      <div class="story-chapter">
+        <div class="story-chapter-tag mono" style="color:#c4713b;">Chapter Two</div>
+        <div class="story-chapter-title serif" style="color:#e8d0b8;">The Birth</div>
+        <p class="drop-cap">The event is neutral. But a question appears — silently, instantly, before you even notice it's there. Not "what conditions were present?" Not "was I tired?" Not "was the explanation clear?" The question is:</p>
+        <div class="scene">
+          <p><em>"What does this say about me?"</em></p>
+        </div>
+        <p>This is the Gateway. Not every event triggers it. You tie your shoes — nothing. You fail to understand something in a room full of people — the question fires. The difference is the charge from the pre-condition. If outcomes are neutral, the question has nothing to work with. "I didn't understand" is the same as "the tea is hot." But with the assumption active, not-understanding <em>means something about you.</em> The question aims the event at a self.</p>
+        <p>Now the event is inside the pipeline. And the first real distortion begins.</p>
+
+        <p style="margin-top:28px;"><strong>The thought arrives late.</strong></p>
+        <p>Understanding didn't happen. Then — after the event, not before it — a thought appears: <em>"I didn't understand."</em> Then another: <em>"I'm not getting this."</em> Then the crucial one: <em>"I'm stupid."</em></p>
+        <p>Each of these thoughts appeared <em>after</em> the event. The "I" was not there before understanding failed. It arrived in response to the failure. But ego either doesn't notice the delay or actively erases it. Grammar helps: "I didn't understand" puts "I" before the verb, creating a false temporal order. Language makes it look like the "I" was there first. Ego backdates itself.</p>
+        <p>The thought is posterior because of what happens at the next step — the inference. As we'll see in a moment, the Being-thought is the <em>conclusion</em> of an inference whose premise is the event. In installation, this is the first such inference — the event gives rise to the thought. In execution, it's modus ponens on the installed rule: Having, Having ⇒ Being ⊢ Being. Either way, Being is derived from Having. And a conclusion cannot precede its premise. That's what inference <em>is</em>. What you observe as the thought "arriving late" is the inference completing.</p>
+
+        <div class="formal formal-proof">
+          <strong style="color:#c4713b;">Why this backdating is impossible:</strong><br><br>
+          The Being-thought is the conclusion of an inference whose premise is the event (Having). In installation, the event gives rise to the thought for the first time. In execution, the installed rule runs modus ponens: Having, Having ⇒ Being ⊢ Being.<br><br>
+          In both cases: Being is <em>derived from</em> Having. A conclusion cannot precede its premise — that is what inference is. You don't need a separate proof. The structure of the inference already guarantees the thought is posterior. What you see as the thought "arriving late" is the derivation completing.
+        </div>
+
+        <p style="margin-top:28px;"><strong>Influence becomes law.</strong></p>
+        <p>With time collapsed, ego makes its next move. There's a real pattern in your experience: when you focus, you tend to understand. When you're distracted, you tend not to. This is influence — probabilistic, contextual, dependent on conditions. <em>Tends to.</em></p>
+        <p>Ego freezes this into a law: "If I focus, I <em>must</em> understand." Tends-to becomes must. A pattern becomes a rule. Conditions are erased. A momentary tendency, time-indexed, is treated as a timeless necessity.</p>
+        <p class="error-inline">This is a category error — influence treated as logical necessity. "Sometimes" is not "always." "Tends to" is not "must."</p>
+
+        <div class="formal formal-lock">
+          <strong style="color:#c898b0;">And a secondary block appears — the pipeline's own earlier move forbids this one:</strong><br><br>
+          Move 1 established that events produce identity-thoughts (→). Production requires A ∧ ¬B to be possible. But implication (⇒) requires A ∧ ¬B to be impossible. So the ⇒ that ego tries to install here is formally incompatible with the → already established one step earlier. The pipeline contradicts itself.
+        </div>
+
+        <p style="margin-top:28px;"><strong>The conclusion — and why it fails on every level.</strong></p>
+        <p>Now ego tries to complete the move: from rule to identity. "I didn't understand, <em>therefore I am stupid.</em>" Two logical paths are available. Both fail.</p>
+        <div class="scene">
+          <p><strong style="color:#c4713b;">Path A — Bad logic.</strong> The rule is: Being ⇒ Having ("if smart, understanding must occur"). Ego observes Having and derives Being. But this is <em>affirming the consequent</em> — an invalid inference. The rain makes the ground wet, but wet ground doesn't prove it rained.</p>
+          <p><strong style="color:#c4713b;">Path B — False premise.</strong> The rule is: Having ⇒ Being ("if understanding occurs, I must be smart"). The derivation is valid modus ponens — but the rule is false. "Being" is not independent of Having; it's a post-hoc thought produced by it. Sound logic on a false premise produces an unsound conclusion.</p>
+          <p><strong style="color:#c4713b;">The implicit biconditional.</strong> For ego to derive <em>negative</em> identity from negative outcomes ("I didn't understand → I am stupid"), it needs Path A's rule, because only its contrapositive (¬Having ⇒ ¬Being) produces ¬Being from ¬Having. For positive identity, it needs Path B. Both rules running simultaneously form a biconditional: Having ⇔ Being. Understand and you're smart (modus ponens). Don't understand and you're stupid (modus tollens). No outcome escapes. Ego never explicitly adopts this biconditional — but it is already operating here.</p>
+          <p><strong style="color:#e8e0d6;">Path A fails on logic. Path B fails on truth. Together they form an unexamined biconditional that covers every case — and both directions fail independently.</strong></p>
+        </div>
+        <p>But there's a deeper lock. Even if one of these paths somehow worked — <strong>the conclusion itself is meaningless.</strong> "I am smart" assigns a system-level capacity (intelligence) to a thought-level object (the "I"-thought). A thought cannot possess capacities. It cannot be smart any more than a sentence can be hungry. The conclusion is not just unsound — it is incoherent.</p>
+        <p>Three independent locks. The route fails. The destination is incoherent. And yet — ego doesn't stop here. Because the conclusion doesn't need to be <em>true.</em> It only needs to be <em>installed.</em></p>
+      </div>
+
+      <!-- CHAPTER 3 -->
+      <div class="story-chapter">
+        <div class="story-chapter-tag mono" style="color:#8b2d5e;">Chapter Three</div>
+        <div class="story-chapter-title serif" style="color:#d8b0c8;">The Machine</div>
+        <p class="drop-cap">Once the implicit biconditional Having ⇔ Being is installed as a rule — even on logically illegitimate grounds — it becomes a mechanism in the mind. It no longer needs the original event. It no longer needs the logical steps. It just fires.</p>
+        <p>Positive events fire one direction: Having ⇒ Being via modus ponens. You understand something — "I am smart" appears. Negative events fire the other: the contrapositive of Being ⇒ Having via modus tollens. You don't understand — "I am stupid" appears. Every outcome triggers one direction of the biconditional. No event escapes.</p>
+        <p>And here is a distinction that matters more than anything else in this chapter: the installed <em>rule</em> persists between events. But the <em>thought</em> is produced fresh each time. The rule is there before the next event occurs. The thought is not — it is the output of modus ponens completing after the event. Ego conflates these. It treats the persistence of the rule as evidence that the identity was already there. "I've always been stupid — the thought is always there." But the thought is not always there. It appears each time the rule fires. What persists is the <em>mechanism</em>, not the <em>truth</em>. An installed alarm clock goes off every morning. That doesn't mean mornings are caused by alarm clocks.</p>
+        <p>And here is the trick that makes the machine self-sustaining: ego points to its own output as evidence.</p>
+        <div class="scene">
+          <p><em>"Every time I fail, the thought 'I am stupid' appears. They always co-occur. So the rule must be true."</em></p>
+          <p>But the co-occurrence was created by the rule itself. The rule manufactured the very data it cites as confirmation. This is not just circular reasoning — it is a system that builds its own evidence loop.</p>
+        </div>
+        <p>Then the body gets involved.</p>
+        <p>When "I am stupid" fires, something happens in the chest. A contraction. A heaviness. Shame. The face gets warm. The shoulders tighten. This is not a side effect. Ego treats it as <em>further evidence.</em> "I feel ashamed — therefore this must be true." The body's response validates the thought in a way that purely cognitive operations cannot.</p>
+        <p>This is why intellectual understanding of the pipeline often isn't enough to stop it. You can see every logical error clearly and still feel the shame when the rule fires. The emotional response bypasses logic and feels like <em>direct contact with reality.</em> The body says "this is real" even when the mind has understood it isn't.</p>
+        <p class="quiet">The actual sequence: thought appears → emotion arises → emotion is interpreted as confirmation → identity feels <em>true</em>, not just <em>thought.</em> The emotion seals what logic installed.</p>
+
+        <p style="margin-top:28px;">Now something structural shifts. In Layer 1, the direction was Having ⊢ Being. An event was the premise, and identity was derived as the <em>conclusion</em>. But now that conclusion gets promoted to a <em>premise</em>. The direction reverses. Identity is no longer conditional on outcomes. It becomes the starting point from which outcomes are derived.</p>
+        <p>Not "if I fail, then I am stupid." Just: <strong>"I am stupid."</strong> The "if" disappears at exactly the point where the conclusion becomes a premise. And everything else follows from it.</p>
+        <p>"I am stupid. <em>Therefore</em> I must act accordingly." "I act this way. <em>Therefore</em> I get these results." "I get these results — and that re-confirms what I started with." Each "therefore" is a logical derivation from an asserted premise. Not a conditional hypothesis — a bare claim. And you cannot falsify a premise by examining its consequences. You'd need to question the premise itself. But ego doesn't do that, because after the Emotional Seal, the premise doesn't feel like a premise. It feels like a fact.</p>
+        <p>And the loop closes. Layer 1 ran Having ⊢ Being — the event was the premise, identity was derived as conclusion. Layer 2 runs Being ⊢ Doing ⊢ Having — identity is asserted as premise, behavior and outcomes are derived from it. When Having arrives at the end, it feeds right back into Being, re-confirming the premise it started from. Two directions, same content, self-confirming. <strong>Being ⊢ Doing ⊢ Having ⊢ Being.</strong> Unfalsifiable. Powered by evidence it manufactured itself.</p>
+      </div>
+
+      <!-- CHAPTER 4 -->
+      <div class="story-chapter">
+        <div class="story-chapter-tag mono" style="color:#6b1d4e;">Chapter Four</div>
+        <div class="story-chapter-title serif" style="color:#c898b0;">The Hardening</div>
+        <p class="drop-cap">The loop is running. But ego wants something more than a loop. It wants permanence. So it upgrades the entire structure.</p>
+        <p>Implication becomes causation. "If I am stupid, failure follows" becomes "Being stupid <em>causes</em> failure — and always has." This is where "I believe I am stupid" becomes "<strong>I AM stupid and always have been.</strong>"</p>
+
+        <div class="formal formal-lock">
+          <strong style="color:#c898b0;">This move is formally impossible — the Structural Lock:</strong><br><br>
+          In implication (A ⇒ B): A ∧ ¬B is impossible — whenever A holds, B must already hold.<br>
+          In causation (A → B): A ∧ ¬B must be possible — that is the state before production.<br><br>
+          These are opposite requirements. Implication's defining condition is causation's impossibility condition. And vice versa. Ego treats them as degrees of the same thing. They are formally opposite.<br><br>
+          This constraint operates across the pipeline: the → from Move 1 forbids the ⇒ that Move 2 tries to create. The ⇒ from the loop forbids the → that Move 9 tries to become.
+        </div>
+
+        <p>Then the implicit biconditional from Move 3 is made explicit and extended across all categories. Evidence flows in every direction. Success proves identity. Identity explains success. Failure proves identity. Identity explains failure. What was hidden at Move 3 — that ego needs both directions simultaneously — is now the conscious architecture.</p>
+        <p>And finally, even the "therefore" dissolves. Categories collapse entirely. "My outcomes are me. My actions are me. My state is me." Not "my outcomes <em>prove</em> I am stupid" — that still has logical structure, still has a "therefore" that could be questioned. Just: "my failures are me." No derivation. No direction. Identity as brute fact.</p>
+        <p>Three stages of degradation: Layer 1 had an "if" and ran Having ⊢ Being (event was premise, identity was derived conclusion). Layer 2 dropped the "if," reversed direction to Being ⊢ Having (identity became asserted premise, outcomes derived from it). Layer 3 drops the "therefore" — no direction at all, just equivalence. What's left has no logical structure — just identity as bedrock.</p>
+        <p>This is where most people live. Not at the beginning of the pipeline — at the end. Deep inside a hardened identity that feels like reality, not like a conclusion built on errors that has been progressively stripped of every logical structure that would have allowed it to be questioned.</p>
+      </div>
+
+      <!-- CHAPTER 5 -->
+      <div class="story-chapter">
+        <div class="story-chapter-tag mono" style="color:#4a9e7d;">Chapter Five</div>
+        <div class="story-chapter-title serif" style="color:#c8d8c8;">The Way Out</div>
+        <p class="drop-cap">Everything you just read — the self-manufacturing, the emotional seal, the loop, the hardening — is downstream. All of it runs on one thing: the charge on the event. The assumption that not understanding is <em>bad</em>. That it means something about you. That it carries a verdict.</p>
+        <p>There are two ways out. They work at different levels.</p>
+
+        <div class="formal formal-green">
+          <strong style="color:#88bba8;font-size:16px;font-style:italic;">"What's wrong with not understanding?"</strong><br><br>
+          This targets the charge directly — the pre-condition that fuels the entire pipeline. The charge was never argued. It was installed and held in place by not being questioned. When you ask, the mind searches for a justification and finds nothing. Not understanding is a state. Time-indexed. Condition-dependent. Like the tea being hot. There is nothing <em>wrong</em> with it.<br><br>
+          The mind quiets immediately — not because the question is deep, but because there was never an argument to begin with. The charge collapses. No charge means no fuel. No fuel means no pipeline. The whole thing doesn't get blocked move by move — it becomes unnecessary.
+        </div>
+
+        <div class="formal formal-green" style="margin-top:12px;">
+          <strong style="color:#88bba8;font-size:16px;font-style:italic;">"The 'I' thought always appears after the event."</strong><br><br>
+          This works inside the pipeline — at Move 1. In installation: the thought is posterior because <em>produced</em> by the event. In execution: the thought is posterior because it is the <em>conclusion</em> of modus ponens on the installed rule. A conclusion cannot precede its premises.<br><br>
+          Seeing the thought arrive after the event is seeing the mechanism that made it. Seeing the mechanism is different from believing the output.
+        </div>
+
+        <p>The first question dissolves the charge before the pipeline starts. The second reveals the mechanism if the pipeline is already running. Either is sufficient. Together they leave nothing to work with and nothing to hide behind.</p>
+
+        <p>What happens now, in real time, hundreds of times a day, is <strong>execution</strong> — the installed rule fires directly. Event → rule → thought → emotion → behavior. The rule persists between events — it is there before this particular event. But the thought is produced fresh — it is the output of the inference completing after this particular event. Ego conflates the two: the rule's persistence makes the identity <em>feel</em> prior. The thought's production proves it isn't.</p>
+        <p>You're back in the meeting. You didn't understand. The rule fires — "I am stupid" appears. Shame rises. But this time, something else happens first: you notice the thought arriving <em>after</em> the event. You see the gap. The event was there. Then the thought appeared. Then the shame followed the thought.</p>
+        <p>You're not fighting the machine. You're not trying to think your way out of shame. You're just seeing the sequence. The thought arrived late. It was produced by a rule. The rule manufactured the shame. The shame is not proof that the thought is true — it's proof that the rule fired.</p>
+        <p><strong>Seeing the rule fire is different from believing its output.</strong></p>
+        <p>This doesn't uninstall the rule. Not the first time. But each time the rule fires and is <em>seen</em> rather than <em>believed</em>, it weakens from non-reinforcement. The emotional seal loosens. The loop gets less automatic. Conditioning fades — not because it was conquered, but because it stopped being fed.</p>
+
+        <div class="scene" style="margin-top:28px; border-left-color:rgba(74,158,125,0.3);">
+          <p style="color:#88a898;">What remains is not a better identity. Not a corrected self-image. Not "I am smart" instead of "I am stupid." What remains is what was always there before the pipeline ran: conditions, tendencies, momentary states. The tea is hot. The room was loud. Understanding didn't arise. Next time, different conditions, different outcome.</p>
+          <p style="color:#88a898;">No verdict. No "I." Just life, continuing.</p>
+        </div>
+
+        <p class="quiet" style="margin-top:24px; text-align:center; font-style:italic;">Ego has a pipeline. Awareness doesn't.<br>Awareness isn't a different pipeline — it's what remains when the pipeline doesn't run.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ========== PIPELINE VIEW ========== -->
+  <div id="view-pipeline" class="view">
+
+    <div style="padding:14px 16px; border-radius:10px; margin-bottom:12px; background:rgba(74,158,125,0.04); border:1.5px solid rgba(74,158,125,0.15);">
+      <div class="mono" style="font-size:9px; color:#4a9e7d; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:4px;">Before the pipeline</div>
+      <div class="serif" style="font-size:16px; color:#c8d8c8; margin-bottom:4px;">Raw Experience</div>
+      <div class="mono" style="font-size:12px; color:#4a9e7d; opacity:0.7; margin-bottom:8px;">Being(t) ∼→ Doing(t) ∼→ Having(t)</div>
+      <div style="font-size:13px; color:#88a898; line-height:1.6;">Temporal, contextual, probabilistic. Influence between momentary states. No identity. No necessity. No "I." This is what's actually happening — and what ego must distort to begin.</div>
+    </div>
+
+    <div class="connector">↓</div>
+
+    <!-- Pre-condition -->
+    <div style="padding:14px 16px; border-radius:10px; margin-bottom:12px; background:rgba(181,140,58,0.06); border:1.5px solid rgba(181,140,58,0.25);">
+      <div class="mono" style="font-size:9px; color:#b58c3a; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:4px;">Pre-condition — the ground the pipeline stands on</div>
+      <div class="serif" style="font-size:16px; color:#e8d8b0; margin-bottom:4px;">Conditional Valuation</div>
+      <div class="mono" style="font-size:12px; color:#b58c3a; opacity:0.7; margin-bottom:8px;">"Outcomes determine worth"</div>
+      <div style="font-size:13px; color:#a89868; line-height:1.6;">The unexamined belief that outcomes are not neutral — that they carry evaluative weight about the self. "Good outcomes mean I am good. Bad outcomes mean I am bad." Without this belief, no event is charged enough to trigger the self-referential question at Move 0. The pipeline has no fuel.<br><br>This assumption is not a fact. It is an installed belief — probably acquired early, from environments where love, approval, or safety were conditional on performance. It sits so deep it feels like reality rather than a belief. Seeing it as an assumption — rather than as obvious truth — removes the charge from outcomes before Move 0 even has a chance to fire.<br><br><strong style='color:#b58c3a'>Critical:</strong> This applies equally to positive outcomes. "I understood easily" gets charged as "I am gifted" through the same pipeline. Positive identities are <em>more</em> dangerous precisely because nobody questions them. "I am stupid" is painful enough that you might eventually examine it. "I am smart" feels good, so you protect it — and the pipeline runs unchecked for decades. The structure is identical. The pipeline is content-agnostic.</div>
+      <div style="margin-top:10px; padding:10px 14px; background:rgba(74,158,125,0.08); border-radius:8px; border-left:3px solid #4a9e7d55;">
+        <div class="mono" style="font-size:9px; color:#4a9e7d; text-transform:uppercase; letter-spacing:1px; margin-bottom:3px;">Intervention Point — Question the Value</div>
+        <div style="font-size:12px; color:#88bba8; line-height:1.6;"><strong style="color:#c8d8c8;">"What's wrong with not understanding?"</strong><br>The charge was never argued — it was installed. It was held in place by <em>not being questioned</em>, not by having a justification. When you ask, the mind searches for an answer and finds nothing. Not understanding is a state — time-indexed, condition-dependent, like the tea being hot. The charge collapses because there was never an argument to begin with. No charge means no fuel. No fuel means no pipeline. This works <em>before</em> the pipeline starts — and even mid-pipeline, because it doesn't require you to observe the sequence. It just requires you to question the value.</div>
+      </div>
+    </div>
+
+    <div class="connector">↓</div>
+
+    <!-- LAYER 1 -->
+    <div class="layer-header" id="layer1-header" onclick="toggleLayer('layer1')"
+         style="background:rgba(196,113,59,0.06); border-color:rgba(196,113,59,0.25);">
+      <div class="layer-tag mono" style="color:#c4713b;">Layer 1 — Conditional rules (⇒) — Having ⊢ Being — Where intervention happens</div>
+      <div class="layer-title serif" style="color:#e8d0b8;">The Birth of Identity</div>
+      <div class="layer-sub" style="color:#a08868;">An event enters. Through four moves, it produces an identity as conclusion. The "if" is still present — identity is conditional on outcomes. The direction is Having ⊢ Being: the event is the premise, identity is the derived conclusion. Everything downstream depends on this conclusion being accepted.</div>
+      <div class="layer-toggle mono" style="color:#c4713b;">tap to expand ↓</div>
+    </div>
+    <div id="layer1-body" style="display:none;">
+      <div id="L1-cards"></div>
+      <div id="L1-detail" class="detail"></div>
+    </div>
+
+    <div class="connector">↓</div>
+
+    <!-- LAYER 2 -->
+    <div class="layer-header" id="layer2-header" onclick="toggleLayer('layer2')"
+         style="background:rgba(139,45,94,0.06); border-color:rgba(139,45,94,0.25);">
+      <div class="layer-tag mono" style="color:#8b2d5e;">Layer 2 — Unconditional assertions (⊢) — Direction reverses: Being ⊢ Having</div>
+      <div class="layer-title serif" style="color:#d8b0c8;">The Loop</div>
+      <div class="layer-sub" style="color:#906878;">Layer 1 ran Having ⊢ Being — the event was the premise, identity was the derived conclusion. Now the direction reverses: the conclusion of Layer 1 is promoted to a premise, and the "if" drops. Being ⊢ Doing ⊢ Having — identity is asserted, behavior and outcomes are derived from it. The rule manufactures its own evidence, seals it with emotion, and Having arrives back at Being to close the loop.</div>
+      <div class="layer-toggle mono" style="color:#8b2d5e;">tap to expand ↓</div>
+    </div>
+    <div id="layer2-body" style="display:none;">
+      <div id="L2-cards"></div>
+      <div id="L2-detail" class="detail"></div>
+    </div>
+
+    <div class="connector">↓</div>
+
+    <!-- LAYER 3 -->
+    <div class="layer-header" id="layer3-header" onclick="toggleLayer('layer3')"
+         style="background:rgba(107,29,78,0.06); border-color:rgba(107,29,78,0.25);">
+      <div class="layer-tag mono" style="color:#6b1d4e;">Layer 3 — Equivalence (⇔) — Even "therefore" dissolves</div>
+      <div class="layer-title serif" style="color:#c898b0;">The Hardening</div>
+      <div class="layer-sub" style="color:#805868;">The "therefore" disappears. Being, Doing, and Having are no longer derived from each other — they are treated as the same thing. Identity becomes bare assertion with no logical structure at all.</div>
+      <div class="layer-toggle mono" style="color:#6b1d4e;">tap to expand ↓</div>
+    </div>
+    <div id="layer3-body" style="display:none;">
+      <div id="L3-cards"></div>
+      <div id="L3-detail" class="detail"></div>
+    </div>
+
+    <!-- Logical Structure Degradation -->
+    <div style="margin-top:16px; padding:16px; border-radius:10px; background:rgba(255,255,255,0.02); border:1.5px solid rgba(255,255,255,0.08);">
+      <div class="mono" style="font-size:9px; color:#605848; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px;">Structural Note</div>
+      <div class="serif" style="font-size:15px; color:#c8d8c8; margin-bottom:8px;">Three Stages of Logical Degradation</div>
+      <div style="font-size:12px; color:#a09888; line-height:1.7;">
+        <strong style="color:#c4713b;">Layer 1 — Conditional (⇒), direction: Having ⊢ Being:</strong> "If I understand, then I am smart." The "if" is present. The event is the premise. Identity is the conclusion. The rule can be tested.<br><br>
+        <strong style="color:#8b2d5e;">Layer 2 — Unconditional (⊢), direction reverses: Being ⊢ Having:</strong> "I am stupid. Therefore I fail." The "if" is gone. The conclusion of Layer 1 is promoted to a premise. Identity is the starting point. Outcomes are derived from it. Unfalsifiable — you cannot test a bare assertion by examining its consequences. The loop closes when Having arrives back at Being, re-confirming the premise it started from.<br><br>
+        <strong style="color:#6b1d4e;">Layer 3 — Equivalence (⇔), no direction:</strong> "My failures are me." Even the "therefore" dissolves. No derivation, no direction. Identity as brute fact with no logical structure left at all.
+      </div>
+    </div>
+
+    <!-- Installation vs Execution -->
+    <div style="margin-top:16px; padding:16px; border-radius:10px; background:rgba(255,255,255,0.02); border:1.5px solid rgba(255,255,255,0.08);">
+      <div class="mono" style="font-size:9px; color:#4a9e7d; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px;">Structural Note</div>
+      <div class="serif" style="font-size:15px; color:#c8d8c8; margin-bottom:8px;">Installation vs. Execution</div>
+      <div style="font-size:12px; color:#a09888; line-height:1.7;">
+        The pipeline above describes how identity is <strong style="color:#e8d0b8;">installed</strong> for the first time — all three layers are needed. But most real-time experience is <strong style="color:#d8b0c8;">execution</strong> — the installed rule fires directly: event → rule → thought → emotion → behavior. In both modes, the Being-thought is posterior because it is the conclusion of an inference whose premise is the event (the proof comes from Move 3's structure). The rule persists between events, but the thought is produced fresh each time. Each time the rule fires and is seen rather than believed, it weakens from non-reinforcement.
+      </div>
+    </div>
+
+    <!-- Structural Lock -->
+    <div style="margin-top:16px; padding:16px; border-radius:10px; background:rgba(107,29,78,0.04); border:1.5px solid rgba(107,29,78,0.2);">
+      <div class="mono" style="font-size:9px; color:#6b1d4e; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px;">Formal Result</div>
+      <div class="serif" style="font-size:15px; color:#c898b0; margin-bottom:8px;">The Structural Lock</div>
+      <div style="font-size:12px; color:#a09888; line-height:1.7;">
+        Causation (→) and implication (⇒) are formally incompatible: → requires A ∧ ¬B possible; ⇒ requires A ∧ ¬B impossible. This constraint operates across the pipeline: the → established at Move 1 forbids the ⇒ that Move 2 tries to create, and the ⇒ installed by the loop forbids the → that Move 9 tries to upgrade to. Each move's own preconditions block the other. Ego's architecture depends on treating → and ⇒ as interchangeable. They are formally opposite.
+      </div>
+    </div>
+
+    <div class="legend" style="margin-top:24px;">
+      <div class="legend-title mono">Symbol Key</div>
+      <div class="legend-grid mono">
+        <div class="legend-item"><span class="legend-sym">∼→</span><span class="legend-meaning">Influence (tendency)</span></div>
+        <div class="legend-item"><span class="legend-sym">⇒</span><span class="legend-meaning">Logical necessity (rule)</span></div>
+        <div class="legend-item"><span class="legend-sym">⊢</span><span class="legend-meaning">Derivation (unconditional — no "if")</span></div>
+        <div class="legend-item"><span class="legend-sym">→</span><span class="legend-meaning">Causation (temporal)</span></div>
+        <div class="legend-item"><span class="legend-sym">A∧¬B</span><span class="legend-meaning">State before production</span></div>
+        <div class="legend-item"><span class="legend-sym">⇔</span><span class="legend-meaning">Biconditional (implicit at Move 3, explicit at Move 10)</span></div>
+        <div class="legend-item"><span class="legend-sym">(t)</span><span class="legend-meaning">Time-indexed</span></div>
+        <div class="legend-item"><span class="legend-sym">↔</span><span class="legend-meaning">Bidirectional</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== AWARENESS VIEW ========== -->
+  <div id="view-awareness" class="view">
+    <div class="aw-hero">
+      <div class="aw-tag mono">Core Reframe</div>
+      <p class="serif" style="font-size:17px; color:#d0e0d0; margin-bottom:8px;">Awareness is not a different pipeline.<br>It is the absence of the pipeline.</p>
+      <p style="font-size:14px; color:#88a898; line-height:1.7;">Awareness doesn't have its own chain. It doesn't run Being ⊢ Doing ⊢ Having in the "correct" direction. It simply stays with raw experience — Being(t) ∼→ Doing(t) ∼→ Having(t) — without performing the moves that create identity. What remains is not a model. It's reality without distortion.</p>
+    </div>
+
+    <div class="aw-section">
+      <div class="aw-section-title serif">What doesn't happen</div>
+      <div class="aw-item">
+        <div class="aw-ego mono">Pre-condition: Conditional Valuation</div>
+        <div class="aw-instead">The assumption "outcomes determine worth" is questioned directly: "What's wrong with not understanding?" The mind finds no justification. The charge collapses. Without evaluative charge, no event is significant enough to trigger the self-referential question.</div>
+      </div>
+      <div class="aw-item">
+        <div class="aw-ego mono">Move 0: The Gateway</div>
+        <div class="aw-instead">The self-referential question — "what does this say about me?" — is seen arising but not followed. Without this question, no event enters the pipeline. The alternative — "what conditions were present?" — keeps experience neutral.</div>
+      </div>
+      <div class="aw-item">
+        <div class="aw-ego mono">Move 1: Collapse time</div>
+        <div class="aw-instead">Time stays intact. The Being-thought is seen arriving <em>after</em> the event — because it is the conclusion of an inference (Move 3) whose premise is the event. Conclusions cannot precede premises. The thought arriving late is the inference completing.</div>
+      </div>
+      <div class="aw-item">
+        <div class="aw-ego mono">Move 2: Upgrade to necessity</div>
+        <div class="aw-instead">Influence stays as influence. "Tends to" remains "tends to." The category jump from influence (∼→) to necessity (⇒) has no logical basis. And as a secondary block: the production relationship from Move 1 (→) formally forbids the implication (⇒) that Move 2 tries to create.</div>
+      </div>
+      <div class="aw-item">
+        <div class="aw-ego mono">Move 3: Infer identity</div>
+        <div class="aw-instead">Outcomes remain outcomes. "Understanding arose here" — no "therefore I am intelligent." Both paths are blocked, and without both rules the implicit biconditional collapses. Outcomes stop producing identity in either direction.</div>
+      </div>
+    </div>
+
+    <div class="aw-section">
+      <div class="aw-section-title serif">What remains</div>
+      <div class="aw-item">
+        <div style="font-size:13px; color:#b0a898; line-height:1.6;">
+          <strong style="color:#c8d8c8;">Conditions</strong> — attention, clarity, fatigue, context — are noticed as temporary states, not traits.
+        </div>
+      </div>
+      <div class="aw-item">
+        <div style="font-size:13px; color:#b0a898; line-height:1.6;">
+          <strong style="color:#c8d8c8;">Behavior</strong> — actions are seen as responses to conditions, not proof of identity.
+        </div>
+      </div>
+      <div class="aw-item">
+        <div style="font-size:13px; color:#b0a898; line-height:1.6;">
+          <strong style="color:#c8d8c8;">Outcomes</strong> — results are neutral data. The question "what conditions were present?" replaces "what does this say about me?"
+        </div>
+      </div>
+      <div class="aw-item">
+        <div style="font-size:13px; color:#b0a898; line-height:1.6;">
+          <strong style="color:#c8d8c8;">Causation</strong> — still exists. Conditions produce outcomes. But it is not centered on an "I" and not projected into timelessness.
+        </div>
+      </div>
+      <div class="aw-item">
+        <div style="font-size:13px; color:#b0a898; line-height:1.6;">
+          <strong style="color:#c8d8c8;">Emotions</strong> — still arise. Shame, frustration, joy all appear. But they are seen as reactions to interpretations, not as proof that the interpretation is true. The body responds; awareness doesn't confuse the response with reality.
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:16px; background:rgba(255,255,255,0.02); border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
+      <div class="mono" style="font-size:10px; color:#605848; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">The key distinction</div>
+      <div style="font-size:13px; color:#a09888; line-height:1.7;">
+        Ego assumes: <span style="color:#b58c3a;">"Outcomes determine worth."</span><br>
+        Awareness asks: <span style="color:#88bba8;">"What's wrong with not understanding?"</span><br><br>
+        Ego asks: <span style="color:#c8887a;">"What does this say about me?"</span><br>
+        Awareness asks: <span style="color:#88bba8;">"What conditions were present?"</span><br><br>
+        The first question dissolves the charge before the pipeline starts. The second replaces the self-referential frame if the charge remains. Two intervention points — one removes the fuel, the other reveals the mechanism.
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== KEY INSIGHT VIEW ========== -->
+  <div id="view-key" class="view">
+    <div class="key-hero">
+      <div class="key-tag mono">Two Intervention Points</div>
+      <p class="key-quote serif">"What's wrong with not understanding?"</p>
+      <p class="key-sub" style="margin-bottom:14px;">Targets the pre-condition directly. The charge on the event was never argued — it was installed and held in place by not being questioned. When you ask, the mind finds no justification. The charge collapses. No charge means no fuel. No fuel means no pipeline. Works before the pipeline starts and even mid-pipeline.</p>
+      <p class="key-quote serif">"The 'I' thought always appears after the event."</p>
+      <p class="key-sub">Targets Move 1. The Being-thought is structurally posterior in both modes: in installation, production forbids the product from being prior; in execution, the thought is the conclusion of modus ponens. Works inside the pipeline — reveals the mechanism. Seeing the mechanism is different from believing the output.</p>
+    </div>
+
+    <div class="collapse-title mono">How one observation cascades through the pipeline</div>
+
+    <div class="collapse-item" style="border-left:3px solid #b58c3a33;">
+      <div class="mono" style="font-size:9px; color:#b58c3a; letter-spacing:1px; margin-bottom:4px;">PRE-CONDITION DISSOLVED — "WHAT'S WRONG WITH IT?"</div>
+      <div class="collapse-chain serif">Conditional Valuation</div>
+      <div class="collapse-why">The assumption "outcomes determine worth" is directly questioned: <strong style="color:#e8d8b0;">"What's wrong with not understanding?"</strong> The mind searches for justification and finds none. The charge was held by silence, not by argument. Breaking the silence collapses the charge. No charge means no fuel. The pipeline doesn't get blocked move by move — it becomes unnecessary.</div>
+    </div>
+    <div class="connector" style="color:rgba(255,255,255,0.08);">if charge remains</div>
+    <div class="collapse-item" style="border-left:3px solid #c4713b33;">
+      <div class="mono" style="font-size:9px; color:#c4713b; letter-spacing:1px; margin-bottom:4px;">MOVE 0 BYPASSED</div>
+      <div class="collapse-chain serif">The Gateway</div>
+      <div class="collapse-why">The self-referential question — "what does this say about me?" — is seen as a question rather than followed as an instruction. Without this question being taken seriously, no event enters the pipeline.</div>
+    </div>
+    <div class="connector" style="color:rgba(255,255,255,0.08);">↓ and if it does enter</div>
+    <div class="collapse-item" style="border-left:3px solid #c4713b33;">
+      <div class="mono" style="font-size:9px; color:#c4713b; letter-spacing:1px; margin-bottom:4px;">MOVE 1 BLOCKED — PROOF COMES FROM MOVE 3</div>
+      <div class="collapse-chain serif">Time collapse</div>
+      <div class="collapse-why">Move 3 shows that the Being-thought is the <em>conclusion</em> of an inference whose premise is the event (Having). In installation, this is the first such inference. In execution, it is modus ponens: Having, Having ⇒ Being ⊢ Being. In both cases, Being is derived from Having. A conclusion cannot precede its premise — that is what inference <em>is</em>. The thought arriving late is the inference completing. Move 1 and Move 3 are the same thing seen from two angles: Move 1 sees it temporally, Move 3 sees it logically.</div>
+    </div>
+    <div class="connector" style="color:rgba(255,255,255,0.08);">↓ therefore</div>
+    <div class="collapse-item" style="border-left:3px solid #c4713b33;">
+      <div class="mono" style="font-size:9px; color:#c4713b; letter-spacing:1px; margin-bottom:4px;">MOVE 2 BLOCKED — CATEGORY ERROR + FORMAL BLOCK</div>
+      <div class="collapse-chain serif">Influence → necessity upgrade</div>
+      <div class="collapse-why"><strong style="color:#c4713b;">Primary:</strong> Without collapsed time, the "Being"-thought is revealed as downstream commentary, not an independent variable. The jump from influence (∼→) to necessity (⇒) is a category error — "tends to" is not "must."<br><strong style="color:#c4713b;">Secondary:</strong> Even if the category jump were legitimate, Move 1 established that events produce identity-thoughts (→). Production requires A ∧ ¬B possible. Implication requires A ∧ ¬B impossible. The pipeline's own earlier move formally blocks the later one.</div>
+    </div>
+    <div class="connector" style="color:rgba(255,255,255,0.08);">↓ therefore</div>
+    <div class="collapse-item" style="border-left:3px solid #b5403a33;">
+      <div class="mono" style="font-size:9px; color:#b5403a; letter-spacing:1px; margin-bottom:4px;">MOVE 3 BLOCKED — BOTH PATHS + IMPLICIT BICONDITIONAL</div>
+      <div class="collapse-chain serif">Identity inference</div>
+      <div class="collapse-why"><strong style="color:#c8887a;">Path A</strong> (Being ⇒ Having): derivation is invalid — affirming the consequent. But its contrapositive (¬Having ⇒ ¬Being) is what produces negative identity.<br><strong style="color:#c8887a;">Path B</strong> (Having ⇒ Being): valid modus ponens, but rule is false — "Being" is a dependent variable.<br><strong style="color:#c8887a;">Together:</strong> ego needs both rules simultaneously — Path B for positive identity, Path A's contrapositive for negative identity. This is an implicit biconditional (Having ⇔ Being) already operating at Move 3. Both directions fail independently. Move 10 later hardens what is already implicit here.</div>
+    </div>
+    <div class="connector" style="color:rgba(255,255,255,0.08);">↓ therefore</div>
+    <div style="padding:14px 16px; background:rgba(74,158,125,0.06); border-radius:10px; border:1px solid rgba(74,158,125,0.15); border-left:3px solid #4a9e7d55;">
+      <div class="mono" style="font-size:9px; color:#4a9e7d; letter-spacing:1px; margin-bottom:4px;">LAYERS 2 &amp; 3 IMPOSSIBLE</div>
+      <div style="font-size:13px; color:#88bba8; line-height:1.6;">No rule is installed. No self-manufacturing begins. No emotional seal forms. No loop forms. No hardening occurs. Raw experience remains raw experience.</div>
+    </div>
+
+    <!-- Structural Lock -->
+    <div style="margin-top:16px; padding:18px; background:rgba(107,29,78,0.04); border-radius:12px; border:1.5px solid rgba(107,29,78,0.2);">
+      <div class="mono" style="font-size:9px; color:#6b1d4e; text-transform:uppercase; letter-spacing:1.5px; margin-bottom:8px;">The Structural Lock</div>
+      <div class="serif" style="font-size:15px; color:#c898b0; margin-bottom:10px;">Causation and implication are formally incompatible</div>
+      <div style="font-size:12px; color:#a09888; line-height:1.8;">
+        <strong style="color:#c4713b;">→ requires:</strong> A ∧ ¬B is possible (the state before production)<br>
+        <strong style="color:#6b1d4e;">⇒ requires:</strong> A ∧ ¬B is impossible (B must be present whenever A is)<br><br>
+        This constraint operates across the pipeline, not at a single move:<br>
+        <span style="color:#c4713b;">The → from Move 1</span> forbids the ⇒ that Move 2 tries to create (secondary block on Move 2)<br>
+        <span style="color:#6b1d4e;">The ⇒ from the loop</span> forbids the → that Move 9 tries to upgrade to (primary error of Move 9)<br><br>
+        <strong style="color:#e8e0d6;">Ego treats → and ⇒ as interchangeable — as degrees of the same thing. They are formally opposite. Each one's defining requirement is the other one's impossibility condition.</strong>
+      </div>
+    </div>
+
+    <div class="synthesis" style="margin-top:24px;">
+      <div class="synthesis-title mono">Why this works</div>
+      <div style="font-size:13px; color:#a09888; line-height:1.8;">
+        The pipeline has two points of leverage, operating at different levels.<br><br>
+        <strong style="color:#b58c3a;">Intervention 1 — Question the value (pre-condition):</strong> "What's wrong with not understanding?" This targets the charge on the event before the pipeline starts. The charge was never argued — it was installed and held by silence. When questioned directly, the mind finds no justification. The charge collapses. No charge means no fuel. The pipeline doesn't get blocked — it becomes unnecessary. This works even mid-pipeline, because it doesn't require observing the sequence. It just requires questioning the value.<br><br>
+        <strong style="color:#c4713b;">Intervention 2 — See the thought arrive (Move 1):</strong> "The 'I' thought always appears after the event." This works inside the pipeline. The proof comes from Move 3's structure: the Being-thought is the conclusion of an inference whose premise is the event. Conclusions cannot precede premises. Move 1 sees it temporally (the thought came after). Move 3 explains it logically (the thought is derived from the event). Seeing the thought arrive is seeing the inference complete — and seeing the mechanism is different from believing the output.<br><br>
+        The first intervention removes the fuel. The second reveals the mechanism. Either is sufficient. Together they leave the pipeline with nothing to work with and nothing to hide behind.
+      </div>
+    </div>
+
+    <!-- Installation vs Execution -->
+    <div style="margin-top:20px; padding:20px; background:rgba(255,255,255,0.02); border-radius:12px; border:1px solid rgba(255,255,255,0.08);">
+      <div class="mono" style="font-size:10px; color:#605848; text-transform:uppercase; letter-spacing:1px; margin-bottom:12px;">Installation vs. Execution</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+        <div style="padding:12px; background:rgba(196,113,59,0.04); border-radius:8px; border-top:2px solid #c4713b44;">
+          <div class="serif" style="font-size:13px; color:#e8d0b8; margin-bottom:6px;">Installation Mode</div>
+          <div style="font-size:11px; color:#706858; line-height:1.7;">
+            The full pipeline runs for the first time. Layer 1 creates the identity. Layer 2 loops and seals it. Layer 3 hardens it. This likely happened in childhood, before you had the capacity to notice.<br><br>
+            <span style="color:#88a898;">The Being-thought is the conclusion of the first inference from event to identity (Move 3). Conclusions cannot precede premises. Seeing the thought arrive late is seeing the inference complete.</span>
+          </div>
+        </div>
+        <div style="padding:12px; background:rgba(139,45,94,0.04); border-radius:8px; border-top:2px solid #8b2d5e44;">
+          <div class="serif" style="font-size:13px; color:#d8b0c8; margin-bottom:6px;">Execution Mode</div>
+          <div style="font-size:11px; color:#706858; line-height:1.7;">
+            The installed rule fires directly. Event → rule → thought → emotion → behavior. No logical errors needed — the conclusion is pre-loaded. This is what happens in real time, hundreds of times.<br><br>
+            <span style="color:#88a898;">The Being-thought is the conclusion of modus ponens on the installed rule: Having, Having ⇒ Being ⊢ Being. Same structure as Move 3. The rule persists between events, but the thought is produced fresh each time. Seeing the inference complete is different from believing its output.</span>
+          </div>
+        </div>
+      </div>
+      <div style="font-size:12px; color:#a09888; line-height:1.7; padding:10px 12px; background:rgba(255,255,255,0.02); border-radius:8px; border-left:3px solid rgba(255,255,255,0.08);">
+        The break-point works for both modes but differently. In installation mode, it prevents identity from forming. In execution mode, it doesn't uninstall the rule — but each time the rule fires and is <em>seen</em> rather than <em>believed</em>, the rule weakens from non-reinforcement. The emotional seal loosens. Conditioning fades — not because it was conquered, but because it stopped being fed.
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== COMPARE VIEW ========== -->
+  <div id="view-compare" class="view">
+    <div class="synthesis">
+      <div class="synthesis-title mono">Framework Synthesis</div>
+      <div class="synthesis-grid">
+        <div class="synth-col synth-ego">
+          <div class="synth-label serif">Ego Pipeline</div>
+          <div class="synth-list">
+            Assumes outcomes determine worth.<br>
+            Asks "what does this say about me?"<br>
+            Collapses time.<br>
+            Upgrades influence → necessity (category error).<br>
+            Infers identity from outcomes (Having ⊢ Being).<br>
+            Reverses direction: conclusion becomes premise (Being ⊢ Having).<br>
+            Manufactures its own confirming evidence.<br>
+            Seals identity with emotion.<br>
+            Prefers painful certainty.<br>
+            Backdates the "I."<br>
+            Builds a self-confirming loop (unfalsifiable).<br>
+            Jumps unconditional derivation → causation.<br>
+            Hardens into timeless equivalence.
+          </div>
+        </div>
+        <div class="synth-col synth-aw">
+          <div class="synth-label serif">Awareness</div>
+          <div class="synth-list">
+            Sees "outcomes determine worth" as assumption.<br>
+            Asks "what conditions were present?"<br>
+            Preserves time.<br>
+            Stays with influence.<br>
+            Traces conditions, not identity.<br>
+            No evidence manufactured.<br>
+            Emotions seen as reactions, not proof.<br>
+            Tolerates open uncertainty.<br>
+            Sees "I" as commentary.<br>
+            No loop needed.<br>
+            No model to maintain.
+          </div>
+        </div>
+      </div>
+      <div class="synth-quote">
+        "Ego has a pipeline. Awareness doesn't. Awareness isn't a different pipeline — it's what remains when the moves don't happen."
+      </div>
+    </div>
+
+    <div style="margin-top:20px; padding:18px; background:rgba(255,255,255,0.02); border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
+      <div class="mono" style="font-size:10px; color:#605848; text-transform:uppercase; letter-spacing:1px; margin-bottom:14px;">Architecture</div>
+      <div style="font-size:12px; color:#605848; line-height:1.7;">
+        <span style="color:#b58c3a;">Pre-condition</span> → <span style="color:#c4713b;">Birth (Moves 0–3)</span> → <span style="color:#8b2d5e;">Loop (Moves 4–8)</span> → <span style="color:#6b1d4e;">Hardening (Moves 9–11)</span><br>
+        <span style="color:#88a898;">One pre-condition to expose. One layer to intervene. Everything else is downstream. The pipeline is content-agnostic — it runs identically on "I am stupid" and "I am smart."</span>
+      </div>
+    </div>
+
+    <div style="margin-top:16px; padding:16px; background:rgba(255,255,255,0.02); border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
+      <div class="mono" style="font-size:10px; color:#605848; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Why ego runs the pipeline at all</div>
+      <div style="font-size:13px; color:#a09888; line-height:1.7;">
+        Not for truth. Not for comfort. For <strong style="color:#c8887a;">coherence and predictability</strong>. Ego prefers painful certainty over open uncertainty. "If the problem is me, at least I know where it is." That preference for structure over accuracy is what makes the pipeline feel necessary — and what makes awareness feel, at first, like falling.
+      </div>
+    </div>
+
+    <!-- Structural Lock in Compare -->
+    <div style="margin-top:16px; padding:16px; background:rgba(107,29,78,0.04); border-radius:10px; border:1px solid rgba(107,29,78,0.2);">
+      <div class="mono" style="font-size:10px; color:#6b1d4e; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">The Structural Lock</div>
+      <div style="font-size:13px; color:#a09888; line-height:1.7;">
+        A cross-pipeline constraint, not a single-step error. Causation (→) and implication (⇒) are formally incompatible: → requires A ∧ ¬B possible, ⇒ requires A ∧ ¬B impossible.<br><br>
+        <strong style="color:#c4713b;">Move 1's →</strong> forbids Move 2's ⇒ (secondary block)<br>
+        <strong style="color:#6b1d4e;">The loop's ⇒</strong> forbids Move 9's → (primary error)<br><br>
+        Ego treats these as degrees of the same thing. They are formally opposite. Each one's requirement is the other's impossibility.
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
+<script>
+const LAYERS = {
+  layer1: {
+    color: '#c4713b',
+    moves: [
+      {
+        id: 0, label: "The Gateway", symbol: "\"What does this say about me?\"",
+        description: "Not every event enters the pipeline. You tie your shoes — no identity forms. You fail to understand something — the pipeline fires. The difference is this question. Before any logical error occurs, ego <em>aims the event at a self</em>. It makes the event about \"me.\" This is the ignition. Without it, Move 1 has no reason to fire.<br><br>This question can only arise because the pre-condition — <strong style='color:#b58c3a'>Conditional Valuation</strong> — has charged the outcome with evaluative weight. If outcomes are neutral, the question has nothing to work with. \"I didn't understand\" is the same as \"the tea is hot\" — a condition, time-indexed, carrying no verdict. The self-referential question requires the assumption that outcomes <em>mean something about you</em>.<br><br>Once the question has been asked and answered for a particular domain (competence, worth, lovability), it becomes the default lens for all similar events. The gateway widens with use. This is why certain topics trigger the pipeline instantly while others never do.",
+        error: "Self-referential framing — a neutral event is converted into evidence about identity, powered by the assumption that outcomes determine worth",
+        breakpoint: "Two levels of awareness: (1) See the question arising — \"The mind is asking what this says about me.\" Seeing the question as a question prevents the event from entering the pipeline. (2) See the assumption underneath — \"The mind assumes this outcome carries evaluative weight about self.\" Seeing the assumption as an assumption removes the charge entirely. The alternative question is: \"What conditions were present?\""
+      },
+      {
+        id: 1, label: "Collapse Time", symbol: "Having \u2192 \"I\"-thought (post-hoc)",
+        description: "The thought \"I understood\" or \"I failed\" appears AFTER the event. Ego either doesn't notice this or actively erases it. Grammar reinforces the illusion: \"I understood\" places \"I\" before the verb, creating false temporal order. Ego backdates itself \u2014 treating a present thought as a pre-existing cause.<br><br><strong style='color:#c4713b'>Why the thought is posterior \u2014 Move 3 provides the proof:</strong> Move 3 shows that the Being-thought is the <em>conclusion</em> of an inference whose premise is the event (Having). In installation, this is the first inference: the event gives rise to the thought. In execution, it is modus ponens on the installed rule: Having, Having \u21d2 Being \u22a2 Being. In both cases, Being is <em>derived from</em> Having. A conclusion cannot precede its premise. That is what inference <em>is</em>. What you observe as the thought \"arriving late\" is the inference completing. You don't need a separate proof \u2014 the structure of Move 3 already guarantees the thought is posterior.<br><br><strong style='color:#c4713b'>Critical distinction \u2014 the rule vs. the thought:</strong> In Layer 2, the installed <em>rule</em> (Having \u21d2 Being) persists between events \u2014 it is there before the next event occurs. But the <em>thought</em> (\"I am stupid\") is produced fresh each time the rule fires. Ego conflates these: it treats the persistence of the rule as evidence that the identity was already there. But a rule persisting is not a truth holding. An installed alarm clock goes off every morning \u2014 that doesn't mean mornings are caused by alarm clocks. Seeing the thought arrive after the event distinguishes the installed rule (which persists) from the truth of the conclusion (which was never established).",
+        error: "Retrospective projection \u2014 the \"I\" is treated as prior when it is posterior. Move 3's structure provides the proof: Being is the conclusion of an inference from Having. Conclusions cannot precede premises.",
+        breakpoint: "Notice: \"The thought came after the event.\" You are seeing the inference from Move 3 completing \u2014 the event was the premise, the thought is the conclusion. The rule persists between events, but the thought is produced fresh each time. Seeing the thought arrive after the event distinguishes the rule (mechanism) from its output (the thought you're tempted to believe). Seeing the mechanism is different from believing the output."
+      },
+      {
+        id: 2, label: "Upgrade to Necessity", symbol: "\u223c\u2192  becomes  \u21d2",
+        description: "Ego takes a probabilistic, contextual tendency — \"when I focus, I tend to understand\" — and freezes it into a law: \"if I focus, I MUST understand.\" This is a category error: influence (Domain C — probabilistic, time-dependent, contextual) is treated as logical necessity (Domain A — absolute, timeless, context-free). \"Tends to\" becomes \"must.\" Conditions are erased. A law is created where only a pattern existed.<br><br><strong style='color:#c4713b'>Secondary formal block:</strong> Even if this category jump were somehow legitimate, the underlying causal relationship from Move 1 would still forbid the result. Move 1 established that events produce identity-thoughts (\u2192). Production requires A \u2227 \u00acB to be possible. Implication (\u21d2) requires A \u2227 \u00acB to be impossible. So the \u21d2 that Move 2 tries to install is formally incompatible with the \u2192 that Move 1 already established. The pipeline's own earlier move blocks the later one.",
+        error: "Primary: category error — influence (\u223c\u2192, Domain C) treated as logical necessity (\u21d2, Domain A). Secondary: the causal relationship from Move 1 (\u2192) formally forbids the implication (\u21d2) Move 2 tries to create.",
+        breakpoint: "Awareness keeps \u223c\u2192 as \u223c\u2192. \"Tends to\" stays \"tends to.\" The category jump from influence to necessity has no logical basis — and even if it did, the underlying production relationship would formally block the result."
+      },
+      {
+        id: 3, label: "Infer Identity", symbol: "Two paths, both fail",
+        description: "<strong style='color:#c4713b'>This move is the operation that Move 1 observes.</strong> Move 1 sees the thought arriving late. Move 3 is <em>why</em>: the Being-thought is the conclusion of an inference whose premise is the event. Conclusions cannot precede premises. Move 1 and Move 3 are the same thing seen from two angles — Move 1 sees it temporally (the thought came after), Move 3 sees it logically (the thought is derived from the event).<br><br><strong style='color:#c4713b'>Path A — Bad logic:</strong> The rule is Being \u21d2 Having (\"if smart, understanding must occur\"). Ego observes Having and derives Being. The derivation Having, Being \u21d2 Having \u22a2 Being is <em>invalid</em> — affirming the consequent. The conclusion doesn't follow from the premises.<br><br><strong style='color:#c4713b'>Path B — False premise:</strong> The rule is Having \u21d2 Being (\"if understanding occurs, I must be smart\"). Ego observes Having and derives Being. The derivation Having, Having \u21d2 Being \u22a2 Being is <em>valid</em> modus ponens — but the rule is false. \"Being\" is not independent of Having; it's a post-hoc thought produced by it. The rule was manufactured from a false correlation on a dependent variable. Sound logic applied to a false premise produces an unsound conclusion.<br><br><strong style='color:#c4713b'>The implicit biconditional:</strong> For ego to derive <em>negative</em> identity from negative outcomes (\"I didn't understand \u2192 I am stupid\"), it needs Being \u21d2 Having, because only its contrapositive (\u00acHaving \u21d2 \u00acBeing) produces \u00acBeing from \u00acHaving. But for <em>positive</em> identity from positive outcomes, it needs Having \u21d2 Being (Path B). Both rules running simultaneously is a biconditional: Having \u21d4 Being. This is why no outcome escapes \u2014 understand and you're smart (modus ponens on Path B), don't understand and you're stupid (modus tollens on Path A). Ego never explicitly adopts this biconditional, but it is already operating at Move 3. Move 10 later hardens what is already implicit here.<br><br><strong style='color:#e8e0d6'>Either way, the conclusion \"I am X\" is unsound.</strong> Path A fails on logic. Path B fails on truth. Together they form an unexamined biconditional that covers every case \u2014 and both directions fail independently.<br><br><strong style='color:#c4713b'>Deeper incoherence:</strong> Even if the logic were valid and the premises were true, the conclusion would still be meaningless. \"I am smart\" assigns a system-level capacity (intelligence) to a thought-level object (the \"I\"-thought). A thought cannot be smart any more than the word \"fire\" can be hot. Intelligence is a capacity of an operating system \u2014 pattern recognition, abstraction, inference. A thought doesn't operate; it appears and disappears. This is a category error independent of the pipeline's logical failures: the conclusion is not just unsound, it is incoherent.",
+        error: "Path A: affirming the consequent (invalid). Path B: false rule (dependent variable). Together: an implicit biconditional (Having \u21d4 Being) that covers every outcome. Both directions fail independently. And the conclusion assigns system-level capacities to a thought-level object (incoherent).",
+        breakpoint: "Awareness blocks both paths and dissolves the biconditional. Path A is blocked because the derivation is invalid. Path B is blocked because \"Being\" is produced by Having \u2014 a false rule on a dependent variable. Without both rules, the biconditional collapses, and outcomes stop producing identity in either direction."
+      }
+    ]
+  },
+  layer2: {
+    color: '#8b2d5e',
+    moves: [
+      {
+        id: 4, label: "Self-Manufacturing", symbol: "Rule fires \u2192 produces \"Being\" thought \u2192 ego reads output as evidence",
+        description: "Once the biconditional Having \u21d4 Being is implicitly installed, it becomes a <em>mechanism in the mind</em>. When a positive event occurs, Having \u21d2 Being fires and produces the identity-thought via modus ponens (\"I understood \u2192 I am smart\"). When a negative event occurs, the contrapositive of Being \u21d2 Having fires via modus tollens (\"\u00acHaving \u21d2 \u00acBeing: I didn't understand \u2192 I am stupid\"). Every outcome triggers one direction of the biconditional.<br><br><strong style='color:#8b2d5e'>The core conflation:</strong> The installed <em>rule</em> persists between events. The <em>thought</em> is produced fresh each time. Ego conflates these. The rule being there before the event makes it seem like the identity was there before the event. But the rule is a mechanism, not a truth. The thought it produces is still an output of modus ponens \u2014 still posterior to the event, still the conclusion of an inference. The rule's persistence makes the identity <em>feel</em> prior. The thought's production proves it isn't.<br><br>Ego then points to these thoughts as evidence: \"Every time I fail, 'I am stupid' appears \u2014 they always co-occur, so the rule must be true.\" But the co-occurrence was <em>created by the rule itself</em>. The rule manufactured the very data it needs to validate itself. This is not just circular reasoning \u2014 it is a system that builds its own evidence loop.",
+        error: "Self-generated evidence + rule/thought conflation \u2014 the rule persists (mechanism), but the thought is produced fresh (output). Ego treats the rule's persistence as the identity's truth."
+      },
+      {
+        id: 5, label: "The Emotional Seal", symbol: "Thought \u2192 emotion \u2192 \"this must be true\"",
+        description: "When the identity-thought fires (\"I am stupid\"), an emotion arises — shame, contraction, tightness. This emotion is not a side effect. Ego treats it as <em>further evidence</em>. \"I feel ashamed, therefore this must be true.\" The body's response validates the thought in a way that purely cognitive operations cannot.<br><br>This is why intellectual understanding of the pipeline often isn't enough to stop it. You can see every logical error clearly and still feel the shame when the rule fires. The emotional response bypasses logical scrutiny and feels like <em>direct contact with reality</em>. The body says \"this is real\" even when the mind has understood it isn't.<br><br>The actual sequence is: thought appears \u2192 emotion arises \u2192 emotion is interpreted as confirmation \u2192 identity feels <em>true</em>, not just <em>thought</em>. The emotion seals what logic installed.",
+        error: "Somatic confirmation — bodily reaction treated as proof of conceptual truth"
+      },
+      {
+        id: 6, label: "Identity \u2192 Behavioral Rule", symbol: "Being \u22a2 Doing",
+        description: "\"I am intelligent, <em>therefore</em> I must act intelligently.\" Not \"if I am intelligent\" \u2014 the \"if\" is gone. The identity is no longer hypothetical. It is an asserted premise, and behavior is derived from it. This creates self-policing, fear of inconsistency, and performance anxiety. The logical operator is derivation (\u22a2), not implication (\u21d2) \u2014 because the antecedent is no longer conditional. It is taken as fact.",
+        error: "Unconditional derivation from an asserted identity \u2014 the \"if\" that would have made this testable was removed when the identity was installed"
+      },
+      {
+        id: 7, label: "Behavior \u2192 Outcome Rule", symbol: "Doing \u22a2 Having",
+        description: "\"I act intelligently, <em>therefore</em> I must get intelligent results.\" Again, no \"if.\" Behavior is asserted as fact, and outcomes are derived from it. This creates the control and entitlement illusion \u2014 the belief that correct action must produce correct results, and failure means something went wrong with \"me.\"",
+        error: "Unconditional derivation from asserted behavior \u2014 outcomes are treated as logically guaranteed by action"
+      },
+      {
+        id: 8, label: "Loop Closes", symbol: "Being \u22a2 Doing \u22a2 Having \u22a2 Being",
+        description: "The circuit completes. Layer 1 ran Having \u22a2 Being \u2014 the event was the premise, identity was the derived conclusion. Layer 2 reversed direction: Being \u22a2 Doing \u22a2 Having \u2014 identity, now promoted to premise, derives behavior and outcomes. When Having arrives at the end of Layer 2, it feeds back into Being \u2014 re-confirming the premise that Layer 2 started from.<br><br>Two directions, same content, self-confirming. The conclusion of Layer 1 feeds the premise of Layer 2. The output of Layer 2 feeds back into the conclusion of Layer 1. The loop is unfalsifiable because the \"if\" that would have allowed testing was removed at the transition. You cannot test a bare assertion by examining its consequences \u2014 and ego never questions the assertion because it no longer <em>feels</em> like an assertion. Thanks to self-manufacturing, the loop doesn't just reinterpret evidence \u2014 it <em>produces</em> it.",
+        error: "Self-confirming circuit: Layer 1's conclusion (Being) becomes Layer 2's premise, and Layer 2's output (Having) re-confirms Layer 1's conclusion. Unfalsifiable because the \"if\" was removed at the transition."
+      }
+    ]
+  },
+  layer3: {
+    color: '#6b1d4e',
+    moves: [
+      {
+        id: 9, label: "Domain Jump", symbol: "\u22a2  becomes  \u2192 (timeless)",
+        description: "Ego upgrades the unconditional derivations of Layer 2 into temporal causation, but keeps the timelessness: \"Being <em>causes</em> Doing <em>causes</em> Having <em>causes</em> Being.\" This is where \"I am stupid, therefore I fail\" becomes \"Being stupid <em>produces</em> failure \u2014 and always has.\"<br><br>By this point, the logical structure has already degraded through two transitions. Layer 1 created conditional rules (\u21d2 \u2014 with an \"if\"). Layer 2 dropped the \"if\" and asserted identity as premise (\u22a2). Now Layer 3 tries to make the assertion <em>causal</em> \u2014 as if the identity were a force that produces outcomes in time.<br><br>This is formally impossible. The Structural Lock still applies: causation (\u2192) requires A \u2227 \u00acB possible; the logical structures it's crossing from (\u21d2 or \u22a2) require A \u2227 \u00acB impossible or simply don't allow independent variation. And there is an additional problem: the \"if\" that would have made the original rule <em>testable</em> was removed at Layer 2. Ego is now asserting production from a bare claim that has no conditional structure left to check against reality.",
+        error: "Domain jump: unconditional derivation (\u22a2) dressed as temporal production (\u2192). The \"if\" that would have allowed testing was already removed. Ego asserts causation from a premise that isn't even conditional anymore."
+      },
+      {
+        id: 10, label: "Bidirectional Collapse", symbol: "Being \u2194 Doing \u2194 Having",
+        description: "The implicit biconditional from Move 3 (Having \u21d4 Being) is now extended across all three categories and made explicit. Evidence flows in every direction. Success proves identity; identity explains success. Failure proves identity; identity explains failure. Every outcome reinforces the structure regardless of content.<br><br>What was hidden at Move 3 \u2014 that ego needs both directions of the implication simultaneously \u2014 is now the conscious architecture. Move 10 doesn't create bidirectionality. It hardens what was already operating from the beginning into a visible, self-reinforcing structure.",
+        error: "The implicit biconditional from Move 3 is made explicit and extended across all categories. What was hidden becomes the conscious architecture."
+      },
+      {
+        id: 11, label: "Final Equivalence", symbol: "Being \u21d4 Doing \u21d4 Having",
+        description: "Categories collapse entirely. \"My outcomes are me. My actions are me. My state is me.\" Even the \"therefore\" dissolves. There is no derivation, no direction, no logical structure left. State, process, and outcome are treated as the same kind of thing. This is the end of the three-stage degradation: Layer 1 had conditional rules (\u21d2 \u2014 with an \"if\"). Layer 2 dropped the \"if\" (\u22a2 \u2014 unconditional derivation). Layer 3 drops the \"therefore\" (\u21d4 \u2014 bare equivalence). What remains is identity as brute fact \u2014 no logical structure at all, just assertion. Time disappears. Questioning stops. Full ego crystallization.",
+        error: "Category collapse \u2014 all logical structure dissolved. The \"if\" was removed at Layer 2. The \"therefore\" is removed here. Nothing left to test, question, or falsify."
+      }
+    ]
+  }
+};
+
+let openLayers = {};
+let selectedMoves = {};
+
+function renderLayer(layerKey) {
+  const layer = LAYERS[layerKey];
+  const prefix = layerKey.replace('layer','L');
+  const cardsEl = document.getElementById(prefix + '-cards');
+  const detailEl = document.getElementById(prefix + '-detail');
+  if (!cardsEl) return;
+  cardsEl.innerHTML = '';
+
+  layer.moves.forEach((m, i) => {
+    const isSelected = selectedMoves[layerKey] === i;
+    const card = document.createElement('div');
+    card.className = 'move-card' + (isSelected ? ' selected' : '');
+    card.style.setProperty('--card-border', layer.color + '66');
+    card.style.setProperty('--card-bg', layer.color + '0d');
+    card.onclick = () => {
+      selectedMoves[layerKey] = (selectedMoves[layerKey] === i) ? -1 : i;
+      renderLayer(layerKey);
+    };
+
+    let bpHtml = m.breakpoint ? '<span class="bp-badge mono">\u2726 break-point</span>' : '';
+
+    card.innerHTML =
+      '<div class="move-row">' +
+        '<div class="move-num mono" style="background:linear-gradient(135deg,'+layer.color+','+layer.color+'88)">'+m.id+'</div>' +
+        '<div class="move-info">' +
+          '<div class="move-label serif">'+m.label+bpHtml+'</div>' +
+          '<div class="move-sym mono" style="color:'+layer.color+'">'+m.symbol+'</div>' +
+        '</div>' +
+        '<div class="move-arrow">'+(isSelected ? '\u2191' : '\u2192')+'</div>' +
+      '</div>';
+    cardsEl.appendChild(card);
+  });
+
+  const si = selectedMoves[layerKey];
+  if (si >= 0 && si < layer.moves.length) {
+    const m = layer.moves[si];
+    detailEl.className = 'detail visible';
+    let html = '';
+    html += '<div class="detail-sym mono" style="color:'+layer.color+';background:'+layer.color+'0d;border-left:3px solid '+layer.color+'55">'+m.symbol+'</div>';
+    html += '<div class="detail-desc">'+m.description+'</div>';
+    if (m.error) {
+      html += '<div class="error-box"><div class="error-label mono">Logical Error</div><div class="error-text">'+m.error+'</div></div>';
+    }
+    if (m.breakpoint) {
+      html += '<div class="bp-box"><div class="bp-label mono">\u2726 Awareness Break-Point</div><div class="bp-text">'+m.breakpoint+'</div></div>';
+    }
+    detailEl.innerHTML = html;
+  } else {
+    detailEl.className = 'detail';
+    detailEl.innerHTML = '';
+  }
+}
+
+function toggleLayer(layerKey) {
+  openLayers[layerKey] = !openLayers[layerKey];
+  const body = document.getElementById(layerKey + '-body');
+  const header = document.getElementById(layerKey + '-header');
+  if (openLayers[layerKey]) {
+    body.style.display = 'block';
+    if (selectedMoves[layerKey] === undefined) selectedMoves[layerKey] = -1;
+    renderLayer(layerKey);
+    header.querySelector('.layer-toggle').textContent = 'tap to collapse \u2191';
+  } else {
+    body.style.display = 'none';
+    header.querySelector('.layer-toggle').textContent = 'tap to expand \u2193';
+  }
+}
+
+function switchView(viewName, btn) {
+  document.querySelectorAll('.view').forEach(function(v) { v.classList.remove('active'); });
+  document.getElementById('view-' + viewName).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
