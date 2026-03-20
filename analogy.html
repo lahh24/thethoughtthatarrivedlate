@@ -63,8 +63,10 @@
   .tbl .label { color:#e8e0d6; font-weight:400; display:block; margin-bottom:2px; }
   .tbl .desc { color:#807868; font-size:12px; line-height:1.5; }
   .tbl tr.aw td { background:rgba(74,158,125,0.04); }
+  .tbl tr.aw td:first-child { border-left:3px solid #4a9e7d; }
   .tbl tr.aw .label { color:#88bba8; }
   .tbl tr.ego td { background:rgba(181,64,58,0.04); }
+  .tbl tr.ego td:first-child { border-left:3px solid #b5403a; }
   .tbl tr.ego .label { color:#c8887a; }
 
   .tbl-note {
@@ -73,6 +75,27 @@
     font-size:13px; color:#88a898; line-height:1.7;
   }
   .tbl-note strong { color:#c8d8c8; font-weight:400; }
+
+  .tbl tr.clr-gray td:first-child { border-left:3px solid #60584a; }
+  .tbl tr.clr-gray .label { color:#b0a898; }
+  .tbl tr.clr-amber td:first-child { border-left:3px solid #ba7517; }
+  .tbl tr.clr-amber .label { color:#FAC775; }
+  .tbl tr.clr-purple td:first-child { border-left:3px solid #7F77DD; }
+  .tbl tr.clr-purple .label { color:#AFA9EC; }
+  .tbl tr.clr-blue td:first-child { border-left:3px solid #378ADD; }
+  .tbl tr.clr-blue .label { color:#85B7EB; }
+  .tbl tr.clr-pink td:first-child { border-left:3px solid #D4537E; }
+  .tbl tr.clr-pink .label { color:#ED93B1; }
+  .tbl tr.clr-green td:first-child { border-left:3px solid #1D9E75; }
+  .tbl tr.clr-green .label { color:#5DCAA5; }
+  .legend-bar {
+    display:flex; flex-wrap:wrap; gap:10px 18px;
+    padding:12px 14px; margin-top:10px;
+    border-radius:8px; background:rgba(255,255,255,0.02);
+    border:1px solid rgba(255,255,255,0.04);
+  }
+  .leg-item { display:flex; align-items:center; gap:6px; font-size:11px; color:#807868; font-family:'JetBrains Mono', monospace; }
+  .leg-dot { width:8px; height:8px; border-radius:2px; flex-shrink:0; }
 
   /* ===== INTERACTIVE VIEWS ===== */
   .scene-badge {
@@ -83,14 +106,14 @@
   .badge-aw { background:rgba(74,158,125,0.12); color:#4a9e7d; }
   .badge-ego { background:rgba(181,64,58,0.12); color:#b5403a; }
 
-  .scene-wrap { position:relative; min-height:400px; margin-bottom:20px; }
+  .scene-wrap { position:relative; min-height:480px; margin-bottom:20px; }
 
   .comp-box {
     position:absolute; left:50%; top:20px; transform:translateX(-50%);
     width:280px;
   }
   .monitor {
-    width:280px; height:210px; border:2px solid #40382e;
+    width:280px; height:300px; border:2px solid #40382e;
     border-radius:12px 12px 4px 4px;
     background:#141a16; overflow:hidden; position:relative;
   }
@@ -109,14 +132,14 @@
   .sline.s-output { background:rgba(74,158,125,0.12); color:#9FE1CB; }
   .sline.s-program { background:rgba(181,64,58,0.1); color:#c8887a; }
   .sline.s-notif { background:rgba(212,83,126,0.1); color:#ED93B1; }
-  .sline.s-meta { color:#605848; font-style:italic; margin-top:auto; font-size:10px; }
+  .sline.s-meta { color:#88a898; font-style:italic; margin-top:auto; font-size:11px; }
 
   /* ego screen lines */
   .sline.s-intercept { background:rgba(181,64,58,0.12); color:#c8887a; border-left:2px solid #b5403a; }
   .sline.s-rewrite { background:rgba(181,64,58,0.1); color:#c8887a; border-left:2px solid #8b2d2d; }
   .sline.s-upgrade { background:rgba(107,29,78,0.12); color:#c898b0; border-left:2px solid #6b1d4e; }
   .sline.s-identity { background:rgba(181,64,58,0.15); color:#e8a898; font-weight:500; border-left:2px solid #b5403a; }
-  .sline.s-fake { background:rgba(181,64,58,0.1); color:#c8887a; border-left:2px solid #8b2d2d; }
+  .sline.s-fake { background:rgba(212,83,126,0.12); color:#ED93B1; border-left:2px solid #D4537E; }
   .sline.s-loop { background:rgba(181,64,58,0.15); color:#e8a898; font-weight:500; border-left:2px solid #b5403a; }
 
   .stand { width:60px; height:10px; margin:0 auto; background:#2a2420; border-radius:0 0 4px 4px; }
@@ -254,39 +277,39 @@
       <td><span class="label">Awareness</span><span class="desc">Observes everything. Not produced by the system. What the system appears to.</span></td>
       <td><span class="label">The user</span><span class="desc">Sits outside the machine. Uses it, watches the screen, but is not part of the hardware or software.</span></td>
     </tr>
-    <tr>
+    <tr class="clr-gray">
       <td><span class="label">The body</span><span class="desc">Physical structure. Executes, processes, decays, can be repaired.</span></td>
       <td><span class="label">Hardware</span><span class="desc">Motherboard, screen, keyboard. Physical components that run the software.</span></td>
     </tr>
-    <tr>
+    <tr class="clr-gray">
       <td><span class="label">The mind</span><span class="desc">Operating layer where thoughts, memories, and perceptions run.</span></td>
       <td><span class="label">Operating system</span><span class="desc">Windows, macOS. The environment where all programs execute.</span></td>
     </tr>
-    <tr>
+    <tr class="clr-amber">
       <td><span class="label">Intelligence</span><span class="desc">Processing capacity. Pattern recognition, abstraction, inference.</span></td>
       <td><span class="label">The CPU</span><span class="desc">Processor. Computes, but doesn't know what it computes or why.</span></td>
     </tr>
-    <tr>
+    <tr class="clr-purple">
       <td><span class="label">Thoughts</span><span class="desc">Appear, run, disappear. Each one is a temporary process — not a permanent resident.</span></td>
       <td><span class="label">Running programs</span><span class="desc">Open apps. They start, use resources, and close. None of them is the computer.</span></td>
     </tr>
-    <tr>
+    <tr class="clr-blue">
       <td><span class="label">Memories</span><span class="desc">Stored experiences. Can be accessed, but are not "you" — just data.</span></td>
       <td><span class="label">Files and folders</span><span class="desc">Saved data on disk. The computer stores them but is not defined by them.</span></td>
     </tr>
-    <tr>
+    <tr class="clr-pink">
       <td><span class="label">Emotions</span><span class="desc">Arise in response to thoughts. Signals, not truths.</span></td>
       <td><span class="label">System notifications</span><span class="desc">Pop-up alerts. They grab attention, but they're not the system — just feedback.</span></td>
     </tr>
-    <tr>
+    <tr class="clr-blue">
       <td><span class="label">Senses</span><span class="desc">Sight, hearing, touch — how raw experience enters.</span></td>
       <td><span class="label">Input devices</span><span class="desc">Keyboard, mouse, camera, microphone. They receive data from the outside world.</span></td>
     </tr>
-    <tr>
+    <tr class="clr-green">
       <td><span class="label">Understanding</span><span class="desc">The effect. The output. Appears on screen — not produced by identity.</span></td>
       <td><span class="label">Screen output</span><span class="desc">What appears on the display. The result of processing — not the processor.</span></td>
     </tr>
-    <tr>
+    <tr class="clr-amber">
       <td><span class="label">Conditioning / rules</span><span class="desc">Installed beliefs that auto-fire. "If I fail → I am stupid."</span></td>
       <td><span class="label">Startup scripts</span><span class="desc">Programs that run automatically on boot. Nobody clicks them — they just fire.</span></td>
     </tr>
@@ -295,6 +318,18 @@
       <td><span class="label">A virus with admin access</span><span class="desc">Malware that displays "I am the user" on every screen. Rewrites logs to look like it was always there.</span></td>
     </tr>
   </table>
+
+  <div class="legend-bar">
+    <span class="leg-item"><span class="leg-dot" style="background:#4a9e7d;"></span>Awareness / user</span>
+    <span class="leg-item"><span class="leg-dot" style="background:#60584a;"></span>Structure</span>
+    <span class="leg-item"><span class="leg-dot" style="background:#ba7517;"></span>Processing</span>
+    <span class="leg-item"><span class="leg-dot" style="background:#7F77DD;"></span>Thoughts</span>
+    <span class="leg-item"><span class="leg-dot" style="background:#378ADD;"></span>Data / input</span>
+    <span class="leg-item"><span class="leg-dot" style="background:#D4537E;"></span>Emotions</span>
+    <span class="leg-item"><span class="leg-dot" style="background:#5DCAA5;"></span>Output</span>
+    <span class="leg-item"><span class="leg-dot" style="background:#b5403a;"></span>Ego / virus</span>
+  </div>
+
   <div class="tbl-note">
     <strong>The key:</strong> No program is the user. No thought is awareness. The user doesn't crash when a program crashes. Awareness doesn't break when an identity breaks. The virus can claim to be the user on every screen — but the actual user is still sitting in the chair, watching.
   </div>
@@ -335,6 +370,14 @@
   </div>
 
   <div class="pills" id="aw-pills"></div>
+  <div class="legend-bar" style="margin-bottom:12px;">
+    <span class="leg-item"><span class="leg-dot" style="background:#378ADD;"></span>Input / senses</span>
+    <span class="leg-item"><span class="leg-dot" style="background:#ba7517;"></span>Processing / CPU</span>
+    <span class="leg-item"><span class="leg-dot" style="background:#1D9E75;"></span>Output</span>
+    <span class="leg-item"><span class="leg-dot" style="background:#b5403a;"></span>Program / thought</span>
+    <span class="leg-item"><span class="leg-dot" style="background:#D4537E;"></span>Notification / emotion</span>
+    <span class="leg-item"><span class="leg-dot" style="background:#4a9e7d;"></span>Awareness / user</span>
+  </div>
   <div class="narr narr-aw" id="aw-narr"></div>
 </div>
 
@@ -376,6 +419,12 @@
   </div>
 
   <div class="pills" id="ego-pills"></div>
+  <div class="legend-bar" style="margin-bottom:12px;">
+    <span class="leg-item"><span class="leg-dot" style="background:#378ADD;"></span>Input / senses</span>
+    <span class="leg-item"><span class="leg-dot" style="background:#b5403a;"></span>Virus / ego</span>
+    <span class="leg-item"><span class="leg-dot" style="background:#6b1d4e;"></span>Rule upgrade</span>
+    <span class="leg-item"><span class="leg-dot" style="background:#D4537E;"></span>Fake alert / emotion</span>
+  </div>
   <div class="narr narr-ego" id="ego-narr"></div>
 </div>
 
