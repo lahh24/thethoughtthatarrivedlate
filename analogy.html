@@ -234,6 +234,94 @@
   .narr em { color:#c8d8c8; font-style:italic; }
   .narr-ego em { color:#c8887a; }
 
+  /* ===== SCREEN VIEW ===== */
+  .narr-screen { border-left:3px solid rgba(120,100,200,0.3); }
+  .narr-screen em { color:#b8a8e8; font-style:italic; }
+  .pill.act-screen { background:rgba(120,100,200,0.1); border-color:rgba(120,100,200,0.3); color:#b8a8e8; }
+  .badge-screen { background:rgba(120,100,200,0.12); color:#9888c8; }
+
+  .screen-scene {
+    position:relative; width:100%; height:340px;
+    margin-bottom:16px; border-radius:12px;
+    background:rgba(255,255,255,0.015);
+    overflow:hidden;
+  }
+  .ss-eye {
+    position:absolute; left:40px; top:50%; transform:translateY(-50%);
+    text-align:center; transition:all 0.5s;
+  }
+  .ss-eye-shape {
+    width:52px; height:52px; border-radius:50%;
+    border:2px solid #4a9e7d; background:rgba(74,158,125,0.08);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 6px;
+  }
+  .ss-eye-shape .dot { width:12px; height:12px; border-radius:50%; background:#4a9e7d; }
+  .ss-eye-label {
+    font-size:9px; color:#4a9e7d; text-transform:uppercase;
+    letter-spacing:1.5px; font-family:'JetBrains Mono',monospace;
+  }
+  .ss-gaze {
+    position:absolute; left:100px; top:50%; height:0;
+    border-top:1.5px dashed rgba(74,158,125,0.3);
+    width:0; transition:width 0.5s; transform:translateY(-0.5px);
+  }
+  .ss-gaze.vis { width:120px; }
+
+  .ss-glass {
+    position:absolute; left:230px; top:30px; bottom:30px;
+    width:200px; border:1.5px solid rgba(180,170,220,0.25);
+    border-radius:8px; background:rgba(180,170,220,0.03);
+    transition:all 0.6s; overflow:hidden;
+  }
+  .ss-glass-label {
+    position:absolute; bottom:-22px; left:50%; transform:translateX(-50%);
+    font-size:9px; color:#8878a8; text-transform:uppercase;
+    letter-spacing:1.5px; font-family:'JetBrains Mono',monospace;
+    white-space:nowrap;
+  }
+  .ss-glass.cloudy { background:rgba(181,64,58,0.08); border-color:rgba(181,64,58,0.25); }
+  .ss-glass.dark { background:rgba(181,64,58,0.18); border-color:rgba(181,64,58,0.35); }
+  .ss-glass.clear { background:rgba(74,158,125,0.03); border-color:rgba(74,158,125,0.2); }
+
+  .ss-proj {
+    position:absolute; left:12px; right:12px;
+    padding:6px 10px; border-radius:4px;
+    font-size:11px; font-family:'JetBrains Mono',monospace;
+    opacity:0; transform:scale(0.95);
+    transition:all 0.4s;
+  }
+  .ss-proj.vis { opacity:1; transform:scale(1); }
+  .ss-proj.p-sense { top:20px; background:rgba(55,138,221,0.12); color:#85B7EB; }
+  .ss-proj.p-thought { top:80px; background:rgba(180,170,220,0.12); color:#b8a8e8; }
+  .ss-proj.p-identity { top:110px; background:rgba(181,64,58,0.15); color:#e8a898; font-weight:500; font-size:13px; }
+  .ss-proj.p-emotion { top:170px; background:rgba(212,83,126,0.12); color:#ED93B1; }
+  .ss-proj.p-ego { top:140px; background:rgba(181,64,58,0.2); color:#e8a898; font-weight:700; font-size:14px; text-align:center; }
+
+  .ss-arrow-back {
+    position:absolute; left:220px; top:50%;
+    transform:translateY(-50%); opacity:0; transition:all 0.5s;
+    color:#b5403a; font-size:20px;
+  }
+  .ss-arrow-back.vis { opacity:1; }
+
+  .ss-block {
+    position:absolute; left:222px; top:40%; width:6px; height:60px;
+    background:rgba(181,64,58,0.4); border-radius:2px;
+    opacity:0; transition:opacity 0.5s;
+  }
+  .ss-block.vis { opacity:1; }
+
+  .ss-reality {
+    position:absolute; right:30px; top:50%; transform:translateY(-50%);
+    text-align:center; transition:opacity 0.5s;
+  }
+  .ss-reality-icon { font-size:28px; margin-bottom:4px; opacity:0.6; }
+  .ss-reality-label {
+    font-size:9px; color:#605848; text-transform:uppercase;
+    letter-spacing:1.5px; font-family:'JetBrains Mono',monospace;
+  }
+
   .footer {
     margin-top:40px; padding:24px 0;
     border-top:1px solid rgba(255,255,255,0.04);
@@ -265,6 +353,10 @@
     <div class="tab-label">Compare</div>
     <div class="tab-desc">Side by side</div>
   </button>
+  <button class="tab-btn" onclick="switchTab('screen',this)">
+    <div class="tab-label">The Screen</div>
+    <div class="tab-desc">What awareness sees</div>
+  </button>
   <button class="tab-btn" onclick="switchTab('awareness',this)">
     <div class="tab-label">Awareness</div>
     <div class="tab-desc">The user watching</div>
@@ -273,6 +365,45 @@
     <div class="tab-label">Ego</div>
     <div class="tab-desc">The virus running</div>
   </button>
+</div>
+
+<!-- ===== THE SCREEN VIEW ===== -->
+<div id="view-screen" class="view">
+  <span class="scene-badge badge-screen">Awareness → Screen → Experience</span>
+
+  <div class="screen-scene" id="ss-scene">
+    <!-- Eye / Awareness -->
+    <div class="ss-eye" id="ss-eye">
+      <div class="ss-eye-shape"><div class="dot"></div></div>
+      <div class="ss-eye-label">Awareness</div>
+    </div>
+
+    <!-- Gaze line -->
+    <div class="ss-gaze" id="ss-gaze"></div>
+
+    <!-- Glass screen / Mind -->
+    <div class="ss-glass" id="ss-glass">
+      <div class="ss-proj p-sense" id="ss-p-sense">sounds, faces, light...</div>
+      <div class="ss-proj p-thought" id="ss-p-thought">"I didn't understand"</div>
+      <div class="ss-proj p-identity" id="ss-p-identity">I AM STUPID</div>
+      <div class="ss-proj p-emotion" id="ss-p-emotion">shame — chest tightens</div>
+      <div class="ss-proj p-ego" id="ss-p-ego">"I" ← can't see back</div>
+      <div class="ss-glass-label">THE MIND</div>
+    </div>
+
+    <!-- Block wall (screen can't look back) -->
+    <div class="ss-block" id="ss-block"></div>
+    <div class="ss-arrow-back" id="ss-arrow-back">✕</div>
+
+    <!-- Reality beyond -->
+    <div class="ss-reality" id="ss-reality">
+      <div class="ss-reality-icon">◯</div>
+      <div class="ss-reality-label">Experience</div>
+    </div>
+  </div>
+
+  <div class="pills" id="screen-pills"></div>
+  <div class="narr narr-screen" id="screen-narr"></div>
 </div>
 
 <!-- ===== COMPARE VIEW ===== -->
@@ -572,6 +703,65 @@ function goEgo(i) {
   egoNarr.innerHTML = s.text;
 }
 goEgo(0);
+
+/* ===== SCREEN STEPPER ===== */
+var screenSteps = [
+  { label:"The Clear Screen",
+    gaze:true, glass:'', projs:[], block:false, arrow:false,
+    text:"Awareness looks at a transparent screen \u2014 the mind. Right now, nothing is projected on it. The screen is clear. Awareness sees straight through to experience. <em>This is the natural state. The mind is empty. Awareness is unobstructed.</em>" },
+  { label:"Perception Arrives",
+    gaze:true, glass:'', projs:['sense'], block:false, arrow:false,
+    text:"Sensory data from the meeting \u2014 sounds, faces, light \u2014 is projected onto the screen. Awareness sees these projections clearly. <em>The screen shows what is happening, but it does not interpret it. The projections are neutral. Just data arriving.</em>" },
+  { label:"A Thought Appears",
+    gaze:true, glass:'', projs:['sense','thought'], block:false, arrow:false,
+    text:"A thought is projected onto the screen: \u201cI didn\u2019t understand.\u201d It appeared after the event \u2014 it is a new projection, not something that was already on the screen. <em>Awareness can see the thought as a projection \u2014 something that appeared on the screen, not something the screen is.</em>" },
+  { label:"Identity Is Written",
+    gaze:true, glass:'cloudy', projs:['sense','thought','identity'], block:false, arrow:false,
+    text:"A larger projection appears: \u201cI AM STUPID.\u201d This one is brighter, heavier. The screen begins to cloud \u2014 the projection is so dense it starts to obscure everything else. <em>The screen is becoming opaque. Awareness is still behind it, but it\u2019s harder to see through.</em>" },
+  { label:"Emotion Colors The Screen",
+    gaze:true, glass:'dark', projs:['sense','thought','identity','emotion'], block:false, arrow:false,
+    text:"Shame washes across the entire screen like a red filter. The chest tightens. The face warms. The screen is now almost opaque \u2014 the emotion has colored every projection on it. <em>Awareness is still there. But the screen has become the only thing visible. The projections feel like the whole world.</em>" },
+  { label:"The Screen Can\u2019t Look Back",
+    gaze:false, glass:'dark', projs:['identity','ego'], block:true, arrow:true,
+    text:"Every time you ask \u201cwho am I?\u201d \u2014 that is a thought on the screen trying to see what\u2019s behind it. But it can\u2019t. It is a projection. Projections face outward. They appear and are seen \u2014 they do not see. Asking \u201cwho is the real me?\u201d just produces another projection on the screen, claiming to describe the viewer. But the description of awareness is not awareness. It is still a thought. Still on the screen. Still facing the wrong direction. <em>A character in a movie cannot turn around and see the audience. The \u201cI\u201d-thought cannot turn around and see awareness. That is ego\u2019s fundamental impossibility.</em>" },
+  { label:"Awareness Was Never On The Screen",
+    gaze:true, glass:'clear', projs:[], block:false, arrow:false,
+    text:"The projections fade. The screen clears. And awareness is exactly where it always was \u2014 behind the screen, unchanged, unaffected. It was never a projection. It was never on the screen. It was never clouded by what appeared. <em>The screen got dark. Awareness didn\u2019t. The screen got colored by shame. Awareness didn\u2019t. The thought claimed to be the viewer. Awareness was the viewer the whole time.</em>" }
+];
+
+var screenPills = document.getElementById('screen-pills');
+var screenNarr = document.getElementById('screen-narr');
+screenSteps.forEach(function(s, i) {
+  var b = document.createElement('button');
+  b.className = 'pill' + (i === 0 ? ' act-screen' : '');
+  b.textContent = s.label;
+  b.onclick = function() { goScreen(i); };
+  screenPills.appendChild(b);
+});
+
+function goScreen(i) {
+  var s = screenSteps[i];
+  screenPills.querySelectorAll('.pill').forEach(function(p, j) {
+    p.className = 'pill' + (j === i ? ' act-screen' : '');
+  });
+  // Gaze line
+  document.getElementById('ss-gaze').className = 'ss-gaze' + (s.gaze ? ' vis' : '');
+  // Glass state
+  document.getElementById('ss-glass').className = 'ss-glass' + (s.glass ? ' ' + s.glass : '');
+  // Projections
+  var projIds = ['ss-p-sense','ss-p-thought','ss-p-identity','ss-p-emotion','ss-p-ego'];
+  var projKeys = ['sense','thought','identity','emotion','ego'];
+  for (var k = 0; k < projIds.length; k++) {
+    var el = document.getElementById(projIds[k]);
+    el.className = el.className.replace(' vis','') + (s.projs.indexOf(projKeys[k]) >= 0 ? ' vis' : '');
+  }
+  // Block and arrow
+  document.getElementById('ss-block').className = 'ss-block' + (s.block ? ' vis' : '');
+  document.getElementById('ss-arrow-back').className = 'ss-arrow-back' + (s.arrow ? ' vis' : '');
+  // Narration
+  screenNarr.innerHTML = s.text;
+}
+goScreen(0);
 </script>
 </body>
 </html>
