@@ -28,7 +28,6 @@
   .header {
     padding: 32px 0 20px;
     border-bottom: 1px solid rgba(255,255,255,0.06);
-    text-align: center;
   }
   .header .tag {
     font-size: 10px; color: #4a9e7d; text-transform: uppercase;
@@ -78,13 +77,15 @@
 </head>
 <body>
 
-<nav style="display:flex;justify-content:space-between;align-items:center;padding:12px 24px;border-bottom:1px solid rgba(255,255,255,0.04);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;">
-  <span style="color:#4a9e7d;">The Thought That Arrived Late</span>
-  <div style="display:flex;gap:16px;">
-    <a href="/" style="color:#807868;text-decoration:none;padding-bottom:1px;">Pipeline</a>
-    <a href="/analogy.html" style="color:#807868;text-decoration:none;padding-bottom:1px;">Analogy</a>
-    <a href="/faq.html" style="color:#e8e0d6;text-decoration:none;border-bottom:1px solid #4a9e7d;padding-bottom:1px;">FAQ</a>
-    <a href="#get-the-book" style="color:#c9a855;text-decoration:none;padding-bottom:1px;" onclick="document.getElementById('get-the-book').scrollIntoView({behavior:'smooth'});return false;">Get the Book</a>
+<nav style="border-bottom:1px solid rgba(255,255,255,0.04);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;">
+  <div style="max-width:720px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:12px 24px;">
+    <span style="color:#4a9e7d;">The Thought That Arrived Late</span>
+    <div style="display:flex;gap:16px;">
+      <a href="/" style="color:#807868;text-decoration:none;padding-bottom:1px;">Pipeline</a>
+      <a href="/analogy.html" style="color:#807868;text-decoration:none;padding-bottom:1px;">Analogy</a>
+      <a href="/faq.html" style="color:#e8e0d6;text-decoration:none;border-bottom:1px solid #4a9e7d;padding-bottom:1px;">FAQ</a>
+      <a href="#get-the-book" style="color:#c9a855;text-decoration:none;padding-bottom:1px;" onclick="document.getElementById('get-the-book').scrollIntoView({behavior:'smooth'});return false;">Get the Book</a>
+    </div>
   </div>
 </nav>
 
