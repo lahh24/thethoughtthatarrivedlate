@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Practice — The Thought That Arrived Late</title>
+<meta name="description" content="Practice tool — seven mental maps for catching the ego pipeline as it runs. Companion to The Thought That Arrived Late by Hicham Lahlou.">
+<meta name="keywords" content="ego pipeline practice, identity construction, awareness, structural recognition, Hicham Lahlou">
+<meta name="author" content="Hicham Lahlou">
+<meta property="og:title" content="Practice — The Thought That Arrived Late">
+<meta property="og:description" content="Seven triggers, seven mental maps. Structural recognition for catching the pipeline as it runs.">
+<meta property="og:url" content="https://thethoughtthatarrivedlate.com/practice.html">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#0a0f0d">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: #0a0f0d;
+    color: #e8e0d6;
+    font-family: 'Source Serif 4', Georgia, serif;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 720px; margin: 0 auto; padding: 40px 20px; }
+  .mono { font-family: 'JetBrains Mono', 'Courier New', monospace; }
+
+  .header { text-align: center; padding: 0 0 32px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .header .title { font-size: 32px; font-style: italic; color: #c9a855; margin-bottom: 12px; }
+  .header .tag { font-size: 10px; color: #4a9e7d; text-transform: uppercase; letter-spacing: 3px; }
+
+  /* Table of contents */
+  .toc { margin: 48px auto 0; max-width: 600px; padding: 24px 28px; border: 1px solid rgba(74,158,125,0.3); border-radius: 4px; }
+  .toc-title { text-align: center; font-size: 11px; color: #4a9e7d; letter-spacing: 3px; margin-bottom: 16px; }
+  .toc-list { list-style: none; }
+  .toc-list li { padding: 0; }
+  .toc-list a {
+    display: flex;
+    align-items: baseline;
+    padding: 10px 12px;
+    margin: 2px -12px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background 0.15s ease, transform 0.15s ease;
+    font-size: 14px;
+  }
+  .toc-list a:hover { background: rgba(201, 168, 85, 0.08); transform: translateX(4px); }
+  .toc-list .num { color: #c9a855; font-family: 'JetBrains Mono', monospace; font-size: 11px; margin-right: 14px; min-width: 24px; }
+  .toc-list .name { color: #e8e0d6; font-style: italic; }
+  .toc-list a:hover .name { color: #c9a855; }
+  .toc-list .gloss { color: #807868; margin-left: 10px; font-size: 12px; }
+
+  /* Scroll target offset for fixed header room */
+  .doc-section { scroll-margin-top: 24px; }
+
+  .doc-section { margin: 80px 0 0; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); }
+  .doc-section-tag { text-align: center; font-size: 11px; color: #c9a855; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 12px; }
+  .doc-section-title { text-align: center; font-size: 28px; font-style: italic; color: #e8e0d6; margin-bottom: 8px; }
+  .doc-section-subtitle { text-align: center; color: #807868; font-size: 14px; font-style: italic; margin-bottom: 40px; }
+
+  .section { margin: 40px 0; }
+  .section-tag { text-align: center; font-size: 10px; color: #4a9e7d; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 12px; }
+  .section-title { text-align: center; font-size: 20px; font-style: italic; color: #e8e0d6; margin-bottom: 28px; line-height: 1.4; }
+
+  .checkpoint { border: 1.5px solid #c9a855; border-radius: 4px; padding: 22px 26px; margin: 0 auto; max-width: 600px; }
+  .checkpoint .label { font-size: 11px; color: #c9a855; letter-spacing: 2px; margin-bottom: 12px; }
+  .checkpoint .question { font-size: 18px; font-style: italic; color: #e8e0d6; margin-bottom: 10px; line-height: 1.4; }
+  .checkpoint .gloss { font-size: 13px; color: #807868; line-height: 1.5; }
+  .arrow-down { text-align: center; color: #4a9e7d; font-size: 18px; margin: 10px 0; line-height: 1; }
+
+  .fail-mode { margin: 24px 0; }
+
+  .two-box-row { display: flex; align-items: center; justify-content: center; gap: 0; max-width: 600px; margin: 0 auto; flex-wrap: wrap; }
+  .box { flex: 1; min-width: 180px; border: 1.5px solid #807868; border-radius: 4px; padding: 16px; text-align: center; }
+  .box .term { font-size: 17px; font-style: italic; color: #e8e0d6; margin-bottom: 6px; }
+  .box .gloss { font-size: 11px; color: #807868; }
+  .connector { flex: 0 0 80px; text-align: center; color: #807868; font-size: 24px; position: relative; height: 30px; line-height: 30px; }
+  .connector.slashed::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(110deg); width: 36px; height: 3px; background: #c9a855; }
+
+  .three-stage { display: flex; align-items: stretch; justify-content: center; gap: 0; max-width: 640px; margin: 0 auto; flex-wrap: nowrap; }
+  .three-stage .stage { flex: 1; border: 1.5px solid #807868; border-radius: 4px; padding: 16px 12px; text-align: center; min-width: 0; }
+  .three-stage .stage.real { border-color: #4a9e7d; }
+  .three-stage .stage.fake { border-color: #c9a855; border-style: dashed; }
+  .three-stage .stage .label { font-size: 10px; color: #807868; letter-spacing: 1.5px; margin-bottom: 8px; }
+  .three-stage .stage.real .label { color: #4a9e7d; }
+  .three-stage .stage.fake .label { color: #c9a855; }
+  .three-stage .stage .term { font-size: 14px; font-style: italic; color: #e8e0d6; line-height: 1.3; }
+  .three-stage .arrow-step { flex: 0 0 30px; text-align: center; color: #807868; font-size: 18px; align-self: center; }
+
+  .two-pole { display: grid; grid-template-columns: 1fr 100px 1fr; gap: 16px; align-items: center; max-width: 640px; margin: 0 auto; }
+  .pole { border: 1.5px solid #807868; border-radius: 4px; padding: 16px; text-align: center; }
+  .pole .label { font-size: 10px; color: #807868; letter-spacing: 1.5px; margin-bottom: 8px; }
+  .pole .term { font-size: 16px; font-style: italic; color: #e8e0d6; margin-bottom: 6px; }
+  .pole .gloss { font-size: 11px; color: #807868; line-height: 1.4; }
+  .equals-symbol { text-align: center; color: #c9a855; font-size: 20px; font-family: 'JetBrains Mono', monospace; }
+
+  /* Circular loop for recursive trap */
+  .loop { border: 1.5px solid #807868; border-radius: 50%; padding: 36px 48px; max-width: 540px; margin: 0 auto; text-align: center; }
+  .loop .top, .loop .bottom { font-size: 17px; font-style: italic; color: #e8e0d6; line-height: 1.4; }
+  .loop .middle { font-size: 12px; color: #c9a855; letter-spacing: 2px; margin: 14px 0; font-family: 'JetBrains Mono', 'Courier New', monospace; }
+
+  .caption { text-align: center; color: #807868; font-size: 14px; font-style: italic; line-height: 1.5; margin-top: 24px; padding: 0 20px; }
+  .divider { border-top: 1px solid rgba(255,255,255,0.06); margin: 48px 0 0; }
+
+  @media (max-width: 600px) {
+    .container { padding: 24px 16px; }
+    .header .title { font-size: 24px; }
+    .doc-section-title { font-size: 22px; }
+    .section-title { font-size: 16px; }
+    .checkpoint .question { font-size: 15px; }
+    .two-box-row { flex-direction: column; gap: 16px; }
+    .connector { transform: rotate(90deg); height: 30px; }
+    .three-stage { flex-direction: column; gap: 8px; }
+    .three-stage .arrow-step { transform: rotate(90deg); flex: 0 0 20px; }
+    .two-pole { grid-template-columns: 1fr; gap: 8px; }
+    .equals-symbol { transform: rotate(90deg); }
+    .loop { padding: 28px 24px; }
+    .toc-list a { flex-wrap: wrap; }
+    .toc-list .gloss { margin-left: 38px; flex-basis: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<nav style="max-width:720px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:12px 24px;border-bottom:1px solid rgba(255,255,255,0.04);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;">
+  <span style="color:#4a9e7d;">The Thought That Arrived Late</span>
+  <div style="display:flex;gap:16px;">
+    <a href="/" style="color:#807868;text-decoration:none;padding-bottom:1px;">Pipeline</a>
+    <a href="/analogy.html" style="color:#807868;text-decoration:none;padding-bottom:1px;">Analogy</a>
+    <a href="/faq.html" style="color:#807868;text-decoration:none;padding-bottom:1px;">FAQ</a>
+    <a href="/practice.html" style="color:#e8e0d6;text-decoration:none;border-bottom:1px solid #4a9e7d;padding-bottom:1px;">Practice</a>
+    <a href="#get-the-book" style="color:#c9a855;text-decoration:none;padding-bottom:1px;" onclick="document.getElementById('get-the-book').scrollIntoView({behavior:'smooth'});return false;">Get the Book</a>
+  </div>
+</nav>
+
+<div class="container">
+
+<div class="header">
+  <div class="title">Practice</div>
+  <div class="tag mono">Seven Triggers · Seven Mental Maps · Structural Recognition</div>
+</div>
+
+<div style="max-width:600px;margin:32px auto 0;padding:18px 22px;background:rgba(201,168,85,0.04);border:1px solid rgba(201,168,85,0.18);border-radius:6px;font-size:13px;color:#a09080;line-height:1.7;">
+  <strong style="color:#c9a855;font-weight:400;font-style:italic;">A note before reading.</strong> This is a practice tool, not an introduction to the framework. It assumes you already know what the pipeline is, what Move 3 means, and why "I" is treated as a thought rather than an entity. If you haven't read the <a href="/" style="color:#c9a855;text-decoration:underline;">Pipeline</a>, the <a href="/analogy.html" style="color:#c9a855;text-decoration:underline;">Analogy</a>, or the book first, the diagrams below will read as opaque jargon. Start there. Come back here when you want a structural reminder for catching the pipeline as it runs.
+</div>
+
+<div class="toc">
+  <div class="toc-title mono">Triggers</div>
+  <ul class="toc-list">
+    <li><a href="#rumination"><span class="num">I.</span><span class="name">Rumination</span><span class="gloss">— replaying past events</span></a></li>
+    <li><a href="#external-judgment"><span class="num">II.</span><span class="name">External Judgment</span><span class="gloss">— someone says something about you</span></a></li>
+    <li><a href="#comparison"><span class="num">III.</span><span class="name">Comparison</span><span class="gloss">— noticing another's capacity or status</span></a></li>
+    <li><a href="#self-evaluation"><span class="num">IV.</span><span class="name">Self-Evaluation</span><span class="gloss">— after something went well or badly</span></a></li>
+    <li><a href="#anticipation"><span class="num">V.</span><span class="name">Anticipation</span><span class="gloss">— pipeline running on imagined futures</span></a></li>
+    <li><a href="#praise"><span class="num">VI.</span><span class="name">Praise</span><span class="gloss">— silent positive consolidation</span></a></li>
+    <li><a href="#loss"><span class="num">VII.</span><span class="name">Loss / Change</span><span class="gloss">— when identification's substrate dissolves</span></a></li>
+  </ul>
+</div>
+
+
+<!-- ════════════════ I. RUMINATION ════════════════ -->
+<div class="doc-section" id="rumination">
+  <div class="doc-section-tag mono">Trigger I</div>
+  <div class="doc-section-title">Rumination</div>
+  <div class="doc-section-subtitle">When the mind replays past events</div>
+
+  <div class="section">
+    <div class="section-tag mono">Master · When Rumination Starts</div>
+    <div class="section-title">Three checkpoints. Run them in order.<br>Stop at the first that fires.</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 1</div>
+      <div class="question">Is this image repair disguised as analysis?</div>
+      <div class="gloss">The loop is not seeking resolution. It is looking for a version where the image survives.</div>
+    </div>
+    <div class="arrow-down">↓</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 2</div>
+      <div class="question">Where is the "I" in this thought?</div>
+      <div class="gloss">Look directly. Only more thoughts return. The entity is not there — only its name keeps appearing.</div>
+    </div>
+    <div class="arrow-down">↓</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 3</div>
+      <div class="question">What is the event, stripped of the identity claim?</div>
+      <div class="gloss">Two layers: descriptive event (can be true) and identity claim (structurally void). Register the first. Reject the second.</div>
+    </div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 1 · Treating Thoughts as Entities (Move 3)</div>
+    <div class="fail-mode">
+      <div class="two-box-row">
+        <div class="box"><div class="term">thought</div><div class="gloss">content on the screen</div></div>
+        <div class="connector slashed">→</div>
+        <div class="box"><div class="term">entity with capacity</div><div class="gloss">system-level property</div></div>
+      </div>
+    </div>
+    <div class="caption">A thought cannot possess intelligence — only describe it.<br>Capacity belongs to the system. The thought describes; it does not possess.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 2 · The Recursive Trap (Framework as Identity)</div>
+    <div class="fail-mode">
+      <div class="loop">
+        <div class="top">"I see through the pipeline"</div>
+        <div class="middle">— identity reinstalls →</div>
+        <div class="bottom">"I am someone who sees through the pipeline"</div>
+      </div>
+    </div>
+    <div class="caption">The seeing was real. The "I saw" is the new material.<br>The pipeline is content-agnostic — including its own dismantling.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 3 · Counter-Identity Defense (Replayed)</div>
+    <div class="fail-mode">
+      <div class="two-pole">
+        <div class="pole"><div class="label mono">THEM (in memory)</div><div class="term">"you are X"</div><div class="gloss">Having ⊢ Being</div></div>
+        <div class="equals-symbol">⇆</div>
+        <div class="pole"><div class="label mono">YOU (rehearsing)</div><div class="term">"I should have said Y"</div><div class="gloss">Having ⊢ Being</div></div>
+      </div>
+    </div>
+    <div class="caption">The replay is rehearsing a defense built on the same rule that hurt you.<br>"What I should have said" is the pipeline running on the memory, looking for a counter-identity that holds.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 4 · Capacity Conflated with Expression</div>
+    <div class="fail-mode">
+      <div class="two-box-row">
+        <div class="box"><div class="term">capacity</div><div class="gloss">dispositional · system property</div></div>
+        <div class="connector slashed">=</div>
+        <div class="box"><div class="term">expression</div><div class="gloss">occurrent · time-bound event</div></div>
+      </div>
+    </div>
+    <div class="caption">Having had an expression is not being the capacity.<br>One performance is not a fixed property. Expression and capacity are different ontological categories.</div>
+  </div>
+</div>
+
+
+<!-- ════════════════ II. EXTERNAL JUDGMENT ════════════════ -->
+<div class="doc-section" id="external-judgment">
+  <div class="doc-section-tag mono">Trigger II</div>
+  <div class="doc-section-title">External Judgment</div>
+  <div class="doc-section-subtitle">When someone says something about you</div>
+
+  <div class="section">
+    <div class="section-tag mono">Master · The Comment Lands</div>
+    <div class="section-title">Three checkpoints. Run them in order.<br>Stop at the first that fires.</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 1</div>
+      <div class="question">Whose pipeline produced that comment?</div>
+      <div class="gloss">Their machinery using you as raw material for their image construction. The comment is doing a job for them. Information about their state, not a verdict on yours.</div>
+    </div>
+    <div class="arrow-down">↓</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 2</div>
+      <div class="question">What two layers does the comment carry?</div>
+      <div class="gloss">Descriptive (the behavior, the event) — can be true. Identity (the entity claim) — structurally void. Register the first. Reject the second.</div>
+    </div>
+    <div class="arrow-down">↓</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 3</div>
+      <div class="question">Who is the "I" the comment landed on?</div>
+      <div class="gloss">Look. Only thoughts return. The comment reaches an address with no one home. The verdict has no subject to land on.</div>
+    </div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 1 · Counter-Identity Defense</div>
+    <div class="fail-mode">
+      <div class="two-pole">
+        <div class="pole"><div class="label mono">THEM</div><div class="term">"you are X"</div><div class="gloss">Having ⊢ Being</div></div>
+        <div class="equals-symbol">⇆</div>
+        <div class="pole"><div class="label mono">YOU (defending)</div><div class="term">"I am not X, I am Y"</div><div class="gloss">Having ⊢ Being</div></div>
+      </div>
+    </div>
+    <div class="caption">Same rule. Opposite outputs. Defending with counter-identity uses the rule that hurt you.<br>The speed of the defense reveals the rule was already running in you.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 2 · Resisting the Occurrence</div>
+    <div class="fail-mode">
+      <div class="three-stage">
+        <div class="stage real"><div class="label mono">REAL</div><div class="term">event<br>occurred</div></div>
+        <div class="arrow-step">≠</div>
+        <div class="stage fake"><div class="label mono">FICTIONAL</div><div class="term">verdict<br>is true</div></div>
+        <div class="arrow-step">≠</div>
+        <div class="stage real"><div class="label mono">SEPARATE</div><div class="term">behavior<br>response</div></div>
+      </div>
+    </div>
+    <div class="caption">Resistance fights an event already in the past. Suffering is the held mobilization, not the event.<br>Letting the event stand ≠ accepting its content. You can respond to behavior without inheriting the verdict.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 3 · The Reinterpretation Door</div>
+    <div class="fail-mode">
+      <div class="two-box-row">
+        <div class="box"><div class="term">"you are stupid"</div><div class="gloss">if "I" = entity</div></div>
+        <div class="connector">→</div>
+        <div class="box"><div class="term">structurally true</div><div class="gloss">if "I" = thought</div></div>
+      </div>
+    </div>
+    <div class="caption">The "I"-thought has no capacities. So "you are stupid" is literally accurate at the thought level.<br>Apply consistently — to positive judgments too. Selective application puts you back in the pipeline.</div>
+  </div>
+</div>
+
+
+<!-- ════════════════ III. COMPARISON ════════════════ -->
+<div class="doc-section" id="comparison">
+  <div class="doc-section-tag mono">Trigger III</div>
+  <div class="doc-section-title">Comparison</div>
+  <div class="doc-section-subtitle">When you notice someone else's capacity, status, or success</div>
+
+  <div class="section">
+    <div class="section-tag mono">Master · The Comparison Fires</div>
+    <div class="section-title">Three checkpoints. Run them in order.<br>Stop at the first that fires.</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 1</div>
+      <div class="question">What is actually being compared?</div>
+      <div class="gloss">Two systems differing on a dimension. Their capacities under those conditions vs yours under these. That is the descriptive fact. Nothing about a self has been said yet.</div>
+    </div>
+    <div class="arrow-down">↓</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 2</div>
+      <div class="question">Where did "I am less" enter?</div>
+      <div class="gloss">Capacity gap → identity claim → ranking of fictional selves. Three errors stacked. The feeling of "less than" is the output of the stack, not data about worth.</div>
+    </div>
+    <div class="arrow-down">↓</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 3</div>
+      <div class="question">Can the information be used without the suffering?</div>
+      <div class="gloss">Functional use: register the gap, learn, adjust strategy. Identity use: convert the gap into self-evaluation. Same data, two operations. Use the first. Drop the second.</div>
+    </div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 1 · Capacity Becomes Entity</div>
+    <div class="fail-mode">
+      <div class="three-stage">
+        <div class="stage real"><div class="label mono">REAL</div><div class="term">"their system<br>processes faster"</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">CONVERSION</div><div class="term">"they are<br>smarter"</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">RANKING</div><div class="term">"I am<br>less"</div></div>
+      </div>
+    </div>
+    <div class="caption">Three moves: capacity → identity → ranking. Each is a category error compounded.<br>The suffering enters at the conversion. Watch where the slide happens.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 2 · The Egalitarian Residue</div>
+    <div class="fail-mode">
+      <div class="two-pole">
+        <div class="pole"><div class="label mono">CAPACITY</div><div class="term">unequal</div><div class="gloss">empirical · varies across systems and conditions</div></div>
+        <div class="equals-symbol">+</div>
+        <div class="pole"><div class="label mono">ENTITY-STATUS</div><div class="term">equal</div><div class="gloss">structural · zero entity behind any system</div></div>
+      </div>
+    </div>
+    <div class="caption">Systems vary in capacity. Selves do not vary in significance — because they don't exist.<br>Neither pride nor inferiority has anything to attach to.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 3 · The Hidden Childhood Pattern</div>
+    <div class="fail-mode">
+      <div class="three-stage">
+        <div class="stage real"><div class="label mono">CONDITIONING</div><div class="term">comparative position<br>secured belonging</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">PRESENT</div><div class="term">ranking feels<br>like safety</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">FICTION</div><div class="term">pipeline runs<br>on old data</div></div>
+      </div>
+    </div>
+    <div class="caption">The need to rank is not really about the rank. It is the body still treating relative position as relative safety.<br>The original conditions are gone. The pattern continues to fire.</div>
+  </div>
+</div>
+
+
+<!-- ════════════════ IV. SELF-EVALUATION ════════════════ -->
+<div class="doc-section" id="self-evaluation">
+  <div class="doc-section-tag mono">Trigger IV</div>
+  <div class="doc-section-title">Self-Evaluation</div>
+  <div class="doc-section-subtitle">When something went well or badly</div>
+
+  <div class="section">
+    <div class="section-tag mono">Master · The Verdict Forms</div>
+    <div class="section-title">Three checkpoints. Run them in order.<br>Stop at the first that fires.</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 1</div>
+      <div class="question">Is this pride or shame? Same machinery.</div>
+      <div class="gloss">Positive and negative self-evaluations are the same pipeline producing different outputs. If you accept one direction, the other will eventually run on you. Apply the lens consistently.</div>
+    </div>
+    <div class="arrow-down">↓</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 2</div>
+      <div class="question">Did the system perform, or did the "I" perform?</div>
+      <div class="gloss">Capacity is system-level. The "I" claims credit for what the body, the conditioning, the conditions produced. The narrator takes ownership of work it did not do.</div>
+    </div>
+    <div class="arrow-down">↓</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 3</div>
+      <div class="question">Watch the asymmetry. Where does it show?</div>
+      <div class="gloss">"I figured it out" vs "the conditions were bad." The "I" claims authorship for favorable outcomes and deflects to conditions for unfavorable ones. The selective claim itself proves the "I" was never the source.</div>
+    </div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 1 · Pride and Shame as the Same Output</div>
+    <div class="fail-mode">
+      <div class="two-pole">
+        <div class="pole"><div class="label mono">SUCCESS</div><div class="term">"I am brilliant"</div><div class="gloss">Having ⊢ Being<br>(positive valence)</div></div>
+        <div class="equals-symbol">≡</div>
+        <div class="pole"><div class="label mono">FAILURE</div><div class="term">"I am useless"</div><div class="gloss">Having ⊢ Being<br>(negative valence)</div></div>
+      </div>
+    </div>
+    <div class="caption">Both are Move 3 outputs. Same rule, opposite valences.<br>Accepting pride installs the structure that produces shame. Apply the framework to both equally.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 2 · Capacity Conflated with Expression</div>
+    <div class="fail-mode">
+      <div class="two-box-row">
+        <div class="box"><div class="term">capacity</div><div class="gloss">dispositional · system property</div></div>
+        <div class="connector slashed">=</div>
+        <div class="box"><div class="term">expression</div><div class="gloss">occurrent · time-bound event</div></div>
+      </div>
+    </div>
+    <div class="caption">Having had an expression of intelligence is not being intelligence.<br>Expression is an event that happened. Capacity is a feature of a system. Different categories.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 3 · Selective Attribution</div>
+    <div class="fail-mode">
+      <div class="two-pole">
+        <div class="pole"><div class="label mono">FAVORABLE</div><div class="term">"I made it happen"</div><div class="gloss">credit claimed by the "I"</div></div>
+        <div class="equals-symbol">⇄</div>
+        <div class="pole"><div class="label mono">UNFAVORABLE</div><div class="term">"conditions were bad"</div><div class="gloss">deflected to the system</div></div>
+      </div>
+    </div>
+    <div class="caption">The asymmetry is the tell. If the "I" had authorship, both outcomes would be its responsibility.<br>Selective claiming proves the "I" was never the source — only a thought commenting after the fact.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 4 · The Lifetime Project</div>
+    <div class="fail-mode">
+      <div class="three-stage">
+        <div class="stage fake"><div class="label mono">EVENT</div><div class="term">something<br>happens</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">VERDICT</div><div class="term">"I am X"<br>consolidates</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">PROJECT</div><div class="term">develop · fix ·<br>improve "I"</div></div>
+      </div>
+    </div>
+    <div class="caption">Self-evaluation often becomes lifetime self-development — same pipeline running across years.<br>Renovating the entity is not dissolving it. Growth happens to the system. The "I" claims ownership.</div>
+  </div>
+</div>
+
+
+<!-- ════════════════ V. ANTICIPATION ════════════════ -->
+<div class="doc-section" id="anticipation">
+  <div class="doc-section-tag mono">Trigger V</div>
+  <div class="doc-section-title">Anticipation</div>
+  <div class="doc-section-subtitle">When the pipeline runs on imagined future events</div>
+
+  <div class="section">
+    <div class="section-tag mono">Master · The Future Becomes Stakes</div>
+    <div class="section-title">Three checkpoints. Run them in order.<br>Stop at the first that fires.</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 1</div>
+      <div class="question">Is this preparation or image protection?</div>
+      <div class="gloss">Real preparation orients the system to act effectively. Image protection rehearses scenarios where identity survives. They feel similar. The difference is whether the work serves the task or the self-image.</div>
+    </div>
+    <div class="arrow-down">↓</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 2</div>
+      <div class="question">What is the imagined event meant to do?</div>
+      <div class="gloss">Reveal identity, threaten image, confirm worth, secure approval. The future event is being treated as data about the entity — before it has happened. Identity-stakes manufactured around a hypothetical.</div>
+    </div>
+    <div class="arrow-down">↓</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 3</div>
+      <div class="question">Where is the "I" being protected from this future?</div>
+      <div class="gloss">The future hasn't happened. The "I" defending against it is a thought constructed now to protect a thought that will be constructed then. Two fictions, one defense, no entity in either.</div>
+    </div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 1 · Preparation as Image Protection</div>
+    <div class="fail-mode">
+      <div class="two-pole">
+        <div class="pole"><div class="label mono">FUNCTIONAL</div><div class="term">"prepare for the task"</div><div class="gloss">orients system to act</div></div>
+        <div class="equals-symbol">vs</div>
+        <div class="pole"><div class="label mono">IDENTITY</div><div class="term">"prepare to not look stupid"</div><div class="gloss">defends future self-image</div></div>
+      </div>
+    </div>
+    <div class="caption">Preparation directed at the task feels different from preparation directed at the image.<br>The image version exhausts more, lands worse, and converts every step into evidence about the entity.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 2 · Self-Fulfilling Pressure</div>
+    <div class="fail-mode">
+      <div class="three-stage">
+        <div class="stage fake"><div class="label mono">ANTICIPATION</div><div class="term">"I might<br>fail"</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">CONDITIONING</div><div class="term">anxiety degrades<br>performance</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">CONFIRMATION</div><div class="term">outcome confirms<br>the fear</div></div>
+      </div>
+    </div>
+    <div class="caption">Anticipation doesn't predict the future — it conditions it. The anxiety degrades the performance.<br>Then the outcome arrives and the pipeline says: "see, I was right about myself."</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 3 · Pre-Suffering</div>
+    <div class="fail-mode">
+      <div class="two-box-row">
+        <div class="box"><div class="term">imagined event</div><div class="gloss">hasn't occurred</div></div>
+        <div class="connector">→</div>
+        <div class="box"><div class="term">real contraction</div><div class="gloss">body responds now</div></div>
+      </div>
+    </div>
+    <div class="caption">The body cannot tell the difference between a real event and an imagined one. Anticipation produces the same shame and fear the actual event would.<br>You suffer the verdict before any verdict has been rendered. Often most of the suffering is in the anticipation, not the event.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 4 · Constructing Future-Identity</div>
+    <div class="fail-mode">
+      <div class="three-stage">
+        <div class="stage fake"><div class="label mono">IMAGINED</div><div class="term">"if I fail<br>tomorrow"</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">PRE-VERDICT</div><div class="term">"I will be<br>a failure"</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">PRESENT IDENTITY</div><div class="term">"I am someone<br>who could fail"</div></div>
+      </div>
+    </div>
+    <div class="caption">The pipeline manufactures present identity from a future that may never happen.<br>You are not the failure you fear becoming. The "I" doing the fearing is itself a thought, constructed now, defending a thought that doesn't yet exist.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 5 · Decisions Become Identity Questions</div>
+    <div class="fail-mode">
+      <div class="two-pole">
+        <div class="pole"><div class="label mono">PRACTICAL</div><div class="term">"what serves the situation?"</div><div class="gloss">solvable · condition-based</div></div>
+        <div class="equals-symbol">vs</div>
+        <div class="pole"><div class="label mono">IDENTITY</div><div class="term">"what kind of person<br>would I be?"</div><div class="gloss">unsolvable · entity-based</div></div>
+      </div>
+    </div>
+    <div class="caption">The pipeline converts practical questions into identity questions. Each branch becomes a future-self to defend or pursue.<br>The decision was about what to do. Ego makes it about who to be. The first has answers. The second has only constructions.</div>
+  </div>
+</div>
+
+
+<!-- ════════════════ VI. PRAISE ════════════════ -->
+<div class="doc-section" id="praise">
+  <div class="doc-section-tag mono">Trigger VI</div>
+  <div class="doc-section-title">Praise</div>
+  <div class="doc-section-subtitle">When positive feedback consolidates identity silently</div>
+
+  <div class="section">
+    <div class="section-tag mono">Master · Praise Lands</div>
+    <div class="section-title">Three checkpoints. Run them in order.<br>Stop at the first that fires.</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 1</div>
+      <div class="question">Is this being received as information or as confirmation?</div>
+      <div class="gloss">Information: someone observed the system performed. Confirmation: my image is being validated, the entity is being upgraded. The first is neutral data. The second is the pipeline running silently.</div>
+    </div>
+    <div class="arrow-down">↓</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 2</div>
+      <div class="question">Notice the absence of resistance. Is the pipeline running silently?</div>
+      <div class="gloss">Negative judgment hurts and triggers examination. Praise feels good and triggers nothing. The pipeline runs without interruption because no pain signals analysis. This is the most invisible activation.</div>
+    </div>
+    <div class="arrow-down">↓</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 3</div>
+      <div class="question">What identification just got reinforced?</div>
+      <div class="gloss">Praise consolidates an image into load-bearing identity. The same identification will later require defending. Today's pride installs the structure that produces tomorrow's shame.</div>
+    </div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 1 · Silent Consolidation</div>
+    <div class="fail-mode">
+      <div class="two-pole">
+        <div class="pole"><div class="label mono">NEGATIVE JUDGMENT</div><div class="term">hurts</div><div class="gloss">triggers examination</div></div>
+        <div class="equals-symbol">vs</div>
+        <div class="pole"><div class="label mono">PRAISE</div><div class="term">feels good</div><div class="gloss">no examination triggered</div></div>
+      </div>
+    </div>
+    <div class="caption">Pain interrupts. Pleasure does not.<br>The pipeline running on praise is the same pipeline — but it consolidates identity unchallenged because nothing prompts the dismantling.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 2 · Building Load-Bearing Identity</div>
+    <div class="fail-mode">
+      <div class="three-stage">
+        <div class="stage real"><div class="label mono">EVENT</div><div class="term">"that was<br>well done"</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">CONSOLIDATION</div><div class="term">"I am<br>capable"</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">LOAD</div><div class="term">capability now<br>must be defended</div></div>
+      </div>
+    </div>
+    <div class="caption">Each praise event is metabolized into identity. The identity becomes load-bearing.<br>What once felt good now requires continuous confirmation, and any threat to it lands harder than before the praise was received.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 3 · Asymmetric Application of the Framework</div>
+    <div class="fail-mode">
+      <div class="two-pole">
+        <div class="pole"><div class="label mono">CRITICISM</div><div class="term">"the 'I' has no capacities"</div><div class="gloss">framework applied</div></div>
+        <div class="equals-symbol">vs</div>
+        <div class="pole"><div class="label mono">PRAISE</div><div class="term">"yes, I am that"</div><div class="gloss">framework suspended</div></div>
+      </div>
+    </div>
+    <div class="caption">Using the framework only against negative judgments puts you back in the pipeline.<br>The framework treats positive and negative identifications identically. Selective application is image protection.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 4 · Praise Dependence</div>
+    <div class="fail-mode">
+      <div class="three-stage">
+        <div class="stage fake"><div class="label mono">INSTALLATION</div><div class="term">image built<br>from praise</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">MAINTENANCE</div><div class="term">image needs<br>continued praise</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">VULNERABILITY</div><div class="term">absence of praise<br>feels like attack</div></div>
+      </div>
+    </div>
+    <div class="caption">An identity built from praise needs praise to keep existing.<br>The neutral absence of praise becomes felt as criticism. The pipeline turns silence into a verdict, indifference into rejection.</div>
+  </div>
+</div>
+
+
+<!-- ════════════════ VII. LOSS / CHANGE ════════════════ -->
+<div class="doc-section" id="loss">
+  <div class="doc-section-tag mono">Trigger VII</div>
+  <div class="doc-section-title">Loss / Change</div>
+  <div class="doc-section-subtitle">When identification's substrate stops being available</div>
+
+  <div class="section">
+    <div class="section-tag mono">Master · The Ground Dissolves</div>
+    <div class="section-title">Three checkpoints. Run them in order.<br>Stop at the first that fires.</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 1</div>
+      <div class="question">What was the "I" identified with that's now leaving?</div>
+      <div class="gloss">A role, a relationship, a capacity, a status, a possession. The pipeline built identity around something external. That external is now changing or gone. The grasping is the pipeline trying to keep the structure standing.</div>
+    </div>
+    <div class="arrow-down">↓</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 2</div>
+      <div class="question">Is this identity-grief or functional grief?</div>
+      <div class="gloss">Functional grief is real — losing a person you loved involves actual loss of presence, shared life, conditions that mattered. Identity-grief is the pipeline mourning the dissolution of its construction. Both can run simultaneously. Distinguish them.</div>
+    </div>
+    <div class="arrow-down">↓</div>
+    <div class="checkpoint">
+      <div class="label mono">CHECKPOINT 3</div>
+      <div class="question">What was actually yours to lose?</div>
+      <div class="gloss">The role was external. The relationship was relational. The capacity was the system's. The status was conferred by others. The "I" never owned any of it — it identified with what was always external. The loss is real. The diminishment of the "I" is fictional, because there was no "I" being diminished.</div>
+    </div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 1 · Grasping at the Substrate</div>
+    <div class="fail-mode">
+      <div class="three-stage">
+        <div class="stage real"><div class="label mono">EXTERNAL</div><div class="term">role · status<br>· capacity</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">FUSED</div><div class="term">"I am<br>this"</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">GRASPING</div><div class="term">cannot let go<br>without dying</div></div>
+      </div>
+    </div>
+    <div class="caption">The fusion makes loss feel like death. If "I am my career," losing the career feels like the "I" being annihilated.<br>But what was lost was always external. The "I" was never the role — it was a thought claiming to be it.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 2 · Restoration as Identity Rescue</div>
+    <div class="fail-mode">
+      <div class="two-pole">
+        <div class="pole"><div class="label mono">FUNCTIONAL</div><div class="term">"replace what was lost"</div><div class="gloss">solve a real problem</div></div>
+        <div class="equals-symbol">vs</div>
+        <div class="pole"><div class="label mono">IDENTITY</div><div class="term">"restore who I was"</div><div class="gloss">rescue the construction</div></div>
+      </div>
+    </div>
+    <div class="caption">Looking for new work and trying to recover a previous identity look similar. They are different operations.<br>The first solves a practical problem. The second tries to rebuild a self that was never there.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 3 · The New Identity from Loss</div>
+    <div class="fail-mode">
+      <div class="three-stage">
+        <div class="stage real"><div class="label mono">EVENT</div><div class="term">something<br>was lost</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">CONSTRUCTION</div><div class="term">"I am someone<br>who lost X"</div></div>
+        <div class="arrow-step">→</div>
+        <div class="stage fake"><div class="label mono">NEW LOAD</div><div class="term">loss-identity needs<br>defending</div></div>
+      </div>
+    </div>
+    <div class="caption">The pipeline doesn't just lose identity — it builds new identity from the loss itself.<br>"The widow," "the laid-off worker," "the one who lost the championship." Same machinery, new content. The construction project resumes immediately.</div>
+  </div>
+  <div class="divider"></div>
+
+  <div class="section">
+    <div class="section-tag mono">Fail Mode 4 · Capacity Decline as Self-Diminishment</div>
+    <div class="fail-mode">
+      <div class="two-box-row">
+        <div class="box"><div class="term">capacity declined</div><div class="gloss">system property changing</div></div>
+        <div class="connector slashed">=</div>
+        <div class="box"><div class="term">"I am diminished"</div><div class="gloss">entity-claim about a thought</div></div>
+      </div>
+    </div>
+    <div class="caption">Aging, illness, fatigue — capacities change in real time. The system shifts.<br>"I am less than I was" assigns the change to an entity that was never there. The system varies. The "I" was a thought all along.</div>
+  </div>
+</div>
+
+</div>
+
+<!-- GET THE BOOK -->
+<div id="get-the-book" style="max-width:720px;margin:0 auto;padding:48px 24px 64px;border-top:1px solid rgba(255,255,255,0.06);">
+  <div style="text-align:center;margin-bottom:32px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#4a9e7d;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;">Get the Book</div>
+    <h2 style="font-family:'Instrument Serif',Georgia,serif;font-size:24px;font-weight:400;color:#e8e0d6;margin-bottom:8px;">The Thought That Arrived Late</h2>
+    <p style="font-size:13px;color:#807868;line-height:1.5;">The diagrams above are condensed reminders. The book is the long form — one person, one meeting, fifteen chapters of watching the machinery run in real time.</p>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;">
+    <a href="https://www.amazon.com/Thought-That-Arrived-Late-Experience-ebook/dp/B0GTG74TJR/" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 20px;background:rgba(201,168,85,0.1);border:1px solid rgba(201,168,85,0.3);border-radius:8px;color:#c9a855;text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.5px;">
+      <span style="font-size:14px;">📖</span> Ebook &amp; Paperback
+    </a>
+    <a href="https://open.spotify.com/show/67jmyrv0Y8zqBUyy0WKq33" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 20px;background:rgba(30,215,96,0.08);border:1px solid rgba(30,215,96,0.25);border-radius:8px;color:#1ed760;text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.5px;">
+      <span style="font-size:14px;">🎧</span> Audiobook on Spotify
+    </a>
+    <a href="https://elevenreader.io/audiobooks/the-thought-that-arrived-late-audiobook/p9VVsgA5ABpVWIL8XBCs" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 20px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:#e8e0d6;text-decoration:none;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.5px;">
+      <span style="font-size:14px;">🎙️</span> ElevenReader
+    </a>
+  </div>
+  <p style="text-align:center;font-size:11px;color:#504838;margin-top:24px;font-family:'JetBrains Mono',monospace;">Also available on Apple Books, Kobo, Google Play, and 30+ platforms via INaudio.</p>
+</div>
+
+<div style="text-align:center;padding:16px;font-family:'JetBrains Mono',monospace;font-size:10px;color:#403830;letter-spacing:1px;">
+  thethoughtthatarrivedlate.com
+</div>
+
+</body>
+</html>
