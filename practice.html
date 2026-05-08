@@ -53,8 +53,9 @@
   .toc-list a:hover .name { color: #c9a855; }
   .toc-list .gloss { color: #807868; margin-left: 10px; font-size: 12px; }
 
-  /* Scroll target offset for fixed header room */
-  .doc-section { scroll-margin-top: 24px; }
+  /* Scroll target offset for sticky nav */
+  .doc-section { scroll-margin-top: 80px; }
+  #get-the-book { scroll-margin-top: 80px; }
 
   .doc-section { margin: 80px 0 0; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); }
   .doc-section-tag { text-align: center; font-size: 11px; color: #c9a855; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 12px; }
@@ -162,7 +163,7 @@
 </head>
 <body>
 
-<nav style="max-width:720px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:12px 24px;border-bottom:1px solid rgba(255,255,255,0.04);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;">
+<nav style="position:sticky;top:0;z-index:50;max-width:720px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:12px 24px;background:rgba(10,15,13,0.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.06);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;">
   <span style="color:#4a9e7d;">The Thought That Arrived Late</span>
   <div style="display:flex;gap:16px;">
     <a href="/" style="color:#807868;text-decoration:none;padding-bottom:1px;">Pipeline</a>
