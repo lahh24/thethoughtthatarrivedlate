@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Ego Pipeline — Expert Examination</title>
+<meta name="description" content="An expert-level examination on the Ego Pipeline: 67 questions on referent mechanics, notation, the locks, and the structure of identity-construction.">
+<link rel="canonical" href="https://thethoughtthatarrivedlate.com/quiz.html">
+<style>
+  :root{
+    --bg:#12110f; --surface:#1a1815; --surface2:#211e1a; --line:#2e2a24;
+    --text:#e8e4dc; --muted:#8a857a; --gold:#c9a961; --gold-dim:#8a7440;
+    --ok:#8fbc8f; --bad:#c98a8a;
+    --c1:#c898b0; --c2:#a0c0d0; --c3:#d0c898;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} *{transition:none!important; animation:none!important} }
+  body{
+    background:var(--bg); color:var(--text);
+    font-family: Georgia, 'Times New Roman', serif;
+    line-height:1.55; min-height:100vh;
+  }
+  .mono{font-family: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, Consolas, monospace}
+  .wrap{max-width:760px; margin:0 auto; padding:32px 20px 80px}
+  header{border-bottom:1px solid var(--line); padding-bottom:18px; margin-bottom:26px}
+  header h1{font-size:1.35rem; font-weight:normal; letter-spacing:.01em}
+  header .sub{color:var(--muted); font-size:.8rem; margin-top:6px}
+  .goldline{height:2px; background:linear-gradient(90deg, var(--gold), transparent); width:120px; margin-top:14px}
+
+  .landing p{color:var(--muted); margin-bottom:14px; font-size:.95rem}
+  .landing .note{border-left:2px solid var(--gold-dim); padding:10px 14px; background:var(--surface); font-size:.88rem; margin:20px 0}
+  .btn{
+    display:inline-block; background:none; border:1px solid var(--gold); color:var(--gold);
+    padding:10px 26px; font-family:inherit; font-size:.95rem; cursor:pointer; letter-spacing:.04em;
+  }
+  .btn:hover{background:var(--gold); color:var(--bg)}
+  .btn:focus-visible{outline:2px solid var(--gold); outline-offset:3px}
+  .btn.small{padding:7px 16px; font-size:.82rem}
+  .btn[disabled]{opacity:.35; cursor:default}
+  .btn[disabled]:hover{background:none; color:var(--gold)}
+
+  .chrome{display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; font-size:.75rem; color:var(--muted); gap:10px; flex-wrap:wrap}
+  .sectag{font-size:.68rem; letter-spacing:.12em; text-transform:uppercase; padding:3px 9px; border:1px solid var(--line)}
+  .progressbar{height:3px; background:var(--line); margin-bottom:26px}
+  .progressbar > div{height:100%; background:var(--gold); width:0%}
+
+  .qtext{font-size:1.06rem; margin-bottom:22px}
+  .opts{display:flex; flex-direction:column; gap:10px; margin-bottom:22px}
+  .opt{
+    text-align:left; background:var(--surface); border:1px solid var(--line); color:var(--text);
+    padding:12px 14px 12px 40px; font-family:inherit; font-size:.93rem; line-height:1.45; cursor:pointer; position:relative;
+  }
+  .opt .key{position:absolute; left:12px; top:12px; color:var(--muted); font-size:.75rem}
+  .opt:hover{border-color:var(--gold-dim)}
+  .opt:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+  .opt.sel{border-color:var(--gold); background:var(--surface2)}
+  .opt.correct{border-color:var(--ok); background:rgba(143,188,143,.08)}
+  .opt.wrong{border-color:var(--bad); background:rgba(201,138,138,.08)}
+  .opt.dim{opacity:.5}
+  .opt[disabled]{cursor:default}
+
+  .feedback{border-left:2px solid var(--gold-dim); background:var(--surface); padding:14px 16px; margin-bottom:22px; font-size:.9rem}
+  .feedback .verdict{font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; margin-bottom:8px}
+  .feedback .verdict.ok{color:var(--ok)} .feedback .verdict.bad{color:var(--bad)}
+  .feedback .ex{color:var(--text)}
+  .controls{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+  .hint{color:var(--muted); font-size:.72rem; margin-left:auto}
+
+  .score-big{font-size:2.2rem; color:var(--gold); margin:8px 0 2px}
+  .score-sub{color:var(--muted); font-size:.85rem; margin-bottom:24px}
+  .secrow{margin-bottom:12px}
+  .secrow .lab{display:flex; justify-content:space-between; font-size:.78rem; margin-bottom:4px}
+  .secrow .bar{height:6px; background:var(--line)}
+  .secrow .bar > div{height:100%}
+  .missed{margin-top:34px}
+  .missed h2{font-size:.8rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:16px}
+  .miss-item{border:1px solid var(--line); background:var(--surface); padding:16px; margin-bottom:14px; font-size:.88rem}
+  .miss-item .mq{margin-bottom:10px}
+  .miss-item .row{margin-bottom:6px}
+  .miss-item .row.you{color:var(--bad)} .miss-item .row.right{color:var(--ok)}
+  .miss-item .mex{color:var(--muted); margin-top:10px; border-top:1px solid var(--line); padding-top:10px}
+  .closing{margin-top:40px; padding-top:18px; border-top:1px solid var(--line); color:var(--muted); font-size:.85rem; font-style:italic}
+  .hidden{display:none}
+  footer{margin-top:60px; color:var(--muted); font-size:.7rem; border-top:1px solid var(--line); padding-top:14px}
+  a{color:var(--gold)}
+</style>
+</head>
+<body>
+<nav style="position:sticky;top:0;z-index:50;max-width:760px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:12px 24px;background:rgba(10,15,13,0.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.06);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;">
+  <span style="color:#4a9e7d;">The Thought That Arrived Late</span>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;">
+    <a href="/" style="color:#807868;text-decoration:none;padding-bottom:1px;">Pipeline</a>
+    <a href="/analogy.html" style="color:#807868;text-decoration:none;padding-bottom:1px;">Analogy</a>
+    <a href="/registers.html" style="color:#807868;text-decoration:none;padding-bottom:1px;">Registers</a>
+    <a href="/faq.html" style="color:#807868;text-decoration:none;padding-bottom:1px;">FAQ</a>
+    <a href="/practice.html" style="color:#807868;text-decoration:none;padding-bottom:1px;">Practice</a>
+    <a href="/quiz.html" style="color:#e8e0d6;text-decoration:none;border-bottom:1px solid #4a9e7d;padding-bottom:1px;">Exam</a>
+    <a href="/#get-the-book" style="color:#c9a855;text-decoration:none;padding-bottom:1px;">Get the Book</a>
+  </div>
+</nav>
+<div class="wrap">
+  <header>
+    <h1>The Ego Pipeline — Expert Examination</h1>
+    <div class="sub mono">67 questions · distractors are deliberately subtle · from <em>The Thought That Arrived Late</em></div>
+    <div class="goldline"></div>
+  </header>
+
+  <!-- LANDING -->
+  <section id="landing" class="landing">
+    <p>This examination covers the full framework at expert precision: notation, the Structural Lock, referent mechanics, the three registers, the tests, the four failures of Move&nbsp;3, the "I", the seal, judgments, and the capture modes.</p>
+    <p>Every wrong option encodes a real near-miss — a position that sounds framework-fluent and is structurally wrong. Wrong answers show the correct one with a full explanation naming the trap.</p>
+    <div class="note">A wrong answer is an event under conditions. "I am bad at this" would be the pipeline — running on the material built to expose it.</div>
+    <button class="btn" id="startBtn">Begin</button>
+  </section>
+
+  <!-- QUIZ -->
+  <section id="quiz" class="hidden">
+    <div class="chrome">
+      <span class="sectag mono" id="secTag"></span>
+      <span class="mono" id="counter"></span>
+      <span class="mono" id="scoreLive"></span>
+    </div>
+    <div class="progressbar"><div id="pbar"></div></div>
+    <div class="qtext" id="qtext"></div>
+    <div class="opts" id="opts"></div>
+    <div class="feedback hidden" id="feedback">
+      <div class="verdict" id="verdict"></div>
+      <div class="ex" id="explain"></div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="confirmBtn" disabled>Confirm</button>
+      <button class="btn hidden" id="nextBtn">Next</button>
+      <span class="hint mono">1–4 select · Enter confirm</span>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="results" class="hidden">
+    <div class="sectag mono" style="display:inline-block">Results</div>
+    <div class="score-big" id="finalScore"></div>
+    <div class="score-sub" id="finalSub"></div>
+    <div id="secBreakdown"></div>
+    <div style="margin-top:26px; display:flex; gap:12px; flex-wrap:wrap">
+      <button class="btn small" id="retakeMissed">Retake missed only</button>
+      <button class="btn small" id="restartAll">Restart all</button>
+    </div>
+    <div class="missed" id="missedWrap">
+      <h2>Missed — with explanations</h2>
+      <div id="missedList"></div>
+    </div>
+    <div class="closing">A score is a record of events under conditions. A sequence of events doesn't have an IQ.</div>
+  </section>
+
+  <footer class="mono">The Thought That Arrived Late · Hicham Lahlou · session-only tracking, nothing stored</footer>
+</div>
+
+<script>
+const SECTIONS = [
+  {name:"Foundations & Notation", c:"#c898b0"},
+  {name:"Rule, Implication & Registers", c:"#a0c0d0"},
+  {name:"Referent Mechanics", c:"#d0c898"},
+  {name:"The Tests", c:"#c898b0"},
+  {name:"Move 3 & The Locks", c:"#a0c0d0"},
+  {name:"The I", c:"#d0c898"},
+  {name:"Seal, Body & Feeling", c:"#c898b0"},
+  {name:"Judgments & Other People", c:"#a0c0d0"},
+  {name:"Traps & Escapes", c:"#d0c898"},
+  {name:"Integration", c:"#c9a961"}
+];
+
+/* {s:sectionIdx, q, o:[4 options], a:correctIdx, e:explanation} */
+const Q = [
+/* ============ S1 FOUNDATIONS & NOTATION ============ */
+{s:0, q:"In the framework's notation, what does → name?",
+o:["The cognitive operation of running any inference — every inference produces its conclusion as a thought",
+"The productive mode: a firing whose output has no pre-existing referent, bringing the appearance of a fact into being",
+"Physical causation in the world, like wind breaking glass",
+"A weaker form of ⇒ used when the implication is only probable"],
+a:1, e:"The cognitive operation is universal — bachelor and ego alike generate a thought — so it is diagnostically inert and cannot be what → names. → names the structural relationship: the firing constitutes its own purported referent rather than tracking one that pre-existed. Physical causation is a different register, and → is not a weak ⇒ — the two have formally opposite A∧¬B requirements."},
+
+{s:0, q:"The Symbol Key writes ego's rule as \"Having ⇒ Being.\" What does the ⇒ there assert?",
+o:["That the framework grants the rule genuine implication status before refuting it empirically",
+"That the rule is a real implication in the analytic register, since meanings connect Having to Being",
+"Nothing — it quotes the form the rule claims, so the Structural Lock can be run against the claim on its own terms",
+"That Having and Being share a referent, which the framework then shows to be absent"],
+a:2, e:"The notation names what the rule claims to be, not what it is. Writing the claim down is what makes it defeatable: the Lock takes the implication-claim seriously on its own terms and shows it is formally incompatible with the productive relationship the firing actually has. The last option imports a false criterion — implication never required shared referents."},
+
+{s:0, q:"Where does ∼→ (influence) sit in the pipeline's failure?",
+o:["It is the real relationship (focus tends to help understanding) that Move 2 illegitimately freezes into necessity (⇒)",
+"It is what the rule degrades into after non-reinforcement weakens it",
+"It is the framework's replacement notation for causation once → is refuted",
+"It is the relationship between the thought and the feeling in Move 5"],
+a:0, e:"∼→ names a genuine probabilistic tendency. Move 2's crime is the upgrade: a tendency (which tolerates exceptions) is frozen into a law (which tolerates none). The other options relocate ∼→ to places the framework never puts it — the rule doesn't degrade into influence; it weakens as a rule."},
+
+{s:0, q:"The Structural Lock rests on which formal fact?",
+o:["Implication and production both require A∧¬B to be possible, but at different times",
+"Implication requires A∧¬B impossible; production requires A∧¬B possible — the same pair cannot satisfy both",
+"Implication requires a referent while production forbids one",
+"Production is time-bound while implication is time-bound only in its terms"],
+a:1, e:"Opposite requirements on the same variable pair: ⇒ demands B already obtains whenever A does (nothing to produce), → demands a state where A holds and B does not yet (something to produce). The referent option is a downstream symptom, not the Lock itself; the time option is true but is a consequence of the requirements, not their statement."},
+
+{s:0, q:"What, and only what, refutes the claim A ⇒ B?",
+o:["Finding an alternative cause of A, since the implication assumed A came from B",
+"Showing that many minds disagree about whether B follows",
+"Exhibiting one coherent case in which A holds and B fails",
+"Showing that B has causes other than A"],
+a:2, e:"A∧¬B-impossibility is the claim, so a single coherent A-with-not-B case kills it. \"Tired\" worked in the stupidity example not as a cause of A but as a description of such a case — a route to A that arrives without B. Causes of A alone prove nothing: bachelorhood has many causes and zero bachelor-and-married cases. Disagreement is the Divergence prompt, not the refutation."},
+
+{s:0, q:"How do the absent referent and the Structural Lock relate in forbidding Move 2?",
+o:["They are two independent proofs that converge, like the Direct Pointing and Divergence Tests",
+"The Lock establishes the absent referent as its conclusion",
+"They are one argument: the absent referent is the structural fact, and the Lock is its formal teeth — the fact establishes A∧¬B-possibility, which forbids the ⇒",
+"The absent referent forbids Move 2 in the empirical register while the Lock forbids it in the formal register"],
+a:2, e:"Saying \"both forbid Move 2\" double-counts one argument. The absent referent (found at Move 1) establishes that the relationship is productive — A∧¬B possible — and the Lock is the name for how that possibility formally excludes the ⇒ Move 2 needs. The genuinely independent convergent proofs are the Lock, Direct Pointing, and Divergence — not the fact and its own consequence."},
+
+/* ============ S2 RULE, IMPLICATION & REGISTERS ============ */
+{s:1, q:"What is the decisive difference between a rule and an implication?",
+o:["A rule can be false while an implication is always true",
+"A rule is a mental mechanism in time — it fires, has an installation history, strengthens and weakens; an implication is a timeless relation that never fires and cannot be installed",
+"A rule operates on events while an implication operates on concepts",
+"A rule requires a referent while an implication does not"],
+a:1, e:"The rule/implication split is ontological, not about truth-values. Implications don't have careers — no installation date, no strengthening curve, no dependence on a childhood. Ego's rule has all three, which alone disqualifies it from being what it claims. The first option fails because implications can be false (a false conditional is still a conditional); the last inverts the register point."},
+
+{s:1, q:"An implication holds timelessly and unconditionally. Which consequence does this NOT have?",
+o:["No firing is required for it to hold — it obtained in the Jurassic with no reasoners",
+"When a mind fires a rule tracking it, the firing discloses rather than produces",
+"It cannot be installed, learned into existence, or acquired — minds only come to track it",
+"Its terms cannot mention times or conditions"],
+a:3, e:"Times and conditions may appear inside the antecedent and consequent (\"raining at noon ⇒ wet at noon\"); they never attach to the arrow. The implication relating time-indexed terms is itself timeless. The other three are exactly what timelessness buys — and the third is the kill shot for ego's rule, which has an installation date."},
+
+{s:1, q:"The framework's referent requirement applies in which register, and why?",
+o:["All three registers — any conclusion without a referent is invalid",
+"The formal register, because mathematics must ultimately describe reality",
+"The empirical register only — formal validity is internal to axioms and analytic validity lives in meaning-containment; ego's rule masquerades as empirical while grounded in none of the three",
+"The analytic register, because bachelor⇒unmarried is the framework's paradigm case"],
+a:2, e:"Applying the referent test universally would falsely condemn mathematics — no instrument detects evenness, yet the implication is valid by derivation. The requirement bites where a claim presents as describing reality. Ego's failure is sharper than \"no referent\": empirical form, and no ground in any register — the masquerade."},
+
+{s:1, q:"Someone runs the Direct Pointing Test on \"if x and y are even, x+y is even\" and declares it a pseudo-implication. What happened?",
+o:["Correct — no instrument detects evenness, so the implication fails",
+"Wrong tool for the register: the test is calibrated to empirical claims, and math never made one — its ground is derivation, which it has",
+"Correct, but only because numbers are mind-dependent abstractions",
+"Wrong, because evenness does have a physical referent in counted objects"],
+a:1, e:"The test would flag every valid mathematical implication, which is a reductio of applying it there — math claims formal derivability and has it, so claim-type matches ground-type. The last option rescues math the wrong way, by inventing an empirical referent it neither has nor needs."},
+
+{s:1, q:"\"So everything mind-dependent and unobservable is incoherent?\" What is the framework's answer?",
+o:["Yes — that is precisely what the absent-referent argument establishes",
+"No — the defect is never mind-dependence but the masquerade: feelings, money, math, and fiction are mind-dependent and coherent because each claims exactly the ground it has; ego's claim wears empirical clothing with no ground anywhere and no admission of what it is",
+"Yes for properties, no for events",
+"No — mind-dependent claims are coherent whenever enough minds converge on them"],
+a:1, e:"Claim-type must match ground-type: money claims convention and is one; feelings claim to be occurrences and are; the contraction is real even while the verdict it seals is empty. The convergence option smuggles in the headcount error — agreement never supplies a ground. Without this guard the framework proves too much and condemns the reader's own real experience."},
+
+{s:1, q:"\"The referent exists in the mind — we just lack the technology to detect it.\" What is the strongest structural reply?",
+o:["Future brain imaging will eventually settle whether the property exists",
+"Germs were undetectable before microscopes, so the objection stands until neuroscience matures",
+"The relocation is a concession: what is in the mind is the rule and its firings — real, detectable, and exactly the framework's claim. The original claim (a self bearing a property) has no specifiable detection target, no explanatory residue beyond the machinery, and fails two prongs no instrument addresses",
+"Nothing in the mind can ever be detected, so the objection is unfalsifiable and therefore false"],
+a:2, e:"Germs earned their IOU with a specified causal role and predictions that differed from rivals before the microscope. \"A self bearing stupidity\" specifies nothing that isn't already the behavior or the machinery, explains nothing the rule doesn't, and the sleep-persistence and convergence failures are technology-independent. The last option overreaches — unfalsifiability makes a claim idle, not false."},
+
+/* ============ S3 REFERENT MECHANICS ============ */
+{s:2, q:"A claim has a referent. What does this — exactly and only — imply?",
+o:["The claim is true, since something real backs it",
+"The claim is truth-apt, checkable, and has a mind-independent truth-value — nothing more",
+"The claim discloses an implication connecting it to its evidence",
+"The claim is empirical rather than formal or analytic"],
+a:1, e:"Referent-bearing means there is something to check against — \"John is married\" has a referent and is false. It licenses no implication: referent is a property of one claim's relation to the world; implication is a relation between two claims, on which the referent is silent. The last option confuses direction — having a referent is what empirical grounding looks like, but the referent doesn't classify the claim."},
+
+{s:2, q:"A claim has NO referent. Which of these does NOT follow?",
+o:["It is not truth-apt — incoherent rather than false, like \"Tuesday is stupid\"",
+"It was produced, not disclosed — nothing pre-existed for it to report",
+"The claim is false, so its opposite is true",
+"Nothing external adjudicates it — agreement about it tracks minds' rules, not a fact"],
+a:2, e:"The most common slip: no referent ≠ false. Falsity requires a fact the claim fails to match; with none, the claim sits outside the true/false axis entirely — and the opposite claim (\"I am smart\") is equally empty, same absence, opposite seal. Treating it as false invites \"prove I'm not,\" which accepts the frame."},
+
+{s:2, q:"Disclosive firings (⇒), genuine production in the world (rain → wet ground), and ego's firing: how do their referents compare?",
+o:["Only disclosive firings have referents; production and ego's case both lack them",
+"Disclosure finds a pre-existing referent; genuine production creates a real one; ego's firing does neither — it produces only a thought whose purported referent never exists at any point",
+"All three have referents; they differ only in timing",
+"Production and ego's case both create their referents; disclosure finds its own"],
+a:1, e:"Rain really makes wet ground — genuine production creates a real, detectable effect. Ego's firing is a failed production: only the thought comes into being; \"a stupid self\" is neither found (not disclosive) nor made (not even real causation). Hence the corrected phrase: not \"manufactured its own referent\" but \"manufactured a thought pretending to have one.\""},
+
+{s:2, q:"In \"I am smart,\" what is the precise referent situation?",
+o:["The \"I\" is the referent, and the framework shows it is a thought",
+"A double failure: the subject \"I\" refers to no entity (only a recurring thought positing one), and the predicate \"smart\" refers to no standing property — so the state of affairs fails at both ends",
+"The predicate fails but the subject refers, since the organism exists",
+"The subject fails but the predicate refers, since cognitive capacity is real"],
+a:1, e:"Calling the \"I\" \"the referent\" quietly grants it as the real thing the claim lands on — it is the subject term, and its referent-search fails. The other rescues each work by equivocation: the organism is not the \"I\" the claim posits, and the system's real graded capacity is not the timeless self-property \"smart\" names. Both ends empty — deeper than \"John is stupid\" would be, where at least John exists."},
+
+{s:2, q:"B is independently verified true. Does that make A ⇒ B true?",
+o:["Yes — a true consequent is what the implication predicted",
+"Yes, provided A is also true",
+"No — B may be true for reasons unrelated to A; the implication additionally requires that B follows from A (A∧¬B impossible), on which B's truth is silent",
+"No, because verified claims cannot appear in implications"],
+a:2, e:"True conclusion ≠ true implication. You can reach a true B through a broken route — the destination existing doesn't confirm the road leads there. \"Provided A is also true\" is still not enough: even with A and B both true, \"quiet in the meeting ⇒ defensive to criticism\" is false if the connection doesn't hold."},
+
+{s:2, q:"\"All cats bark; Felix is a cat; therefore Felix barks.\" What does this show?",
+o:["Validity of form guarantees nothing about the conclusion without true premises — valid ≠ sound",
+"The inference is invalid because the conclusion is false",
+"The implication has no referent, which is why the conclusion fails",
+"Nothing — logic doesn't apply to empirical animals"],
+a:0, e:"The form is impeccable and the conclusion false, because a premise is false. This is why \"if A⇒B is valid we can skip the referent check\" fails: validity is conditional, delivering truth only when the premises hold — and establishing that already required the check. The second option confuses validity (form) with truth (content)."},
+
+{s:2, q:"Which of these I-claims is referent-less?",
+o:["\"I am sitting\" — posture is only a thought about the body",
+"\"I spoke at the meeting\" — the past no longer exists to refer to",
+"\"I am articulate\" — a standing property predicated of a self",
+"All I-claims, since the \"I\" never refers"],
+a:2, e:"The event/property split governs this: \"I am sitting\" and \"I spoke\" disclose real states and events — the \"I\" functioning as a loose label for the organism — and pass every test. What fails is the self-property claim. \"All I-claims\" is the overreach that would make the framework condemn ordinary speech; the am/is-a-property versus was/did-an-event grammar is the working tell."},
+
+{s:2, q:"Why does separating the standing rule from its per-instance output reveal that \"smart\" has no permanent referent?",
+o:["Because the rule is permanent and therefore the property must be temporary",
+"Because a permanent referent would persist on its own — present between firings, in sleep, unthought — but only the rule persists in the gaps; the property appears solely as freshly-produced output, and its felt permanence is the rule's permanence worn as a costume",
+"Because per-instance outputs are always referent-less by definition",
+"Because the rule and the property are the same object viewed twice"],
+a:1, e:"Height doesn't vanish between thoughts about it; \"smart\" does — nothing instantiates it between firings except a disposition to produce the verdict again. The mind mistakes the producer's persistence for the product's existence. Per-instance outputs are not automatically referent-less (\"I am sitting\" refers); and fusing rule with property is precisely what the separation dissolves."},
+
+/* ============ S4 THE TESTS ============ */
+{s:3, q:"Running the mind-removal test on \"John is unmarried\" — what exactly must survive the removal?",
+o:["The sentence, which fails since sentences need minds — so even the bachelor case fails",
+"The state of affairs the claim points at: John's actual marital status, which persists via registry, history, and the absence of a wedding",
+"John's belief that he is unmarried",
+"The implication bachelor⇒unmarried, which must be shown to exist physically"],
+a:1, e:"Test the referent, not the words. Sentences always need minds, so testing the sentence would falsely flag every claim including the bachelor's. John's unmarried-ness obtains in dreamless sleep with no one inferring it; \"I am stupid\" leaves no residue when the inferring stops. That asymmetry is the entire test."},
+
+{s:3, q:"The Direct Pointing Test's three prongs are:",
+o:["Instrument detection; persistence when no one is inferring (dreamless sleep); independent convergent verification routes",
+"Logical validity; empirical support; expert consensus",
+"Divergence across minds; convergence across minds; adjudication",
+"Posteriority; production; influence"],
+a:0, e:"The three prongs attack the empirical pretension from three sides: nothing detects the property, it doesn't exist unthought, and the only \"verification\" is rerunning the same inference — no independent route converges. The divergence option describes a different test; the last lists pipeline concepts, not the test."},
+
+{s:3, q:"In the divergence spread (\"I'm stupid\" / \"bad explanation\" / \"I need coffee\"), what is the correct status of the outputs?",
+o:["All three are referent-less — divergence proves the whole spread is mind-made",
+"Divergence is the prompt, not the verdict: it sorts the outputs — \"bad explanation\" and \"need coffee\" point at checkable things and may be true; the identity-claim is the one that always lands in the referent-absent pile",
+"Only \"bad explanation\" is referent-less, since it deflects blame",
+"All three have referents; they differ only in accuracy"],
+a:1, e:"The test discriminates — that is its value. If it condemned \"the explanation was bad\" it would be a blunt instrument condemning all judgment. The event- and body-claims are ordinary empirical claims (checkable, possibly deflections, possibly true); the self-property claim fails every check regardless. Divergence flags that the event underdetermines the outputs; the referent check does the sorting."},
+
+{s:3, q:"A million minds converge on \"not earning money means you are a failure.\" What does the convergence establish?",
+o:["A referent — mass agreement is the external verification the claim needed",
+"Nothing — convergence is consistent with shared conditioning as much as with a real implication; identical viruses on a million machines produce identical outputs. Only divergence is diagnostic, and only the referent adjudicates",
+"That the claim is analytic, since the culture's meanings contain it",
+"That the claim is probably true, by the weight of independent observers"],
+a:1, e:"Agreement is multiplied inferring, not detection — a thousand referent-less inferences don't sum to a referent; they sum to a popular rule. The observers are not independent: they share the installed rule, which is exactly what their agreement measures. Bachelor-convergence differs because each mind can check a registry — a route outside the inference."},
+
+{s:3, q:"Two students derive different sums for a triangle's angles; two people derive different verdicts from the same not-understanding. What is the asymmetry?",
+o:["None — divergence proves mind-dependence in both cases",
+"The students' divergence is resolved by a reasoner-independent fact (one is simply wrong); the identity-divergence has nothing to adjudicate against — which reveals there was never an implication, only rules firing on conditioning",
+"The students are using the formal register, so their claims have no referents either",
+"The identity case has more possible answers, making adjudication harder"],
+a:1, e:"Divergence alone never settles anything — geometry students diverge constantly. What matters is whether something external can arbitrate. The triangle has an answer independent of both reasoners; the verdict-divergence has no arbiter even in principle. \"Harder to adjudicate\" misses that the difference is the existence of an adjudicator, not its difficulty."},
+
+{s:3, q:"In the mailman metaphor, what single question is the child's version of the mind-removal test?",
+o:["\"Who delivered the letter?\"",
+"\"If nobody ever wrote the letter, would the thing still be there?\" — rain: yes; \"you are clumsy\": no; and the good letters are the same paper as the bad ones",
+"\"Is the letter written in nice handwriting?\"",
+"\"How many letters say the same thing?\""],
+a:1, e:"The letter about rain is about something that rains on empty houses; the letter about clumsy is about nothing left over when the writing stops. Counting letters is the convergence trap in child form — a thousand letters about nothing are still about nothing. And the winner-letter fails the same test as the clumsy-letter: it just came with candy."},
+
+/* ============ S5 MOVE 3 & THE LOCKS ============ */
+{s:4, q:"Path A of Move 3 (\"understanding proves smart, so not-understanding proves stupid\") commits which formal error?",
+o:["Denying the antecedent — the rule fired without its trigger",
+"Affirming the consequent — reasoning from the absence or presence of B back to a verdict the conditional never licenses",
+"Equivocation between two senses of \"understand\"",
+"Circular reasoning — the conclusion restates the premise"],
+a:1, e:"From \"smart ⇒ understands,\" not-understanding at one moment cannot deliver \"stupid\" — the ground being wet doesn't mean it rained. The conditional runs one way; ego runs it backward and sideways. The mother's gift case showed the mirror error (denying the antecedent) on one reading — the two invalid forms are worth keeping distinct."},
+
+{s:4, q:"Path B grants the inference a valid form (modus tollens). Where does it fail?",
+o:["Modus tollens is itself invalid",
+"The rule is false: a tendency (∼→) was frozen into a law (⇒) at Move 2, so the valid form runs on an unsound premise — the conclusion is ungrounded, not false",
+"The conclusion contradicts Path A's conclusion, so both fail",
+"The premise refers but the conclusion does not, which invalidates the form"],
+a:1, e:"Valid form + false rule = unsound. And note the precision: a false rule makes the conclusion ungrounded, not false — \"I am stupid\" doesn't become false when its premise fails; it was never truth-apt. The contradiction option is the naive objection, which ego escapes by indexing; the framework doesn't rely on it."},
+
+{s:4, q:"\"I was stupid at that moment.\" Does the time-index rescue the claim?",
+o:["Yes — bounded to a moment, it becomes an event-claim with a referent",
+"Yes, provided the moment is verifiable",
+"No — if \"stupid\" is still predicated of a self, time-stamping a referent-less property gives it no referent; the fix is predicating of the behavior (\"that was a stupid move\"), not shrinking the window on the self",
+"No, because moments don't exist"],
+a:2, e:"The scope-shrink looks like humility and changes nothing categorial: the question is never how long the property held but what it is predicated of. \"Stupid behavior occurred then\" — event-language, referent, fine. \"A self was stupid then\" — same category error, shorter span. The actor case is the proof the two come apart: acted stupid at that moment, was nothing."},
+
+{s:4, q:"\"A time-bound event established a timeless property of a self.\" Which failures are operating?",
+o:["Scope mismatch only — the temporal overreach is the whole error",
+"Category error only — events cannot become properties",
+"Both, at different layers: scope mismatch (bounded → unbounded, unlicensed) and category error (event treated as standing property; capacity pinned to a thought) — each sufficient alone, and fixing one leaves the other",
+"Neither — it is a simple contradiction and nothing more"],
+a:2, e:"They are independent locks: index the time and the category error remains (a thought still can't be stupid at any moment); let a thought bear properties, hypothetically, and one event still couldn't license a timeless one. The literal sentence \"a time-bound event is a timeless event\" is a flat contradiction — but the pipeline's actual move is event→property-of-a-self, which is where both layers bite."},
+
+{s:4, q:"Given the category error, what is the status of \"the I is stupid\" and \"the I is not smart\"?",
+o:["The first is false and the second is true",
+"Both internal predications are incoherent (a thought bears neither stupidity nor non-smartness); only the external negation — \"it is not the case that the I is smart\" — is true, and its twin about \"stupid\" is equally true",
+"The first is incoherent and the second is its coherent synonym",
+"Both are true at the thought level, which is why the insult is literally accurate"],
+a:1, e:"\"Literally accurate\" is the old error the antidote correction removed — it grants the predication. The synonym reading is the equivocation the insult exploits: \"not smart\" reads as \"stupid\" only via a scalar implicature that runs solely for on-scale subjects. External negation removes the scale; it elevates and demotes no one, which is why it can't be flipped into a compliment either."},
+
+{s:4, q:"Why does \"you're stupid\" wound more when the true reading is so thin?",
+o:["Because the external negation (\"nothing about the I is smart\") is trivially true, and the insult borrows that truth to deliver the internal predication (\"you occupy the bottom of the scale\") — the evidence supports only the reading that hurts no one",
+"Because deep down the hearer knows the internal predication is accurate",
+"Because insults bypass logic entirely, making analysis irrelevant",
+"Because the scale is real and the position is genuinely low"],
+a:0, e:"The smuggling route is the equivocation itself: what can be defended (external, true of every thought, of \"stupid\" as much as \"smart\") is not what lands; what lands (internal, a deficit-property of you) is indefensible. Naming the two negations is what strips the borrowed authority."},
+
+{s:4, q:"\"Review your life: the failures, the misunderstandings — the record speaks.\" What is the structural reply?",
+o:["The record also contains successes, which balance the verdict",
+"A sequence of events doesn't have an IQ: a list of occurrences under uncontrolled conditions is not a measurement, isn't the kind of thing that bears a capacity, and the capacity — where real — belongs to the system anyway",
+"The past no longer exists, so the record is inadmissible",
+"Memory is unreliable, so the record is probably distorted"],
+a:1, e:"Balancing with successes accepts that the record is a measurement and merely disputes the reading — the pipeline with better bookkeeping. The reply is categorial: events are what capacities produce, not what bears them; a runner's list of times including uphills and injuries is not a max-speed reading. More events never fix it — a hundred time-bound events are still time-bound."},
+
+/* ============ S6 THE I ============ */
+{s:5, q:"What makes the regress the ultimate demonstration that the I is a thought?",
+o:["It formally deduces the nonexistence of the self from axioms",
+"Its only possible defeater — \"but who is doing the looking?\" — is the demonstration executing again: the search for the I returns a thought, the search for the searcher returns a thought, with no terminus at any level that isn't thought",
+"It shows the I is absent in dreamless sleep, which no instrument can dispute",
+"It proves the I exists but is smaller than assumed"],
+a:1, e:"The claim is observational, not a theorem — anyone claiming deduction overreaches. What makes the regress ultimate is that it is self-sealing: every other proof has a flank (sleep relies on reports; Direct Pointing invites \"future tech\"), but the regress runs now, in the objection itself. Something replaced by a thought at every level, including the level of the seeker, is a thought."},
+
+{s:5, q:"\"Saying the I wasn't there when understanding happened is like saying Hicham wasn't there — absurd.\" What resolves this?",
+o:["The framework does deny the organism was present, which is its most radical claim",
+"An equivocation: \"Hicham\" names the organism (present, and it understood) and the inner agent-I (a late-arriving ownership-thought). The claim is only about the second — and the feeling that they are identical is the fusion the framework points at",
+"The organism was absent but the brain was present",
+"Understanding never actually occurs; only the claim of it does"],
+a:1, e:"Disambiguated, the absurdity vanishes: organism-was-there — true, undisputed; inner-agent-was-there-doing-it — the actual claim under examination. The objection's force comes from hearing the denial of the second as a denial of the first, which is the I's grammatical glue to the organism's name working in real time."},
+
+{s:5, q:"The observer and awareness — what is the framework's precise position?",
+o:["Both are thoughts, which is why looking finds nothing",
+"Awareness is the observer, correctly identified at last — \"I am awareness\" is the exit",
+"The observer is a thought (awareness plus an ownership-claim, an entity posited behind experience); awareness is not a thought and not an entity — and converting it into an identity (\"I am awareness\") is Move 3 with a refined predicate",
+"Awareness is a thought but the observer is real"],
+a:2, e:"Strip the ownership-claim and awareness remains; the \"observer\" — the one who has it — was in the claim, not in the awareness. The regress is the entity-claim failing repeatedly; awareness isn't at the end of the regress, it's what the regress happens in. \"I am awareness\" borrows the reality of awareness to install a witness-self — the most refined trap available."},
+
+{s:5, q:"An actor performs stupidity with maximum deliberateness and full awareness. What does this case establish?",
+o:["That deliberate action requires an owner, since the actor chose the register",
+"That awareness present during action = an agent present in it",
+"That the hardest case comes out the same: the skill, choosing, and awareness are the system's, in awareness — and the actor-entity is the thought \"I'm performing this,\" arriving after each adjustment already landed. Maximum deliberateness, zero owner found",
+"That acting and being are the same when the performance is skilled enough"],
+a:2, e:"Deliberation is a system operation — complexity of the operation doesn't summon an operator. Try to catch the moment you chose, as distinct from the choosing resolving: it isn't there. Awareness accompanying the performance is not an entity performing; awareness is what the performing appears in. The I's function was never to act — it is to own, converting outcomes into verdicts."},
+
+{s:5, q:"\"Fine — the I has no capacities. The system is smart.\" What just happened?",
+o:["A correct translation into framework vocabulary",
+"The receiver swap: the capacity was re-frozen into a property of a new receiver — Move 3 with the receiver renamed — and it fails the Direct Pointing Test identically. Capacities aren't possessed; they're what the system does under conditions, present when conditions support them",
+"An improvement, since the system at least exists",
+"A category error in reverse — systems cannot do anything"],
+a:1, e:"The receiver-check is content-agnostic: \"I,\" \"the system,\" \"my brain\" all fail the same way as bearers of a frozen property. The system's real capacities are graded, domain-specific, condition-dependent — everything the property-claim isn't. \"The system at least exists\" is the seduction: the receiver's existence doesn't make the property-claim coherent."},
+
+{s:5, q:"Why does the self-feeling run constantly — a someone inside worth protecting?",
+o:["Because a continuous self exists and is accurately felt",
+"Because grammar reissues an \"I\" with nearly every thought (flicker-fusion read as a resident), the doer-sense is backdated onto activity already completed, and survival-grade charge makes the recurring subject-thought feel like a precious entity — and the impulse to protect it is itself one more output, not a guardian standing outside",
+"Because awareness is the self and awareness is continuous",
+"Because the body is continuous and the self-feeling reports the body"],
+a:1, e:"The feeling is real; what it claims is not — a feeling of an experiencer is not an experiencer. The \"who wants to protect the self?\" question has no second entity as its answer: the protecting-thought and the self-thought are outputs of one stream, the condition that posits a conditioner. It hides by always occupying the subject-slot, re-forming as \"the one looking\" the instant you search."},
+
+{s:5, q:"\"I understand because I have intelligence\" vs. \"I understand therefore I have intelligence\" — the ego reversal is:",
+o:["Both sentences are correct in different moods",
+"\"Therefore\" (inferring capacity from one expression) installs the identity at Layer 1; \"because\" (capacity as cause) defends it at Layer 2 — the flip conceals that the \"intelligence\" was the effect before being repurposed as the cause. And both mislocate the bearer: the real capacity is the system's",
+"\"Because\" is the error and \"therefore\" is the valid direction",
+"The sentences are logically equivalent, differing only in emphasis"],
+a:1, e:"The causal arrow (capacity → expression) is the right direction — for the system. The inferential arrow (one expression ⊢ capacity) doesn't hold: A∧¬B is possible, one understanding doesn't entail a standing capacity. Ego uses the invalid arrow to install and the valid-shaped arrow to defend, and the sequence hides that the cause at Layer 2 was manufactured at Layer 1."},
+
+/* ============ S7 SEAL, BODY & FEELING ============ */
+{s:6, q:"The role of feeling in installation versus execution:",
+o:["Identical in both — the feeling always produces the identity",
+"Generative in installation (Having → feeling → Being: association crystallizes the label out of the felt response) and confirmatory in execution (rule → thought → feeling seals it as felt-truth) — the order of thought and feeling reverses between the modes",
+"Confirmatory in installation and generative in execution",
+"Absent from installation, which is purely cognitive"],
+a:1, e:"In installation there is no rule yet — the body's response is the bridge that converts event into label; the feeling precedes and creates the Being. In execution the rule produces the thought first and the feeling arrives to make it feel true — which is why felt-truth is so compelling and so worthless as evidence. \"The feeling produces the outcome\" confuses the seal with a downstream behavioral influence (∼→)."},
+
+{s:6, q:"\"When a judgment-thought appears, watch it until it vanishes — that's how you unfeed it.\" What is the correction?",
+o:["Correct as stated — thoughts pass, and passing is non-reinforcement",
+"Unfeeding is not-sealing, not passing: a thought can vanish having been fully believed and sealed (already fed), the wanting-it-gone is suppression wearing patience's clothes, and a watcher waiting for it to clear installs an observer-self. Seen as output, not sealed, not managed — the passing is a byproduct",
+"Wrong — thoughts must be actively refuted before they pass",
+"Wrong — thoughts should be replaced with their positive opposites"],
+a:1, e:"Vanishing is what all thoughts do, sealed or not; the feeding happens during presence, at the sealing. The tells: is there a wish for it to go (suppression)? Is someone tracking whether it's gone yet (watcher)? Unfed means nothing is done to it — not believed, not confirmed by the body, not pushed. Replacement with positives is the conclusion-swap: same machinery, nicer output."},
+
+{s:6, q:"Why does feeling an old wound fully, without supplying the interpretation, release it?",
+o:["Because attention burns emotional energy until none remains",
+"Because the weight was held by a coupling: contraction and identity-claim citing each other as proof. Without the claim the seal cannot form and the response can complete — rise, peak, discharge — which the coupling had prevented. What the body carries is the imprint of the conditioning, not proof about a self",
+"Because feelings are referent-less and therefore not real",
+"Because the body forgets what the mind stops rehearsing"],
+a:1, e:"Thinking can't dissolve the loop from inside — every thought about the wound routes through the installed identity (\"I should be over this\" becomes \"I am still broken\"). \"Feelings aren't real\" is the over-extension the mind-dependence guard blocks: the contraction is real as an occurrence; what's empty is the verdict it was taken to confirm. Real seal, empty letter. And the moment release becomes a project, a self is working on itself — the pipeline one level out."},
+
+{s:6, q:"When a judgment lands and hurts, what — precisely — is hurt?",
+o:["The self, which the judgment genuinely diminishes",
+"Nothing is hurt, and nothing at all occurred",
+"An identity-claim under maintenance is contradicted, the body contracts in response to the produced thought, and a further thought arrives claiming a wounded self — contradiction, contraction, and claim are all real events; the entity they presuppose is not found",
+"The body, which the words physically injure"],
+a:2, e:"\"Nothing occurred\" overshoots into denial — the events are real, which is why the experience is vivid. The dissolution is that the receiver of the wound, looked for at the moment of impact, is one more thought in the sequence. Same words devastate one person and pass through another: if the words carried the hurt, that variance would be impossible — the hurt is manufactured at the conversion step."},
+
+{s:6, q:"One firing produces both the thought \"I am inadequate\" and the chest contraction, reliably together. Ego reads the pairing as the feeling proving the thought. What is the actual structure?",
+o:["The feeling does verify the thought — somatic responses track truth",
+"A ⇒ B and A ⇒ C with B and C independent: two outputs of one antecedent co-occur without either evidencing the other. The correlation lives entirely in the shared firing — a common ancestor mistaken for a direct connection. Move 5's authority is this mistake",
+"The thought causes the feeling, so the feeling is derivative evidence",
+"The feeling causes the thought, so the thought is derivative evidence"],
+a:1, e:"Divisible-by-2 and divisible-by-3 co-occur across all multiples of 6 while remaining independent everywhere. The thought-contraction pairing is the same structure: reliable co-occurrence from a common source, read as mutual confirmation. This is why felt-truth is structurally worthless as verification — the body confirming the verdict is the firing's second output, not a second witness."},
+
+{s:6, q:"Why do context-free judgments (\"you are stupid,\" no situation attached) hurt more than context-bound ones?",
+o:["Because they are more likely to be accurate summaries",
+"Because the boundedness of an event-claim is its container — \"that was stupid in the meeting\" stops at the meeting — while a claim with no referent has no boundary: it floods precisely because it points at nothing. Maximum sting, minimum referent, and no counter-evidence procedure to bound it",
+"Because they are delivered with more hostility on average",
+"Because the mind treats vague claims as more authoritative"],
+a:1, e:"The inversion is the tell: if judgments hurt in proportion to their truth, the referent-less ones would hurt least. They hurt most — devastating and empty are the same feature. An event-claim invites a check that limits it; the context-free property-claim offers nothing to examine, bypasses evaluation, and goes straight to the seal, filed as \"the whole self, always.\""},
+
+/* ============ S8 JUDGMENTS & OTHER PEOPLE ============ */
+{s:7, q:"He says \"you are stupid\"; your mind runs \"I am stupid.\" \"The words and the thought are the same.\" What is wrong with this?",
+o:["Nothing — identical strings, identical claims",
+"Three things: they are outputs of different systems (his rule fired on you; yours fired on his words — input versus output); the conversion can fail (the same words yield nothing in the next person, proving a rule sits between); and they assert different things (his: a fact about his machinery; yours: a property-claim about a self)",
+"The words are the thought, but only when spoken aloud",
+"The thought is real and the words are not, so they cannot be compared"],
+a:1, e:"If input equaled output, delivery, source, and state couldn't swing the reaction — and everyone would be wounded identically. The variance is the proof of conversion, and the gap where the rule operates is exactly where intervention is possible. If they were the same, hearing the words would be being hurt, mechanically, and there would be no exit."},
+
+{s:7, q:"\"You're stupid because you did this.\" The full structural analysis:",
+o:["Both clauses are referent-less, so the whole sentence is empty",
+"\"You did this\" has a referent (a real, checkable event — possibly even miscast); \"you're stupid\" has none (self-property, category error); and the \"because\" is counterfeit — borrowing the event's real referent to smuggle in a verdict the event doesn't entail (A∧¬B trivially possible, scope leap, divergence across judges)",
+"Both clauses have referents, and only the connection fails",
+"The sentence is valid if the deed was genuinely foolish"],
+a:1, e:"The sentence splits at the \"because.\" The behavior-half deserves an honest check (referent-bearing means checkable, not correct — his framing of the deed may itself be inference). The verdict-half has no surface to land on. Answering \"I'm not stupid — that was actually clever\" flips to the opposite pole, equally empty, and accepts the scale."},
+
+{s:7, q:"Why can't proving the judger wrong end the pain?",
+o:["Because judgers never retract",
+"Because the strategy mislocates the pain's origin: the hurt was manufactured at your conversion step, not in their verdict — so overturning the verdict leaves the machinery loaded. It also accepts the frame (proving you're not-X grants X as something you could be), argues against a position held on identity not evidence, and chases approval that merely impersonates the missing referent",
+"Because pain always fades on its own timeline regardless of vindication",
+"Because winning arguments damages relationships, creating new pain"],
+a:1, e:"Even total victory delivers only brief relief — the next ambiguous glance refires the rule, which is the tell the pain was never located where the strategy assumed. And the proving consumes bandwidth, degrading performance around the judger, manufacturing the evidence the loop needs. The urge itself dissolves when the receiver is seen: proving only matters if \"stupid\" is something a self could be."},
+
+{s:7, q:"Same proposition, wildly different reactions depending on tone, framing, source, and your state. What does this variance establish?",
+o:["That people are inconsistent and reactions are random",
+"That the reaction is the pipeline's output, not the words' content: tone supplies or withholds the charge (read by the body before content), framing routes it as event or self-property, source-weighting gates whether it fires, state sets the threshold, and valence flips the seal — none of which could move the reaction if the words carried it",
+"That delivery matters more than truth, so judgments should be softened",
+"That only trusted sources should be allowed to give feedback"],
+a:1, e:"The levers all operate on the conversion, which is the proof the conversion exists. \"That was underprepared\" versus \"you're someone who never prepares\" — nearly identical propositions, opposite routing. This is the same finding as words-versus-thought, extended: the constant (proposition) can't explain the variable (reaction); the rule can."},
+
+{s:7, q:"Praise can wound. Which mechanism is NOT one of the framework's explanations?",
+o:["\"You're so smart\" installs a standard that must now be defended — the compliment becomes pressure",
+"Praise contradicting a sealed negative identity gets rejected (\"they don't really know me\") — the rule can't accept the input",
+"Praise and criticism run the same machinery with opposite seals — expansion and contraction are the two faces of one conversion",
+"Praise depletes a finite reserve of self-esteem that criticism replenishes"],
+a:3, e:"The reserve is invented — nothing like it exists in the framework. The real mechanisms follow from content-agnosticism: the positive seal is the same coupling pointing up, the raised standard is the positive identity demanding maintenance, and the rejection of praise is the installed rule filtering inputs that contradict its verdict. Same machinery throughout; only the sign differs."},
+
+{s:7, q:"An adult acquires a new identity-rule from another person's judgments. What converts firing into installing?",
+o:["A single sufficiently harsh judgment, regardless of source",
+"Repetition from a weighted source, high charge at delivery, and — decisively — your own acceptance: each time the verdict is received, converted to \"I am X,\" and sealed, that firing reinforces the forming rule. The acceptance is the only lever that is yours",
+"The judgment being true, since only accurate verdicts install",
+"Nothing — rules install only in childhood"],
+a:1, e:"Most adult judgments fire existing rules; installation needs the groove cut repeatedly, and sealing is the cutting. This is why \"protection\" is the wrong frame — a defended self is still a self under threat, armor confirming the stake. Non-reinforcement is the actual mechanism: uncharged, unaccepted verdicts can't set, however often repeated."},
+
+{s:7, q:"Projection — someone accusing others of exactly what they do, with genuine unawareness. The structure:",
+o:["Deliberate hypocrisy, performed knowingly",
+"The pipeline with the receiver swapped: owning the trait would fire an intolerable verdict (Having ⇒ Being at survival charge), so the trait is detected — often accurately, the apparatus trained on disowned material — but attributed outward. The unawareness is load-bearing, not incidental: a projection visible as projection has already failed",
+"A perceptual deficit — projectors literally cannot see their own behavior",
+"Learned social strategy for deflecting blame, consciously maintained"],
+a:1, e:"The detection is real; only the address is false — which is why projectors are hypersensitive to precisely their own disowned trait. Awareness would require the one move the structure exists to prevent: aiming the perception back at the self. This is also why pointing it out fails — it processes as one more attack, confirming the victimhood. The reachable end of the circuit is your own."},
+
+{s:7, q:"When does calling others stupid make the judger a victim?",
+o:["Always — outward judgment is inherently self-victimizing",
+"Never — superiority and victimhood are incompatible",
+"With directional traits (hostility, contempt) victimhood is automatic — the relocated trait points back by nature. \"Stupid\" is non-directional: superiority is the default (\"if they are stupid, I am smart\"), and victimhood needs one more move — the grievance conversion (\"I'm surrounded by idiots,\" \"his incompetence wastes my time\"), yielding superior and wronged at once",
+"Only when the others retaliate, creating real victimization"],
+a:2, e:"The directional/non-directional split is the precision the entry needed: \"they are hostile toward me\" auto-generates a target; \"they are stupid\" aims at no one until their defect is framed as your burden. The double position — smart one and wronged one — is the most fortified configuration available: worth by contrast, failures pre-explained, sealed as righteous frustration."},
+
+/* ============ S9 TRAPS & ESCAPES ============ */
+{s:8, q:"\"The I is a thought\" — the two distinct captures are:",
+o:["Denial and repression",
+"Worn as identity (\"I am someone who has seen through the pipeline\" — a refined self, sealed, defended) and wielded as shield (the sentence summoned at the moment of threat to deflect feedback or cancel the contraction — which presupposes exactly the self it denies, since a defense defends something)",
+"Forgetting the insight and over-applying it",
+"Teaching it to others and keeping it private"],
+a:1, e:"The shield capture has its own tells: timing (a seeing isn't summoned by threat; a tool is), deflecting referent-bearing event-claims (\"there's no I to have missed the deadline\" — the behavior still deserves checking), and suppressing the body (\"no one is hurt, so this shouldn't be here\" — coupling in reverse). Only the sentence can be captured; the search, re-performed, cannot."},
+
+{s:8, q:"\"An intelligent person knows he is stupid; an idiot doesn't know he's an idiot.\" The framework's verdict:",
+o:["Fully true — it is the framework in aphorism form",
+"Fully false — competence and self-assessment are unrelated",
+"Empirically pointed (competence is required to assess competence; confidence often tracks its absence) but formally broken: it hands you the humble-knower as a superior identity — Move 3 with humility as predicate, self-sealing — and arms you with an unfalsifiable label for others, whose protest becomes the proof",
+"True for intelligence, false for other capacities"],
+a:2, e:"The salvage is real: felt certainty of being smart is not evidence, and not-knowing costs nothing. But \"I recognize my stupidity, therefore I'm the intelligent one\" is the machinery wearing its own cure — comparative (needing the idiot as foil, the tell of identity-work), and the second half is a permanent weapon: anyone confident becomes the idiot who doesn't know it, irrefutable from inside."},
+
+{s:8, q:"How does someone hold \"understand ⇒ smart\" and \"not-understand ⇒ stupid\" for decades without noticing the incoherence?",
+o:["Low intelligence prevents the logical check",
+"The rule never presents as a rule (outputs arrive as perception, and perceptions aren't audited); the two verdicts are state-inaccessible to each other (shame retrieves confirmations, suppresses the smart-days); the seal outranks the audit (felt-truth doesn't submit to review); scrutiny is asymmetric (the pleasant verdict is never examined, the painful one gets \"how do I fix it,\" not \"is this coherent\") — and the naive contradiction objection fails anyway, since ego indexes by time and domain",
+"They do notice, and hold it cynically",
+"The two rules are actually consistent, so there is nothing to notice"],
+a:1, e:"The deeper incoherence survives the indexing dodge: an output that flips with every event, claiming to disclose a stable fact, is unstable-posing-as-standing — and that one can't be indexed away. None of the survival mechanisms is stupidity; the assumption was installed before reasoning existed, and reasoning has no purchase on what it didn't install."},
+
+{s:8, q:"Three ways \"my perception of the situation changed.\" Which is the only structural change?",
+o:["The input was reframed with new context, so the rule didn't fire this time — real relief, machinery intact for the next ambiguous instance",
+"The conclusion was swapped for a better-feeling one (\"I'm not a failure, I'm a work in progress\") — Move 3 still ran, the seal flipped positive, the most seductive and least structural change",
+"Move 0 didn't fire: the event was never routed to a self, no verdict of any valence was produced, and the absence of weight isn't reassurance but the absence of anything to reassure",
+"Seeing all events as neutral, which reclassifies every input at once"],
+a:2, e:"The tell between the swap and the drop: a swapped conclusion still feels like a conclusion about you, now pleasant; the dropped conclusion has no self in the frame — not \"I'm okay\" but no scorer running. \"I see all events as neutral\" is the neutrality-identity, the insight eaten. The input-reframe is genuinely useful and instance-bound — worth having, not the structural change."},
+
+{s:8, q:"Why is others' approval more compelling than positive self-talk — and never enough?",
+o:["Because other people are more objective judges of worth",
+"Because approval impersonates the external referent the worth-claim structurally lacks: \"they think I'm good\" looks like verification arriving from outside, for a claim that has nothing to verify. It resets rather than fills — an impersonated referent confirms nothing, so it is needed again — and the wiring is survival-deep, installed when the caregiver's face was the safety signal",
+"Because self-talk is always insincere",
+"Because approval is scarce, and scarcity creates value"],
+a:1, e:"The bottomlessness is structural, not psychological weakness: you cannot fill a hole that has no object. And the standard remedy — validate yourself instead — moves the worth-claim from their verdict to yours: same pipeline, new source, still a self whose worth needs establishing. What loosens it is the charge question, the absent referent, and the missing recipient — not a better validator."},
+
+{s:8, q:"\"Every action is love or fear; that's why all events are neutral.\" The structural audit:",
+o:["Sound — the maxim and the framework agree",
+"Claim 1 is a forced, near-unfalsifiable binary that reinstalls a motivated doer (most action is conditions producing responses, no motive-of-a-self in play); Claim 2 is close but overstated (events are verdict-less about a self, not featureless); and the \"that's why\" is a non-sequitur — the motive behind actions and the meaning-status of events are independent registers",
+"The binary is correct but events are not neutral",
+"Events are neutral, and the binary is the correct explanation"],
+a:1, e:"Keep the conclusion, change the engine: events don't dictate who you are — because the self-verdict is produced and referent-less, not because action traces to love or fear. Anything can be relabeled love or fear, which means the binary explains nothing; and \"I act from love\" presupposes an I who acts from something — the agent the framework dissolves."},
+
+/* ============ S10 INTEGRATION ============ */
+{s:9, q:"\"Understanding ⇒ smart\" versus \"I understood ⇒ I am smart\" — the distinction and why it matters:",
+o:["Two phrasings of one claim; nothing turns on the difference",
+"The first is the rule (the general bridge, installed at Move 2/3, persisting between events); the second is the rule firing on an instance (Move 4, producing a fresh conclusion). Collapsing them hides that the persistent thing is the rule and the permanent-feeling thing is only per-instance output — the fusion that makes \"I am smart\" feel like a standing fact",
+"The first is valid and the second commits the error",
+"The second is the rule and the first is its firing"],
+a:1, e:"The rule persists (always installed, ready) and this persistence gets experienced as the property's permanence — but a producer always ready is not a product always existing. Keeping rule and firing apart is what reveals the conclusion has no referent that survives between firings: only the disposition does."},
+
+{s:9, q:"He calls them stupid only when he understood and they didn't. What does the comparison-dependence reveal?",
+o:["That the label is accurate, since the gap was real",
+"Two things: the verdict on them is identity-work in disguise (\"they are stupid\" is the shadow of \"I am smart\" — the contrast is load-bearing, which is why the label appears only when the comparison favors him), and the comparison-dependence itself proves referent-lessness: a real property doesn't need a foil to exist; a label that appears only against contrast is a produced relation of the comparing mind",
+"That evaluative labels are always false",
+"That he should compare himself to better performers instead"],
+a:1, e:"Height doesn't depend on who's standing nearby. If \"stupid\" were a detected feature of the person it would be there regardless of the observer's own performance — its conditionality on his success is the giveaway. Evaluative labels are placements against a standard, usually the self; some wear the comparison openly (stupid, less), others hide it (failure, unworthy)."},
+
+{s:9, q:"Conditional Valuation (Foundation 2) and \"conditional morality\" — the relationship:",
+o:["Same thing — the framework is a theory of conditional ethics",
+"Different axes sharing a word: conditional morality is an ethics position (rightness of acts depends on outcomes — consequentialism vs. Kant's unconditional obligations), about actions, with no self in the sentence. Conditional Valuation is psychology: \"outcomes determine my worth.\" The framework is silent on ethics and content-agnostic about moral identity — \"I am good\" runs the same machinery as \"I am smart,\" and worse, it never hurts enough to be examined",
+"The framework proves morality is conditional by dissolving the self",
+"The framework proves morality is unconditional, since worth is unconditional"],
+a:1, e:"You can hold any ethics and run or not run the pipeline — a Kantian can convert violations into \"I am bad as a person,\" a consequentialist can not. \"No fixed self, therefore beyond good and evil\" is the machinery in moral dress: a realized self transcending morality. The framework dismantles the moral self-identity, not the moral status of actions."},
+
+{s:9, q:"\"It's not the content but the context of your life that determines its quality.\" The framework's correction:",
+o:["Fully endorsed — reframing is the exit",
+"Right that content doesn't determine quality (same event, divergent outputs — the verdict is produced, not disclosed), wrong about the remedy: \"context\" means better framing, which is the pipeline producing nicer verdicts. What actually changes quality is whether the event is converted into a self-verdict at all — Move 0 not firing, not a superior frame held by a self",
+"Wrong on both counts — content fully determines quality",
+"Right, provided the context is chosen consciously"],
+a:1, e:"The Divergence Test is the maxim's true backbone and also its correction: the event underdetermines the experience, but the alternative to a bad frame isn't a good frame — it's no verdict. And the maxim's trap: \"I am someone who holds life in an empowering context\" is a superior self that must keep reframing, suffering when it can't."},
+
+{s:9, q:"After the referent check comes back empty on \"I am worthless,\" what is there to do about the claim?",
+o:["Refute it with counter-evidence until it is disproven",
+"Replace it with \"I am worthy,\" the accurate opposite",
+"Nothing — and that is the finding: not truth-apt, so nothing to accept or dispute (disputing grants a truth-value); no property, so nothing to fix; both poles empty, so nothing to flip. The contraction may still arise — a body responding to a thought that points at nothing — and what remains is a firing seen as a firing, with no one it was about",
+"Suppress it whenever it appears, since engagement feeds it"],
+a:2, e:"Refuting and flipping both keep the scale — refuting accepts the claim could be true; flipping installs the same emptiness with a pleasant seal. Suppression is resistance, which stores. The drop isn't a victory; the claim was never a verdict with a truth-value, only a produced thought wearing the grammar of one — and \"I saw through it\" would be one more, arriving late, claiming the seeing."},
+
+{s:9, q:"When should the referent check actually be run?",
+o:["On every thought, as continuous mental hygiene",
+"On event-claims first, since they are most common",
+"When a thought predicates something of your self and lands with charge as felt-truth — the seal forming. Not on event-claims (they pass trivially, and \"technically no referent\" becomes a dodge), not as a constant scan (which installs the checker-self), not outside the empirical register (it would falsely flag math)",
+"Only in retrospect, reviewing the day's thoughts each evening"],
+a:2, e:"The check is a response to a gripping self-verdict, not a practice run on everything — the moment it becomes who you are (\"someone who audits thoughts for referents\"), the tool has been eaten by what it was built to dissolve. The trigger is the weight: the \"this is just true about me\" arriving as bedrock is exactly when a conclusion is posing as referential."},
+
+{s:9, q:"The deepest single statement of why \"I am stupid\" refers to nothing — the one the other proofs reduce to:",
+o:["No brain scan has yet located the stupidity",
+"Everyone disagrees about who is stupid",
+"Remove every mind doing the inferring: John's unmarried-ness persists — registry, history, the absence of a wedding, obtaining in his sleep. \"I am stupid\" leaves no residue: no state of affairs survives the removal, because the claim exists only while being inferred. Something that exists only while thought is the thought — there is no second thing for it to be about",
+"The claim is too vague to evaluate"],
+a:2, e:"The mind-removal test needs no instrument, no theory, no future technology — one question and the looking. In child form: if nobody ever wrote the letter, would the thing still be there? Rain, yes. \"You are clumsy,\" no — and the winner-letters are the same paper. The brain-scan option concedes a detection target that was never specifiable; disagreement is the prompt, not the proof."}
+];
+
+/* ---------------- engine ---------------- */
+let order=[], idx=0, score=0, answers=[];
+let perSec={};
+const $=id=>document.getElementById(id);
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+
+function start(indices){
+  order = indices.slice(); idx=0; score=0; answers=[];
+  perSec={}; SECTIONS.forEach((_,i)=>perSec[i]={ok:0,n:0});
+  order.forEach(qi=>perSec[Q[qi].s].n++);
+  $("landing").classList.add("hidden"); $("results").classList.add("hidden");
+  $("quiz").classList.remove("hidden");
+  render();
+}
+
+let optOrder=[], selected=-1, confirmed=false;
+
+function render(){
+  const qi=order[idx], q=Q[qi];
+  selected=-1; confirmed=false;
+  $("secTag").textContent = SECTIONS[q.s].name;
+  $("secTag").style.borderColor = SECTIONS[q.s].c;
+  $("secTag").style.color = SECTIONS[q.s].c;
+  $("counter").textContent = (idx+1)+" / "+order.length;
+  $("scoreLive").textContent = score+" correct";
+  $("pbar").style.width = (idx/order.length*100)+"%";
+  $("qtext").textContent = q.q;
+  optOrder = shuffle([0,1,2,3]);
+  const box=$("opts"); box.innerHTML="";
+  optOrder.forEach((oi,k)=>{
+    const b=document.createElement("button");
+    b.className="opt"; b.setAttribute("data-oi",oi);
+    b.innerHTML='<span class="key mono">'+(k+1)+'</span>'+escapeHtml(q.o[oi]);
+    b.onclick=()=>select(k);
+    box.appendChild(b);
+  });
+  $("feedback").classList.add("hidden");
+  $("confirmBtn").classList.remove("hidden"); $("confirmBtn").disabled=true;
+  $("nextBtn").classList.add("hidden");
+  window.scrollTo({top:0});
+}
+
+function select(k){
+  if(confirmed) return;
+  selected=k;
+  document.querySelectorAll(".opt").forEach((b,i)=>b.classList.toggle("sel",i===k));
+  $("confirmBtn").disabled=false;
+}
+
+function confirmAnswer(){
+  if(selected<0||confirmed) return;
+  confirmed=true;
+  const qi=order[idx], q=Q[qi];
+  const chosenOi=optOrder[selected];
+  const right = chosenOi===q.a;
+  if(right){score++; perSec[q.s].ok++}
+  answers.push({qi, chosen:chosenOi, right});
+  document.querySelectorAll(".opt").forEach(b=>{
+    const oi=+b.getAttribute("data-oi");
+    b.disabled=true;
+    if(oi===q.a) b.classList.add("correct");
+    else if(oi===chosenOi) b.classList.add("wrong");
+    else b.classList.add("dim");
+  });
+  $("verdict").textContent = right? "Correct":"Not quite — the correct answer is highlighted";
+  $("verdict").className = "verdict "+(right?"ok":"bad");
+  $("explain").textContent = q.e;
+  $("feedback").classList.remove("hidden");
+  $("confirmBtn").classList.add("hidden");
+  $("nextBtn").classList.remove("hidden");
+  $("nextBtn").textContent = idx===order.length-1 ? "Results" : "Next";
+  $("scoreLive").textContent = score+" correct";
+  $("nextBtn").focus();
+}
+
+function next(){
+  if(idx===order.length-1){ results(); return }
+  idx++; render();
+}
+
+function results(){
+  $("quiz").classList.add("hidden");
+  $("results").classList.remove("hidden");
+  const pct=Math.round(score/order.length*100);
+  $("finalScore").textContent = score+" / "+order.length;
+  $("finalSub").textContent = pct+"% — "+(pct===100?"complete precision":pct>=85?"expert command; review the misses":pct>=65?"solid structure; the misses mark the exact near-positions":"the misses below are the map — each explanation names its trap");
+  const bd=$("secBreakdown"); bd.innerHTML="";
+  SECTIONS.forEach((s,i)=>{
+    const d=perSec[i]; if(!d||!d.n) return;
+    const row=document.createElement("div"); row.className="secrow";
+    const p=Math.round(d.ok/d.n*100);
+    row.innerHTML='<div class="lab"><span>'+s.name+'</span><span class="mono">'+d.ok+'/'+d.n+'</span></div><div class="bar"><div style="width:'+p+'%; background:'+s.c+'"></div></div>';
+    bd.appendChild(row);
+  });
+  const missed=answers.filter(a=>!a.right);
+  $("missedWrap").style.display = missed.length? "block":"none";
+  const ml=$("missedList"); ml.innerHTML="";
+  missed.forEach(m=>{
+    const q=Q[m.qi];
+    const div=document.createElement("div"); div.className="miss-item";
+    div.innerHTML='<div class="mq">'+escapeHtml(q.q)+'</div>'
+      +'<div class="row you">Your answer: '+escapeHtml(q.o[m.chosen])+'</div>'
+      +'<div class="row right">Correct: '+escapeHtml(q.o[q.a])+'</div>'
+      +'<div class="mex">'+escapeHtml(q.e)+'</div>';
+    ml.appendChild(div);
+  });
+  $("retakeMissed").style.display = missed.length? "inline-block":"none";
+  $("pbar").style.width="100%";
+  window.scrollTo({top:0});
+}
+
+function escapeHtml(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+
+$("startBtn").onclick=()=>start(shuffle(Q.map((_,i)=>i)));
+$("confirmBtn").onclick=confirmAnswer;
+$("nextBtn").onclick=next;
+$("restartAll").onclick=()=>start(shuffle(Q.map((_,i)=>i)));
+$("retakeMissed").onclick=()=>{
+  const missed=answers.filter(a=>!a.right).map(a=>a.qi);
+  if(missed.length) start(shuffle(missed));
+};
+
+document.addEventListener("keydown",e=>{
+  if($("quiz").classList.contains("hidden")) return;
+  if(e.key>="1"&&e.key<="4"&&!confirmed){ select(+e.key-1) }
+  else if(e.key==="Enter"){ e.preventDefault(); if(!confirmed&&selected>=0)confirmAnswer(); else if(confirmed)next(); }
+});
+</script>
+</body>
+</html>
