@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Register Ladder — The Ego Pipeline</title>
+<meta name="description" content="How the ego pipeline borrows the authority of a different epistemic register at every move — and why no single register could supply what it needs.">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    min-height:100vh; background:#0a0f0d; color:#e8e0d6;
+    font-family:'Source Serif 4',Georgia,serif; -webkit-font-smoothing:antialiased;
+    line-height:1.7;
+  }
+  .mono{font-family:'JetBrains Mono',monospace}
+  .serif{font-family:'Instrument Serif',Georgia,serif}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+  nav{position:sticky;top:0;z-index:50;max-width:820px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:12px 24px;background:rgba(10,15,13,0.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.06);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;}
+  nav a{text-decoration:none;padding-bottom:1px}
+
+  .wrap{max-width:820px;margin:0 auto;padding:38px 24px 90px}
+
+  header .eyebrow{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#b58c3a}
+  header h1{font-family:'Instrument Serif',Georgia,serif;font-size:40px;line-height:1.1;margin:10px 0 6px;font-weight:400}
+  header .dek{color:#8a8272;font-size:15px;max-width:62ch}
+  .rule{height:1px;background:linear-gradient(90deg,#b58c3a,rgba(181,140,58,0));margin:24px 0 30px}
+
+  .lede{font-size:15px;color:#a09888;max-width:66ch;margin-bottom:8px}
+  .lede strong{color:#e8e0d6;font-weight:600}
+
+  /* register chips */
+  .chip{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.3px;text-transform:uppercase;padding:3px 8px;border-radius:3px;white-space:nowrap;border:1px solid}
+  .r-formal{color:#8ea8c8;border-color:#8ea8c855;background:rgba(142,168,200,.07)}
+  .r-analytic{color:#b295c8;border-color:#b295c855;background:rgba(178,149,200,.07)}
+  .r-empirical{color:#d0a860;border-color:#d0a86055;background:rgba(208,168,96,.07)}
+  .r-none{color:#8a8272;border-color:#8a827255;background:rgba(138,130,114,.05)}
+  .r-real{color:#4a9e7d;border-color:#4a9e7d66;background:rgba(74,158,125,.09)}
+
+  /* axis legend */
+  .axes{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:26px 0 8px}
+  .axis{padding:13px 15px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.07);border-radius:9px}
+  .axis .t{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.3px;text-transform:uppercase;color:#807868;margin-bottom:5px}
+  .axis .n{font-family:'Instrument Serif',Georgia,serif;font-size:16px;color:#e8e0d6;margin-bottom:5px}
+  .axis .d{font-size:12.5px;color:#8a8272;line-height:1.6}
+  @media(max-width:720px){.axes{grid-template-columns:1fr}}
+
+  /* ledger */
+  .ledgercap{font-size:9px;letter-spacing:1.4px;text-transform:uppercase;color:#605848;margin:36px 0 4px}
+
+  .layerhead{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;margin:26px 0 10px;padding-bottom:6px;border-bottom:1px solid rgba(255,255,255,.06)}
+
+  .row{display:grid;grid-template-columns:190px 1fr;gap:0;border-left:2px solid;margin-bottom:9px;background:rgba(255,255,255,.017);border-radius:0 9px 9px 0}
+  .row .left{padding:14px 15px}
+  .row .right{padding:14px 16px;border-left:1px solid rgba(255,255,255,.05)}
+  .row .mv{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.3px;text-transform:uppercase;opacity:.85;margin-bottom:4px}
+  .row .nm{font-family:'Instrument Serif',Georgia,serif;font-size:17px;color:#e8e0d6;line-height:1.25}
+  .row .op{font-family:'JetBrains Mono',monospace;font-size:11px;color:#807868;margin-top:5px}
+  @media(max-width:720px){.row{grid-template-columns:1fr}.row .right{border-left:0;border-top:1px solid rgba(255,255,255,.05)}}
+
+  .claims,.ground,.gloss{font-size:13.5px;line-height:1.65}
+  .claims{color:#c8c0b0}
+  .ground{color:#a09888;margin-top:9px;padding-top:9px;border-top:1px dashed rgba(255,255,255,.08)}
+  .gloss{color:#7d7566;margin-top:9px;font-style:italic;font-size:12.5px}
+  .k{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.2px;text-transform:uppercase;color:#605848;display:block;margin-bottom:3px}
+
+  .box{padding:20px 22px;border-radius:12px;margin:30px 0;border:1.5px solid}
+  .box .bt{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1.6px;text-transform:uppercase;margin-bottom:9px}
+  .box .bh{font-family:'Instrument Serif',Georgia,serif;font-size:20px;margin-bottom:11px;line-height:1.25}
+  .box p{font-size:14px;line-height:1.75;color:#a09888;margin-bottom:11px}
+  .box p:last-child{margin-bottom:0}
+  .box strong{color:#e8e0d6;font-weight:600}
+
+  .b-gold{background:rgba(181,140,58,.045);border-color:rgba(181,140,58,.24)}
+  .b-gold .bt{color:#b58c3a} .b-gold .bh{color:#e8d8b0}
+  .b-rose{background:rgba(139,45,94,.05);border-color:rgba(139,45,94,.26)}
+  .b-rose .bt{color:#b06a8e} .b-rose .bh{color:#d8b0c8}
+  .b-green{background:rgba(74,158,125,.05);border-color:rgba(74,158,125,.22)}
+  .b-green .bt{color:#4a9e7d} .b-green .bh{color:#a8ccb8}
+
+  footer{margin-top:48px;padding-top:20px;border-top:1px solid rgba(255,255,255,.06);font-size:12px;color:#605848}
+</style>
+</head>
+<body>
+
+<nav style="position:sticky;top:0;z-index:50;max-width:820px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:12px 24px;background:rgba(10,15,13,0.88);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,0.06);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:1px;text-transform:uppercase;">
+  <span style="color:#4a9e7d;">The Thought That Arrived Late</span>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;">
+    <a href="/" style="color:#807868;text-decoration:none;padding-bottom:1px;">Pipeline</a>
+    <a href="/analogy.html" style="color:#807868;text-decoration:none;padding-bottom:1px;">Analogy</a>
+    <a href="/registers.html" style="color:#e8e0d6;text-decoration:none;border-bottom:1px solid #4a9e7d;padding-bottom:1px;">Registers</a>
+    <a href="/faq.html" style="color:#807868;text-decoration:none;padding-bottom:1px;">FAQ</a>
+    <a href="/practice.html" style="color:#807868;text-decoration:none;padding-bottom:1px;">Practice</a>
+    <a href="/quiz.html" style="color:#807868;text-decoration:none;padding-bottom:1px;">Exam</a>
+    <a href="/#get-the-book" style="color:#c9a855;text-decoration:none;padding-bottom:1px;">Get the Book</a>
+  </div>
+</nav>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow mono">Structural Supplement</div>
+  <h1>The Register Ladder</h1>
+  <div class="dek">Every move in the pipeline borrows the authority of a register it does not occupy. The borrowings are not the same one twice — and that is not sloppiness. It is the only way to get what ego needs.</div>
+</header>
+<div class="rule"></div>
+
+<p class="lede">A claim is coherent when its <strong>claim-type matches its ground-type</strong>. Mathematics claims derivability and has it. A definition claims meaning-containment and has it. An observation claims a referent and has one. The pipeline never occupies a register — it reaches into whichever one supplies the authority the current move requires, and moves on before the bill arrives.</p>
+
+<div class="axes">
+  <div class="axis">
+    <div class="t mono">Axis 1 — Relation</div>
+    <div class="n">∼→ ⇒ ⊢ → ⇔</div>
+    <div class="d">What kind of link is asserted. The framework's three-stage degradation runs on this axis, and Move 9 is already named the Domain Jump.</div>
+  </div>
+  <div class="axis">
+    <div class="t mono">Axis 2 — Register</div>
+    <div class="n">Formal · Analytic · Empirical</div>
+    <div class="d">Where the claim gets its warrant: derivation, meaning, or observation. This page maps this axis.</div>
+  </div>
+  <div class="axis">
+    <div class="t mono">Axis 3 — Category</div>
+    <div class="n">Event → Property → "I"</div>
+    <div class="d">What kind of thing bears the predicate. An occurrence made into a standing feature, pinned to a thought.</div>
+  </div>
+</div>
+
+<div class="ledgercap mono">Each row — what the move claims the authority of, and what it actually has</div>
+
+<!-- ============ FOUNDATION ============ -->
+<div class="layerhead mono" style="color:#b58c3a">Pre-condition</div>
+
+<div class="row" style="border-left-color:#b58c3a">
+  <div class="left">
+    <div class="mv mono" style="color:#b58c3a">Foundation 2</div>
+    <div class="nm">Conditional Valuation</div>
+    <div class="op mono">"outcomes determine worth"</div>
+  </div>
+  <div class="right">
+    <div class="claims"><span class="k mono">Claims the authority of</span><span class="chip r-formal">Formal — axiom</span> &nbsp;Something you reason <em>from</em>, not something you test.</div>
+    <div class="ground"><span class="k mono">Actually has</span><span class="chip r-none">No warrant</span> &nbsp;Repeated association in childhood. Never argued, only installed.</div>
+    <div class="gloss">An axiom's standing without an axiom's warrant. It was never adopted — so it was never available to be reconsidered.</div>
+  </div>
+</div>
+
+<!-- ============ LAYER 1 ============ -->
+<div class="layerhead mono" style="color:#c4713b">Layer 1 — Conditional (⇒) · Having ⊢ Being</div>
+
+<div class="row" style="border-left-color:#c4713b">
+  <div class="left">
+    <div class="mv mono" style="color:#c4713b">Move 0</div>
+    <div class="nm">The Gateway</div>
+    <div class="op mono">"what does this say about me?"</div>
+  </div>
+  <div class="right">
+    <div class="claims"><span class="k mono">Claims the authority of</span><span class="chip r-empirical">Empirical</span> &nbsp;A real question about a real state of affairs.</div>
+    <div class="ground"><span class="k mono">Actually has</span><span class="chip r-real">Genuine ground</span> &nbsp;The event is real and checkable. Comprehension did not arise at <em>t</em>.</div>
+    <div class="gloss">No register is borrowed here — the material is legitimate. What shifts is the target: a claim about the world is re-aimed at an entity. Axis 3, not Axis 2.</div>
+  </div>
+</div>
+
+<div class="row" style="border-left-color:#c4713b">
+  <div class="left">
+    <div class="mv mono" style="color:#c4713b">Move 1</div>
+    <div class="nm">Collapse Time</div>
+    <div class="op mono">→ presented as noticing</div>
+  </div>
+  <div class="right">
+    <div class="claims"><span class="k mono">Claims the authority of</span><span class="chip r-empirical">Empirical — disclosure</span> &nbsp;"I noticed something that was already true of me."</div>
+    <div class="ground"><span class="k mono">Actually has</span><span class="chip r-none">Neither</span> &nbsp;A productive firing. The referent did not pre-exist it, and none is created by it.</div>
+    <div class="gloss">The empirical costume is put on here. Everything downstream wears it. Rain produces wet ground — a real effect. This produces a thought, and nothing else.</div>
+  </div>
+</div>
+
+<div class="row" style="border-left-color:#c4713b">
+  <div class="left">
+    <div class="mv mono" style="color:#c4713b">Move 2</div>
+    <div class="nm">Upgrade to Necessity</div>
+    <div class="op mono">∼→ becomes ⇒</div>
+  </div>
+  <div class="right">
+    <div class="claims"><span class="k mono">Claims the authority of</span><span class="chip r-analytic">Analytic</span> <span class="chip r-formal">Formal</span> &nbsp;Necessity. Timeless, unconditional, proof against counterexample.</div>
+    <div class="ground"><span class="k mono">Actually has</span><span class="chip r-empirical">Empirical at best</span> &nbsp;A defeasible tendency. Evidence-bound, context-bound, counterexample-vulnerable.</div>
+    <div class="gloss">Implications have no installation date. This rule has one, and a strengthening curve, and it varies with personal history. A relation with a biography is a mechanism, not an implication.</div>
+  </div>
+</div>
+
+<div class="row" style="border-left-color:#c4713b">
+  <div class="left">
+    <div class="mv mono" style="color:#c4713b">Move 3</div>
+    <div class="nm">Infer Identity</div>
+    <div class="op mono">Having ⇔ Being</div>
+  </div>
+  <div class="right">
+    <div class="claims"><span class="k mono">Claims the authority of</span><span class="chip r-empirical">Empirical — fact</span> &nbsp;A real property of a real thing, disclosed by an event.</div>
+    <div class="ground"><span class="k mono">Actually has</span><span class="chip r-none">Ground in none</span> &nbsp;No referent (fails empirical). No derivation (fails formal). No meaning-containment between "did not understand at <em>t</em>" and "stupid, timelessly" (fails analytic).</div>
+    <div class="gloss">The masquerade completes. And underneath it, a capacity-predicate is pinned to a thought — a category error that survives even if every register objection were waived.</div>
+  </div>
+</div>
+
+<!-- ============ LAYER 2 ============ -->
+<div class="layerhead mono" style="color:#8b2d5e">Layer 2 — Unconditional (⊢) · Being ⊢ Having</div>
+
+<div class="row" style="border-left-color:#8b2d5e">
+  <div class="left">
+    <div class="mv mono" style="color:#b06a8e">Move 4</div>
+    <div class="nm">Self-Manufacturing</div>
+    <div class="op mono">rule fires → output read as data</div>
+  </div>
+  <div class="right">
+    <div class="claims"><span class="k mono">Claims the authority of</span><span class="chip r-empirical">Empirical — evidence</span> &nbsp;"Look at the pattern. It keeps happening."</div>
+    <div class="ground"><span class="k mono">Actually has</span><span class="chip r-none">Its own outputs</span> &nbsp;The data was produced by the rule the data is cited to confirm.</div>
+    <div class="gloss">Circularity dressed as observation. The instrument is manufacturing its own readings and calling the accumulation a track record.</div>
+  </div>
+</div>
+
+<div class="row" style="border-left-color:#8b2d5e">
+  <div class="left">
+    <div class="mv mono" style="color:#b06a8e">Move 5</div>
+    <div class="nm">The Emotional Seal</div>
+    <div class="op mono">thought → contraction → "true"</div>
+  </div>
+  <div class="right">
+    <div class="claims"><span class="k mono">Claims the authority of</span><span class="chip r-empirical">Empirical — confirmation</span> &nbsp;"The body doesn't lie. I can feel that it's true."</div>
+    <div class="ground"><span class="k mono">Actually has</span><span class="chip r-real">Genuine ground</span> &nbsp;— but for a different claim. <em>A contraction occurred</em> is true and referent-bearing. <em>A stupid self exists</em> is not.</div>
+    <div class="gloss">The purest substitution on the ladder: the warrant belonging to one claim is transferred to another that has none. Real seal, empty letter.</div>
+  </div>
+</div>
+
+<div class="row" style="border-left-color:#8b2d5e">
+  <div class="left">
+    <div class="mv mono" style="color:#b06a8e">Moves 6–7</div>
+    <div class="nm">Identity as Premise</div>
+    <div class="op mono">Being ⊢ Doing ⊢ Having</div>
+  </div>
+  <div class="right">
+    <div class="claims"><span class="k mono">Claims the authority of</span><span class="chip r-formal">Formal — axiom</span> &nbsp;Something you derive <em>from</em>. No longer up for testing.</div>
+    <div class="ground"><span class="k mono">Actually has</span><span class="chip r-none">A promoted conclusion</span> &nbsp;An unsound output of Layer 1, moved into the premise slot.</div>
+    <div class="gloss">Layer 2's transition is usually described as dropping the "if." On this axis it is a promotion: a claim that failed as a finding is reinstalled as a starting point.</div>
+  </div>
+</div>
+
+<div class="row" style="border-left-color:#8b2d5e">
+  <div class="left">
+    <div class="mv mono" style="color:#b06a8e">Move 8</div>
+    <div class="nm">Loop Closes</div>
+    <div class="op mono">Being ⊢ Doing ⊢ Having ⊢ Being</div>
+  </div>
+  <div class="right">
+    <div class="claims"><span class="k mono">Claims the authority of</span><span class="chip r-analytic">Analytic — immunity</span> &nbsp;Nothing counts against it. No outcome can disturb it.</div>
+    <div class="ground"><span class="k mono">Actually has</span><span class="chip r-none">Circularity</span> &nbsp;Immunity purchased by feeding the conclusion back into the premise.</div>
+    <div class="gloss">"Bachelors are unmarried" is legitimately immune to evidence — and says nothing about the world. This wants the immunity <em>and</em> the worldly content. It is the exact configuration the framework condemns.</div>
+  </div>
+</div>
+
+<!-- ============ LAYER 3 ============ -->
+<div class="layerhead mono" style="color:#6b1d4e">Layer 3 — Equivalence (⇔) · the hardening</div>
+
+<div class="row" style="border-left-color:#6b1d4e">
+  <div class="left">
+    <div class="mv mono" style="color:#a8628c">Move 9</div>
+    <div class="nm">Domain Jump</div>
+    <div class="op mono">⊢ becomes → (timeless)</div>
+  </div>
+  <div class="right">
+    <div class="claims"><span class="k mono">Claims the authority of</span><span class="chip r-empirical">Empirical — causation</span> &nbsp;"Being stupid <em>produces</em> failure." A force operating in the world.</div>
+    <div class="ground"><span class="k mono">Actually has</span><span class="chip r-none">A derivation from nothing</span> &nbsp;And the Structural Lock forbids the crossing outright: → requires A ∧ ¬B possible; ⊢ and ⇒ require it impossible.</div>
+    <div class="gloss">The framework already names this a domain jump on the relation axis. It is a register claim too — the strongest worldly assertion in the whole chain, made from the weakest ground in it.</div>
+  </div>
+</div>
+
+<div class="row" style="border-left-color:#6b1d4e">
+  <div class="left">
+    <div class="mv mono" style="color:#a8628c">Moves 10–11</div>
+    <div class="nm">Final Equivalence</div>
+    <div class="op mono">Being ⇔ Doing ⇔ Having</div>
+  </div>
+  <div class="right">
+    <div class="claims"><span class="k mono">Claims the authority of</span><span class="chip r-analytic">Analytic — definition</span> &nbsp;"My failures <em>are</em> me." Not derived. Simply what the words mean.</div>
+    <div class="ground"><span class="k mono">Actually has</span><span class="chip r-none">Stipulation</span> &nbsp;Self-imposed, not meaning-derived. Nobody agreed to this definition, and no meaning contains it.</div>
+    <div class="gloss">The ladder ends by finally declaring a register — and it declares the empty one.</div>
+  </div>
+</div>
+
+<!-- ============ THE DILEMMA ============ -->
+<div class="box b-gold">
+  <div class="bt mono">The dilemma the rule spends its life avoiding</div>
+  <div class="bh">Force it to declare a register at Move 2 and it dies either way</div>
+  <p><strong>Declare it analytic</strong> — "smart" just <em>means</em> "one who understands" — and the inference is valid by meaning alone. Then "I am smart" is a relabeling of the event. Nothing standing has been established, because definitions do not produce entities. <strong>Necessary, and empty.</strong></p>
+  <p><strong>Declare it empirical</strong> and A ∧ ¬B is possible, counterexamples bite, and the whole thing degrades to "this happened, under these conditions." <strong>Informative, and powerless</strong> to establish anything timeless.</p>
+  <p>Ego needs the necessity of the first and the reality of the second: a claim about a real self that no evidence can touch. So it never declares. Press it as empirical and it retreats to <em>obviously</em>. Press it as definitional and it insists <em>no — really stupid</em>. The ambiguity is not a lapse. It is load-bearing.</p>
+</div>
+
+<!-- ============ THE TERMINAL IRONY ============ -->
+<div class="box b-rose">
+  <div class="bt mono">Where the ladder ends</div>
+  <div class="bh">The hardening lands on the horn it spent Layer 1 avoiding</div>
+  <p>At Move 2 the rule refuses to be definitional, because a definitional identity would be empty. By Move 11 it <em>is</em> definitional: Being ⇔ Having, no derivation, no direction, identity as brute fact. "My failures are me" is unfalsifiable precisely because it has become a stipulation about what words mean.</p>
+  <p>Which is the empty horn. <strong>The move that makes the identity unquestionable is the same move that makes it say nothing.</strong> Total immunity, zero content. The hardening does not complete the construction — it dissolves the last thing the construction was claiming to be about.</p>
+</div>
+
+<!-- ============ THESIS ============ -->
+<div class="box b-green">
+  <div class="bt mono">Why the swapping is structural, not sloppy</div>
+  <div class="bh">No single register could supply what ego needs</div>
+  <p>Look at what the chain requires: <strong>necessity</strong> at Move 2, <strong>factuality</strong> at Move 3, <strong>evidence</strong> at Move 4, <strong>undeniability</strong> at Move 5, <strong>axiom-standing</strong> at Move 6, <strong>immunity</strong> at Move 8, <strong>causal force</strong> at Move 9, <strong>definitional finality</strong> at Move 11.</p>
+  <p>The formal and analytic registers supply necessity and immunity, and no worldly content. The empirical register supplies worldly content and evidence, and no necessity or immunity. <strong>Ego wants all of it.</strong> No register offers all of it. So the ladder is not a series of mistakes — it is the only route to a combination that does not exist, and each rung is where the borrowing can be caught.</p>
+  <p>Two rungs are green. The event at Move 0 really happened. The contraction at Move 5 is really occurring. <strong>The chain is real at both ends and borrowed in the middle</strong> — which is why seeing through it never requires denying anything you actually experienced.</p>
+</div>
+
+<footer class="mono">
+  Structural supplement to <em>The Thought That Arrived Late</em>. The three-register distinction and the mind-dependence guard are set out in the FAQ.
+</footer>
+</div>
+
+</body>
+</html>
